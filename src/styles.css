@@ -1,0 +1,109 @@
+:root {
+  --primary-color: #0A0F29;
+  --secondary-color: #FFD700;
+  --accent-color: #FF4C60;
+  --bg-color: #F5F6FA;
+  --text-dark: #111111;
+  --text-light: #AAAAAA;
+  --card-bg: #FFFFFF;
+  --btn-bg: #FF4C60;
+  --btn-text: #FFFFFF;
+  --btn-hover-bg: #E04354;
+  --link-color: #FFD700;
+  --link-hover-color: #FFC107;
+  --header-bg: #0A0F29;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--header-bg);
+  padding: 1rem 1.5rem;
+  color: white;
+  font-weight: bold;
+  position: relative;
+  z-index: 10;
+}
+
+.navbar .logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.menu-toggle {
+  margin-left: auto;
+  padding: 0.5rem;
+  font-size: 1.8rem;
+  color: var(--btn-text);
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-links li a:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 76, 96, 0.4); /* subtle pink glow */
+  border-radius: 4px;
+}
+
+
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transition: width 0.3s ease;
+}
+
+.nav-links li a:hover::after,
+.nav-links li a.active::after {
+  width: 100%;
+}
+
+.nav-links li a:hover {
+  color: var(--secondary-color);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+
+.nav-links li a.active {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+

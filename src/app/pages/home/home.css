@@ -1,0 +1,234 @@
+
+:host {
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background: linear-gradient(to bottom, #f0f4ff, #ffffff);
+}
+
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #1F2235, #0A0F29);
+  color: var(--btn-text);
+  text-align: center;
+  padding: 5rem 2rem;
+  border-radius: 0 0 40px 40px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--text-light);
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cta-buttons button {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.cta-buttons button:hover {
+  background-color: var(--btn-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 76, 96, 0.3);
+}
+
+/* About Section */
+.about-preview {
+  margin-top: 4rem;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.about-preview h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.about-preview a {
+  margin-top: 1rem;
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.about-preview a:hover {
+  text-decoration: underline;
+}
+
+/* Services Overview */
+.services-overview {
+  margin-top: 4rem;
+}
+
+.services-overview h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  text-align: center;
+  animation: fadeInUp 0.6s ease both;
+}
+
+.service-card:hover {
+  background-color: #fff7f9;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(214, 0, 103, 0.3);
+}
+
+.service-card .icon {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .icon {
+  transform: scale(1.2);
+}
+
+.service-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.service-card:hover h3 {
+  color: var(--accent-color);
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Why Choose Us */
+.why-choose-us {
+  margin-top: 4rem;
+  background-color: #e8f0fe;
+  padding: 2.5rem;
+  border-radius: 12px;
+}
+
+.why-choose-us h2 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.why-choose-us ul {
+  list-style-type: none;
+  padding-left: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.why-choose-us li {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  font-size: 1rem;
+  color: #333;
+}
+
+.why-choose-us li::before {
+  content: '✔';
+  color: var(--primary-color);
+  position: absolute;
+  left: 0;
+}
+
+section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--accent-color);
+  margin-top: 6px;
+  border-radius: 2px;
+}
+
+button, a.button {
+  background-color: var(--btn-bg);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:hover, a.button:hover {
+  background-color: var(--btn-hover-bg);
+  transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

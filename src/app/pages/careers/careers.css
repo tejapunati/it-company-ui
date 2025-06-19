@@ -1,0 +1,279 @@
+.careers-hero {
+  background-color: #f5f6fa;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.careers-hero .hero-text h1 {
+  font-size: 2.5rem;
+  color: #0a0f29;
+  margin-bottom: 1rem;
+}
+
+.careers-hero .hero-text p {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.why-ssrm {
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.why-ssrm h2 {
+  font-size: 2rem;
+  color: #f64c72;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.why-cards {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.why-card {
+  background: #bcd5f1;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-card:hover {
+  background-color: #fff7f9;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(246, 76, 114, 0.3);
+}
+
+.why-card h3 {
+  color: #3f87f5;
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+}
+
+.why-card p {
+  color: #555;
+  font-size: 1rem;
+}
+.job-search {
+  padding: 4rem 2rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.job-search h2 {
+  color: #f64c72;
+  margin-bottom: 1rem;
+}
+
+.job-search p {
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.filters select {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.job-listings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.job-card {
+  background: #bcd5f1;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+  background-color: #fff7f9;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(246, 76, 114, 0.3);
+}
+
+.job-card h3 {
+  color: #3f87f5;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.apply-btn {
+  background-color: #f64c72;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.apply-btn:hover {
+  background-color: #ff3b4d;
+  transform: translateY(-2px);
+}
+.visa-sponsorship {
+  margin-top: 4rem;
+  text-align: center;
+  padding: 2rem;
+  background-color: #bcd5f1;
+}
+
+.visa-sponsorship h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+
+.visa-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.visa-cards .card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.visa-cards .card:hover {
+  background-color: #fff7f9;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(246, 76, 114, 0.3);
+}
+
+.visa-cards .card h3 {
+  color: #3f87f5;
+  margin-bottom: 0.75rem;
+}
+
+.visa-cards .card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+.visa-support {
+  margin-top: 4rem;
+  padding: 2rem;
+  background-color: #eef4fd;
+  text-align: center;
+}
+
+.visa-support h2 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+}
+
+.support-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  
+}
+
+.support-cards .card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.support-cards .card:hover {
+  background-color: #fff7f9;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(246, 76, 114, 0.3);
+}
+
+.support-cards .card h3 {
+  color: #3f87f5;
+  margin-bottom: 1rem;
+}
+
+.support-cards .card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.apply-now {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #396beb 0%, #ff85a1 100%);
+  color: white;
+  text-align: center;
+}
+
+.apply-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.apply-content h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.apply-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.apply-cta {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  background-color: white;
+  color: #f64c72;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.apply-cta:hover {
+  background-color: #ffeff2;
+  color: #ff3b4d;
+}
+
+
+
+
+
+
+
+
+

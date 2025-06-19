@@ -1,0 +1,38 @@
+
+.admin-register {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-register h2 {
+  color: #3f87f5;
+  margin-bottom: 1.5rem;
+}
+
+.admin-register label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.admin-register input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+.admin-register button {
+  margin-top: 1.5rem;
+  background-color: #3f87f5;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}

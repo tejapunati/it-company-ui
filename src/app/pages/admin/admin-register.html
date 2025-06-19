@@ -1,0 +1,15 @@
+<div class="admin-register">
+  <h2>Admin Registration</h2>
+  <form (ngSubmit)="register()">
+    <label>Name:</label>
+    <input [(ngModel)]="admin.name" name="name" required />
+
+    <label>Email:</label>
+    <input [(ngModel)]="admin.email" name="email" required type="email" />
+
+    <label>Password:</label>
+    <input [(ngModel)]="admin.password" name="password" required type="password" />
+
+    <button type="submit">Register</button>
+  </form>
+</div>
