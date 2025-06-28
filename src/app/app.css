@@ -20,7 +20,6 @@
 
 .nav-links {
   list-style: none;
-  display: flex;
   gap: 1.5rem;
   padding: 0;
   margin: 0;
@@ -172,18 +171,27 @@
     order: 1; /* ensures it's shown before nav-links */
   }
 
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background-color: var(--primary-color);
-    padding: 1rem;
-    order: 2;
-  }
+.nav-links {
+  display: none; /* (When closed) */
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--primary-color);
+  padding: 1rem; /* This should provide height */
+  order: 2;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
 
   .nav-links.open {
     display: flex;
+    height: auto;     /* ✅ ADD THIS LINE */
+    max-height: 500px; /* ✅ ADD THIS LINE (or a value large enough for all links) */
+    overflow: hidden;
   }
+
   @media (max-width: 768px) {
   .footer-top {
     flex-direction: column;
@@ -197,5 +205,19 @@
   .footer-logo {
     justify-content: center;
     margin-bottom: 1rem;
+  }
+}
+@media (min-width: 769px) { /* For screens larger than 768px */
+  .menu-toggle {
+    display: none; /* Ensure toggle button is hidden on desktop */
+  }
+
+  .nav-links {
+    display: flex; /* Show nav links as flex on desktop */
+    flex-direction: row; /* Layout horizontally on desktop */
+    position: static; /* Reset position for desktop */
+    background-color: transparent; /* Reset background for desktop */
+    width: auto; /* Reset width for desktop */
+    box-shadow: none; /* Remove shadow if applied on mobile */
   }
 }
