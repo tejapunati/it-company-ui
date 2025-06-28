@@ -106,4 +106,6 @@ body {
   color: var(--accent-color);
   font-weight: 600;
 }
-
+.nav-links.open {
+  display: flex; /* ✅ Show when 'open' class is applied */
+}
