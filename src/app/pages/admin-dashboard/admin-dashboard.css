@@ -1,0 +1,23 @@
+/* admin-dashboard.component.css */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+.dashboard-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  transition: 0.3s;
+}
+.dashboard-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background-color: #eef;
+}
+a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}

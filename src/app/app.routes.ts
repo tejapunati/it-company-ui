@@ -6,11 +6,13 @@ import { ServicesComponent } from './pages/services/services';
 import { CareersComponent } from './pages/careers/careers';
 import { AboutusComponent } from './pages/aboutus/aboutus';
 import { ContactusComponent } from './pages/contactus/contactus';
-import { AdminRegisterComponent } from './pages/admin/admin-register';
 import { LoginComponent } from './auth/login/login';
-import { RegisterComponent } from './auth/register/register';
-import { AdminDashboardComponent } from './layout/admin-dashboard/admin-dashboard';
+import { AdminRegisterComponent } from './pages/admin-register/admin-register';
 import { UserDashboardComponent } from './layout/user-dashboard/user-dashboard';
+import { AdminApprovalComponent } from './pages/admin-approval/admin-approval';
+import { ManageUsersComponent } from './pages/admin-dashboard/manage-users/manage-users';
+import { TimesheetsComponent } from './pages/admin-dashboard/timesheets/timesheets';
+
 
 
 export const routes: Routes = [
@@ -20,10 +22,11 @@ export const routes: Routes = [
   { path: 'aboutus', component: AboutusComponent },
   { path: 'contactus', component: ContactusComponent },
   { path: 'admin-register', component: AdminRegisterComponent },
-   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'admin-dashboard', component: AdminDashboardComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'user-dashboard', component: UserDashboardComponent },
+  { path: 'admin-approval', component: AdminApprovalComponent },
+  { path: 'admin-dashboard/users', component: ManageUsersComponent }, 
+  { path: 'admin-dashboard/timesheets', component: TimesheetsComponent },
 
 
 ];

@@ -1,0 +1,8 @@
+<!-- admin-dashboard.component.html -->
+<h2>Welcome to Admin Dashboard</h2>
+<div class="dashboard-grid">
+  <div class="dashboard-card" *ngFor="let section of sections">
+    <h3>{{ section.title }}</h3>
+    <a [routerLink]="section.route">Go to {{ section.title }}</a>
+  </div>
+</div>

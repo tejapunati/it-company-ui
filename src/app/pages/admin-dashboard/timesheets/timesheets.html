@@ -1,0 +1,24 @@
+<h2>Timesheet Management</h2>
+
+<label for="user-filter">Filter by User:</label>
+<select id="user-filter" [(ngModel)]="selectedUser">
+  <option value="">All</option>
+  <option *ngFor="let user of uniqueUsers">
+    {{ user }}
+  </option>
+</select>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th><th>Week</th><th>Total Hours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let timesheet of filteredTimesheets">
+      <td>{{ timesheet.user }}</td>
+      <td>{{ timesheet.week }}</td>
+      <td>{{ timesheet.hours }}</td>
+    </tr>
+  </tbody>
+</table>

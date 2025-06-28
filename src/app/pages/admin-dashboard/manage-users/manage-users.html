@@ -1,0 +1,21 @@
+<h2>Manage Users</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>{{ user.status }}</td>
+      <td>
+        <button (click)="toggleStatus(user)">
+          {{ user.status === 'active' ? 'Deactivate' : 'Activate' }}
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

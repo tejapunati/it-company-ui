@@ -1,19 +1,20 @@
+// src/app/app.ts
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink} from '@angular/router';
-import { NgIf } from '@angular/common'; 
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, NgIf], // ✅ ADD NgIf HERE
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  styleUrl: './app.css',
 })
-
 export class App {
-  isMenuOpen = false;
+  title = 'it-company-ui';
+  isMenuOpen: boolean = false; // ✅ Make sure this property is declared and initialized
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.isMenuOpen = !this.isMenuOpen; // ✅ Make sure this method is defined and toggles the property
+    console.log('Menu toggled:', this.isMenuOpen); // Add for debugging
   }
 }
