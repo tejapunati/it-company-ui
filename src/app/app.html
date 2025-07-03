@@ -3,15 +3,24 @@
     <div class="logo">
       <a routerLink="/" routerLinkActive="active"><img src="/logo.png" alt="SSRM Tech Solution Logo" /></a>
     </div>
-    <div class="menu-toggle" (click)="toggleMenu()">☰</div>
+    <button class="menu-toggle" (click)="toggleMenu()" type="button" aria-label="Toggle menu">☰</button>
     <ul class="nav-links" [class.open]="isMenuOpen">
       <li><a routerLink="/" routerLinkActive="active">Home</a></li>
       <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
       <li><a routerLink="/careers" routerLinkActive="active">Careers</a></li>
       <li><a routerLink="/aboutus" routerLinkActive="active">About Us</a></li>
       <li><a routerLink="/contactus" routerLinkActive="active">Contact Us</a></li>
-      <li><a routerLink="/admin-register" routerLinkActive="active">Admin Register</a></li>
-
+      
+      <!-- Show different links based on authentication state -->
+      <li *ngIf="!isLoggedIn"><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      <li *ngIf="!isLoggedIn"><a routerLink="/admin-register" routerLinkActive="active">Admin Register</a></li>
+      
+      <!-- Show user-specific links when logged in -->
+      <li *ngIf="isLoggedIn && !isAdmin"><a routerLink="/user-dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li *ngIf="isLoggedIn && isAdmin"><a routerLink="/admin-dashboard" routerLinkActive="active">Admin Dashboard</a></li>
+      
+      <!-- Show logout when logged in -->
+      <li *ngIf="isLoggedIn"><a (click)="logout()" style="cursor: pointer;">Logout ({{ currentUser?.name }})</a></li>
     </ul>
   </nav>
   <router-outlet></router-outlet>

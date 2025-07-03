@@ -1,15 +1,52 @@
 <div class="admin-register">
   <h2>Admin Registration</h2>
-  <form (ngSubmit)="register()">
-    <label>Name:</label>
-    <input [(ngModel)]="admin.name" name="name" required />
+  <p class="subtitle">Register as an administrator - requires parent admin approval</p>
+  
+  <div class="form-group">
+    <label>Full Name:</label>
+    <input [(ngModel)]="admin.name" placeholder="Enter your full name" required />
+  </div>
 
-    <label>Email:</label>
-    <input [(ngModel)]="admin.email" name="email" required type="email" />
+  <div class="form-group">
+    <label>Email Address:</label>
+    <input [(ngModel)]="admin.email" type="email" placeholder="Enter your email" required />
+  </div>
+  
+  <div class="form-group">
+    <label>Phone Number:</label>
+    <input [(ngModel)]="admin.phone" type="tel" placeholder="Enter your phone number" />
+  </div>
+  
+  <div class="form-group">
+    <label>Department:</label>
+    <select [(ngModel)]="admin.department">
+      <option value="">Select Department</option>
+      <option value="IT">IT</option>
+      <option value="HR">HR</option>
+      <option value="Finance">Finance</option>
+      <option value="Operations">Operations</option>
+    </select>
+  </div>
 
+  <div class="form-group">
     <label>Password:</label>
-    <input [(ngModel)]="admin.password" name="password" required type="password" />
+    <input [(ngModel)]="admin.password" type="password" placeholder="Create a password" required />
+  </div>
+  
+  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
 
-    <button type="submit">Register</button>
-  </form>
+  <button type="button" (click)="register()" [disabled]="isSubmitting" class="register-btn">
+    {{ isSubmitting ? 'Submitting...' : 'Submit for Approval' }}
+  </button>
+  
+  <div class="info-box">
+    <h4>📧 What happens next?</h4>
+    <ul>
+      <li>Parent admin receives email notification</li>
+      <li>Your registration will be reviewed</li>
+      <li>You'll receive approval/rejection email</li>
+      <li>Once approved, you can login as admin</li>
+    </ul>
+  </div>
 </div>

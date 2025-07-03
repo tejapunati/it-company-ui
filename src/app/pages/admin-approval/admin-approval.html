@@ -1,19 +1,61 @@
-<h2>Pending Admin Approvals</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Email</th><th>Status</th><th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let admin of pendingAdmins">
-      <td>{{admin.name}}</td>
-      <td>{{admin.email}}</td>
-      <td>{{admin.status}}</td>
-      <td>
-        <button (click)="approveAdmin(admin.id)" [disabled]="admin.status === 'Approved'">Approve</button>
-        <button (click)="rejectAdmin(admin.id)" [disabled]="admin.status === 'Rejected'">Reject</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="admin-approval-container">
+  <header class="approval-header">
+    <h2>Admin Registration Approvals</h2>
+    <div class="pending-count">
+      <span class="count-badge">{{ getPendingCount() }}</span>
+      <span>Pending Approvals</span>
+    </div>
+  </header>
+
+  <div class="approval-cards">
+    <div class="approval-card" *ngFor="let admin of pendingAdmins" [class.processed]="admin.status !== 'pending'">
+      <div class="card-header">
+        <h3>{{ admin.name }}</h3>
+        <span class="status-badge" [class]="'status-' + admin.status">
+          {{ admin.status | titlecase }}
+        </span>
+      </div>
+      
+      <div class="card-content">
+        <div class="info-row">
+          <span class="label">📧 Email:</span>
+          <span>{{ admin.email }}</span>
+        </div>
+        
+        <div class="info-row" *ngIf="admin.phone">
+          <span class="label">📞 Phone:</span>
+          <span>{{ admin.phone }}</span>
+        </div>
+        
+        <div class="info-row" *ngIf="admin.department">
+          <span class="label">🏢 Department:</span>
+          <span>{{ admin.department }}</span>
+        </div>
+        
+        <div class="info-row">
+          <span class="label">📅 Registered:</span>
+          <span>{{ admin.registrationDate | date:'short' }}</span>
+        </div>
+      </div>
+      
+      <div class="card-actions" *ngIf="admin.status === 'pending'">
+        <button class="approve-btn" (click)="approveAdmin(admin)">
+          ✅ Approve
+        </button>
+        <button class="reject-btn" (click)="rejectAdmin(admin)">
+          ❌ Reject
+        </button>
+      </div>
+      
+      <div class="processed-status" *ngIf="admin.status !== 'pending'">
+        <span *ngIf="admin.status === 'approved'">✅ Approved - Email sent to candidate</span>
+        <span *ngIf="admin.status === 'rejected'">❌ Rejected - Email sent to candidate</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="empty-state" *ngIf="pendingAdmins.length === 0">
+    <h3>No pending admin registrations</h3>
+    <p>New admin registration requests will appear here for approval.</p>
+  </div>
+</div>

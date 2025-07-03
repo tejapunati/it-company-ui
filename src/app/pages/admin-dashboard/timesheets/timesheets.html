@@ -1,24 +1,57 @@
-<h2>Timesheet Management</h2>
+<div class="timesheets-container">
+  <h2>Timesheet Management</h2>
 
-<label for="user-filter">Filter by User:</label>
-<select id="user-filter" [(ngModel)]="selectedUser">
-  <option value="">All</option>
-  <option *ngFor="let user of uniqueUsers">
-    {{ user }}
-  </option>
-</select>
+  <div class="filter-section">
+    <label for="user-filter">Filter by User:</label>
+    <select id="user-filter" [(ngModel)]="selectedUser" (change)="filterTimesheets()">
+      <option value="">All Users</option>
+      <option *ngFor="let user of uniqueUsers" [value]="user">
+        {{ user }}
+      </option>
+    </select>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>User</th><th>Week</th><th>Total Hours</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let timesheet of filteredTimesheets">
-      <td>{{ timesheet.user }}</td>
-      <td>{{ timesheet.week }}</td>
-      <td>{{ timesheet.hours }}</td>
-    </tr>
-  </tbody>
-</table>
+  <div class="table-container">
+    <table class="timesheets-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Week Ending</th>
+          <th>Total Hours</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timesheet of filteredTimesheets">
+          <td>{{ getEmployeeName(timesheet) }}</td>
+          <td>{{ getWeekEnding(timesheet) }}</td>
+          <td>{{ getTotalHours(timesheet) }}</td>
+          <td>
+            <span class="status-badge" [class]="'status-' + getStatus(timesheet)">
+              {{ getStatus(timesheet) | titlecase }}
+            </span>
+          </td>
+          <td>
+            <button 
+              class="action-btn approve-btn" 
+              (click)="approveTimesheet(getId(timesheet))"
+              [disabled]="getStatus(timesheet) === 'approved'">
+              Approve
+            </button>
+            <button 
+              class="action-btn reject-btn" 
+              (click)="rejectTimesheet(getId(timesheet))"
+              [disabled]="getStatus(timesheet) === 'rejected'">
+              Reject
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div *ngIf="filteredTimesheets.length === 0" class="no-data">
+      <p>No timesheets found. Submit a timesheet from the user dashboard to see it here.</p>
+    </div>
+  </div>
+</div>

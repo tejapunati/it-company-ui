@@ -1,7 +1,7 @@
+import 'zone.js';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
-import { appRouterProviders } from './app/app.routes';
+import { appConfig } from './app/app.config';
 
-bootstrapApplication(App, {
-  providers: [appRouterProviders]
-}).catch(err => console.error(err));
+bootstrapApplication(App, appConfig)
+  .catch(err => console.error(err));

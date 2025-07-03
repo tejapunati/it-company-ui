@@ -14,6 +14,7 @@ export class CareersComponent {
   selectedType = '';
   selectedLocation = '';
   searchKeyword = '';
+  filteredJobs: any[] = [];
 
   jobList = [
     { title: 'UI/UX Designer', category: 'Design', type: 'Full-Time', location: 'Hyderabad' },
@@ -22,12 +23,20 @@ export class CareersComponent {
     { title: 'Graphic Designer', category: 'Design', type: 'Part-Time', location: 'Hyderabad' }
   ];
 
-  get filteredJobs() {
-    return this.jobList.filter(job =>
+  constructor() {
+    this.filterJobs();
+  }
+
+  filterJobs() {
+    this.filteredJobs = this.jobList.filter(job =>
       (!this.searchKeyword || job.title.toLowerCase().includes(this.searchKeyword.toLowerCase())) &&
       (!this.selectedCategory || job.category === this.selectedCategory) &&
       (!this.selectedType || job.type === this.selectedType) &&
       (!this.selectedLocation || job.location === this.selectedLocation)
     );
+  }
+
+  onFilterChange() {
+    this.filterJobs();
   }
 }

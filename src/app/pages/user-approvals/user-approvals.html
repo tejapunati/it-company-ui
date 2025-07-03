@@ -1,0 +1,56 @@
+<div class="user-approvals-container">
+  <header class="approval-header">
+    <h2>User Registration Approvals</h2>
+    <div class="pending-count">
+      <span class="count-badge">{{ getPendingCount() }}</span>
+      <span>Pending Approvals</span>
+    </div>
+  </header>
+
+  <div class="approval-cards">
+    <div class="approval-card" *ngFor="let user of pendingUsers" [class.processed]="user.status !== 'pending'">
+      <div class="card-header">
+        <h3>{{ user.name }}</h3>
+        <span class="status-badge" [class]="'status-' + user.status">
+          {{ user.status | titlecase }}
+        </span>
+      </div>
+      
+      <div class="card-content">
+        <div class="info-row">
+          <span class="label">📧 Email:</span>
+          <span>{{ user.email }}</span>
+        </div>
+        
+        <div class="info-row" *ngIf="user.phone">
+          <span class="label">📞 Phone:</span>
+          <span>{{ user.phone }}</span>
+        </div>
+        
+        <div class="info-row">
+          <span class="label">📅 Registered:</span>
+          <span>{{ user.registrationDate | date:'short' }}</span>
+        </div>
+      </div>
+      
+      <div class="card-actions" *ngIf="user.status === 'pending'">
+        <button class="approve-btn" (click)="approveUser(user)">
+          ✅ Approve
+        </button>
+        <button class="reject-btn" (click)="rejectUser(user)">
+          ❌ Reject
+        </button>
+      </div>
+      
+      <div class="processed-status" *ngIf="user.status !== 'pending'">
+        <span *ngIf="user.status === 'approved'">✅ Approved - User can now login</span>
+        <span *ngIf="user.status === 'rejected'">❌ Rejected - User cannot login</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="empty-state" *ngIf="pendingUsers.length === 0">
+    <h3>No pending user registrations</h3>
+    <p>New user registration requests will appear here for approval.</p>
+  </div>
+</div>

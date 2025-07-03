@@ -1,8 +1,56 @@
-<!-- admin-dashboard.component.html -->
-<h2>Welcome to Admin Dashboard</h2>
-<div class="dashboard-grid">
-  <div class="dashboard-card" *ngFor="let section of sections">
-    <h3>{{ section.title }}</h3>
-    <a [routerLink]="section.route">Go to {{ section.title }}</a>
+<div class="admin-dashboard">
+  <header class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage users, timesheets, and system administration</p>
+  </header>
+
+  <div class="dashboard-nav">
+    <button *ngIf="!isParentAdmin()" routerLink="/admin-dashboard/users" routerLinkActive="active">👥 Manage Users</button>
+    <button *ngIf="isParentAdmin()" routerLink="/admin-dashboard/user-management" routerLinkActive="active">👤 User Management</button>
+    <button *ngIf="isParentAdmin()" routerLink="/admin-dashboard/admin-management" routerLinkActive="active">👨‍💼 Admin Management</button>
+    <button routerLink="/admin-dashboard/timesheets" routerLinkActive="active">⏰ Timesheets</button>
+    <button *ngIf="isParentAdmin()" routerLink="/admin-approval" routerLinkActive="active">✅ Admin Approvals</button>
+  </div>
+
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <h3>Total Users</h3>
+      <div class="stat-number">{{ totalUsers }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>Active Projects</h3>
+      <div class="stat-number">{{ activeProjects }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>Pending Approvals</h3>
+      <div class="stat-number">{{ pendingApprovals }}</div>
+    </div>
+    <div class="stat-card">
+      <h3>This Month Hours</h3>
+      <div class="stat-number">{{ monthlyHours }}</div>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <div class="recent-activities">
+      <h2>Recent Activities</h2>
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <span class="activity-icon">{{ activity.icon }}</span>
+          <span class="activity-time">{{ activity.time }}</span>
+          <span class="activity-description">{{ activity.description }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="action-buttons">
+        <button class="action-btn" routerLink="/admin-dashboard/add-user">Add New User</button>
+        <button class="action-btn" routerLink="/user-approvals">Review User Approvals</button>
+        <button class="action-btn" routerLink="/admin-dashboard/timesheets">View Reports</button>
+        <button class="action-btn" routerLink="/email-logs">📧 Email Logs</button>
+      </div>
+    </div>
   </div>
 </div>

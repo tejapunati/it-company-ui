@@ -19,6 +19,7 @@
 }
 
 .nav-links {
+  display: flex;
   list-style: none;
   gap: 1.5rem;
   padding: 0;
@@ -74,6 +75,9 @@
   font-size: 2rem;
   color: white;
   cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
 }
 .logo {
   display: flex;
@@ -166,31 +170,44 @@
 
 /* ✅ Responsive - Mobile View */
 @media (max-width: 768px) {
+  .navbar {
+    position: relative;
+    flex-wrap: wrap;
+  }
+  
   .menu-toggle {
-    display: block;
-    order: 1; /* ensures it's shown before nav-links */
+    display: block !important;
+    cursor: pointer;
+    order: 2;
   }
 
-.nav-links {
-  display: none; /* (When closed) */
-  flex-direction: column;
-  width: 100%;
-  background-color: var(--primary-color);
-  padding: 1rem; /* This should provide height */
-  order: 2;
-  position: absolute;
-  top: 60px;
-  left: 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-}
+  .nav-links {
+    display: none !important;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--primary-color);
+    padding: 1rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    order: 3;
+  }
 
   .nav-links.open {
-    display: flex;
-    height: auto;     /* ✅ ADD THIS LINE */
-    max-height: 500px; /* ✅ ADD THIS LINE (or a value large enough for all links) */
-    overflow: hidden;
+    display: flex !important;
   }
+  
+  .nav-links li {
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+  
+  .logo {
+    order: 1;
+  }
+}
 
   @media (max-width: 768px) {
   .footer-top {
@@ -206,7 +223,7 @@
     justify-content: center;
     margin-bottom: 1rem;
   }
-}
+
 @media (min-width: 769px) { /* For screens larger than 768px */
   .menu-toggle {
     display: none; /* Ensure toggle button is hidden on desktop */

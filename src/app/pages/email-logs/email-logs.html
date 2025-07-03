@@ -1,0 +1,42 @@
+<div class="email-logs-container">
+  <header class="logs-header">
+    <h2>📧 Email Logs</h2>
+    <p>View all emails sent by the system (Demo Mode)</p>
+    <button class="clear-btn" (click)="clearLogs()" *ngIf="emailLogs.length > 0">
+      🗑️ Clear Logs
+    </button>
+  </header>
+
+  <div class="email-cards" *ngIf="emailLogs.length > 0">
+    <div class="email-card" *ngFor="let email of emailLogs; let i = index">
+      <div class="email-header">
+        <span class="email-icon">{{ getEmailIcon(email.type) }}</span>
+        <div class="email-meta">
+          <h3>{{ getEmailTypeLabel(email.type) }}</h3>
+          <p class="email-to">To: {{ email.to }}</p>
+        </div>
+      </div>
+      
+      <div class="email-content">
+        <h4>{{ email.subject }}</h4>
+        <div class="email-body">
+          {{ email.body }}
+        </div>
+      </div>
+      
+      <div class="email-footer">
+        <span class="email-index">#{{ emailLogs.length - i }}</span>
+        <span class="email-status">✅ Sent</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="empty-state" *ngIf="emailLogs.length === 0">
+    <div class="empty-icon">📧</div>
+    <h3>No emails sent yet</h3>
+    <p>Email notifications will appear here when users are approved/rejected or timesheets are processed.</p>
+    <div class="demo-note">
+      <strong>Demo Mode:</strong> This shows simulated emails. In production, real emails would be sent via email service (SendGrid, AWS SES, etc.)
+    </div>
+  </div>
+</div>

@@ -1,13 +1,30 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <form (ngSubmit)="login()">
-    <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
-    <input type="password" [(ngModel)]="password" name="password" placeholder="Password" required />
-    <select [(ngModel)]="role" name="role" required>
-      <option value="">Select Role</option>
+  <h2>Login to Your Account</h2>
+  
+  <div class="form-group">
+    <input type="email" [(ngModel)]="email" placeholder="Email Address" />
+  </div>
+  
+  <div class="form-group">
+    <input type="password" [(ngModel)]="password" placeholder="Password" />
+  </div>
+  
+  <div class="form-group">
+    <select [(ngModel)]="role">
+      <option value="">Select Your Role</option>
       <option value="admin">Admin</option>
-      <option value="user">User</option>
+      <option value="parent-admin">Parent Admin</option>
+      <option value="user">User/Employee</option>
     </select>
-    <button type="submit">Login</button>
-  </form>
+  </div>
+  
+  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+  
+  <button type="button" (click)="login()" class="login-btn">Login</button>
+  
+  <div class="register-links">
+    <p>Don't have an account?</p>
+    <a routerLink="/register">Register as User</a> | 
+    <a routerLink="/admin-register">Register as Admin</a>
+  </div>
 </div>

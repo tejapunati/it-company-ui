@@ -1,0 +1,49 @@
+<div class="user-management-container">
+  <h2>👤 User Management</h2>
+  <p>Manage regular users and employees</p>
+  
+  <div class="table-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role | titlecase }}</td>
+          <td>
+            <span class="status-badge" [class]="'status-' + user.status">
+              {{ user.status | titlecase }}
+            </span>
+          </td>
+          <td class="actions">
+            <button 
+              class="action-btn toggle-btn" 
+              (click)="toggleStatus(user)"
+              [class.activate]="user.status === 'inactive'"
+              [class.deactivate]="user.status === 'active'">
+              {{ user.status === 'active' ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button 
+              class="action-btn delete-btn" 
+              (click)="deleteUser(user.id)"
+              title="Delete User">
+              🗑️ Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div *ngIf="users.length === 0" class="no-users">
+      <p>No users found.</p>
+    </div>
+  </div>
+</div>

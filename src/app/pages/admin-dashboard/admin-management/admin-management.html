@@ -1,0 +1,53 @@
+<div class="admin-management-container">
+  <h2>👨‍💼 Admin Management</h2>
+  <p>Manage administrators and parent administrators</p>
+  
+  <div class="table-container">
+    <table class="admins-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let admin of admins">
+          <td>{{ admin.name }}</td>
+          <td>{{ admin.email }}</td>
+          <td>
+            <span class="role-badge" [class]="'role-' + admin.role">
+              {{ admin.role === 'parent-admin' ? 'Parent Admin' : 'Admin' }}
+            </span>
+          </td>
+          <td>
+            <span class="status-badge" [class]="'status-' + admin.status">
+              {{ admin.status | titlecase }}
+            </span>
+          </td>
+          <td class="actions">
+            <button 
+              class="action-btn toggle-btn" 
+              (click)="toggleStatus(admin)"
+              [class.activate]="admin.status === 'inactive'"
+              [class.deactivate]="admin.status === 'active'">
+              {{ admin.status === 'active' ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button 
+              class="action-btn delete-btn" 
+              (click)="deleteAdmin(admin.id)"
+              title="Delete Admin">
+              🗑️ Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div *ngIf="admins.length === 0" class="no-admins">
+      <p>No administrators found.</p>
+    </div>
+  </div>
+</div>
