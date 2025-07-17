@@ -1,18 +1,24 @@
 <!-- Enhanced Home Page for SSRM Tech Solution LLC -->
 <main class="home-container" role="main">
 
-  <!-- Hero Section with 3D Animation -->
+  <!-- Hero Section with Modern Sliding Background -->
   <section class="hero" aria-label="Hero - Company Introduction">
-    <div class="tech-particles" id="particles-js"></div>
+    <div class="hero-slider">
+      <div class="slide" *ngFor="let slide of backgroundSlides; let i = index" [class.active]="currentSlide === i"></div>
+    </div>
+    <div class="hero-overlay"></div>
     <div class="hero-content">
       <header class="animated-header">
         <div class="code-line">
           <span class="code-comment">// Your IT Staffing Partner</span>
         </div>
-        <h1 class="glitch-text" data-text="Connecting Top Talent with the Right Opportunities">
-          Connecting Top Talent with the Right Opportunities
-        </h1>
-        <p class="typing-text">SSRM Tech Solution LLC is your trusted partner in IT staffing and workforce solutions</p>
+        <div class="headline-container">
+          <h1 class="headline">
+            <span class="headline-text">Powering Innovation</span>
+            <span class="headline-highlight">Through Expert IT Talent</span>
+          </h1>
+        </div>
+        <p class="subtitle">SSRM Tech Solution LLC is your trusted partner in IT staffing and workforce solutions</p>
       </header>
       <div class="cta-buttons">
         <button type="button" routerLink="/services" class="primary-btn">
@@ -25,7 +31,11 @@
         </button>
       </div>
     </div>
-    <div class="tech-circuit"></div>
+    <div class="slider-controls">
+      <span *ngFor="let slide of backgroundSlides; let i = index" 
+            [class.active]="currentSlide === i"
+            (click)="setCurrentSlide(i)"></span>
+    </div>
   </section>
 
   <!-- Stats Section with Counter Animation -->
@@ -141,6 +151,7 @@
     </div>
   </section>
 
+  <!-- Rest of the content remains the same -->
   <!-- About Preview with Parallax -->
   <section class="about-preview" data-aos="fade-up">
     <div class="about-content">
