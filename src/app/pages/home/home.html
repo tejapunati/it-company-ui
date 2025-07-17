@@ -1,365 +1,126 @@
-<!-- Enhanced Home Page for SSRM Tech Solution LLC -->
-<main class="home-container" role="main">
-
-  <!-- Hero Section with Modern Sliding Background -->
-  <section class="hero" aria-label="Hero - Company Introduction">
-    <div class="hero-slider">
-      <div class="slide" *ngFor="let slide of backgroundSlides; let i = index" [class.active]="currentSlide === i"></div>
-    </div>
-    <div class="hero-overlay"></div>
+<!-- Modern Home Page for SSRM Tech Solution LLC -->
+<main class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
     <div class="hero-content">
-      <header class="animated-header">
-        <div class="code-line">
-          <span class="code-comment">// Your IT Staffing Partner</span>
-        </div>
-        <div class="headline-container">
-          <h1 class="headline">
-            <span class="headline-text">Powering Innovation</span>
-            <span class="headline-highlight">Through Expert IT Talent</span>
-          </h1>
-        </div>
-        <p class="subtitle">SSRM Tech Solution LLC is your trusted partner in IT staffing and workforce solutions</p>
-      </header>
-      <div class="cta-buttons">
-        <button type="button" routerLink="/services" class="primary-btn">
-          <span class="btn-text">Hire Talent</span>
-          <span class="btn-icon">→</span>
-        </button>
-        <button type="button" routerLink="/careers" class="secondary-btn">
-          <span class="btn-text">Find Jobs</span>
-          <span class="btn-icon">→</span>
-        </button>
+      <h1>Connecting Top Tech Talent With Industry Leaders</h1>
+      <p>SSRM Tech Solution delivers specialized IT staffing solutions to drive your business forward</p>
+      <div class="hero-buttons">
+        <a routerLink="/services" class="btn btn-primary">Hire Talent</a>
+        <a routerLink="/careers" class="btn btn-outline">Find Jobs</a>
       </div>
     </div>
-    <div class="slider-controls">
-      <span *ngFor="let slide of backgroundSlides; let i = index" 
-            [class.active]="currentSlide === i"
-            (click)="setCurrentSlide(i)"></span>
-    </div>
+    <div class="hero-image"></div>
   </section>
 
-  <!-- Stats Section with Counter Animation -->
-  <section class="stats-section">
-    <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
-      <div class="stat-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-        </svg>
-      </div>
-      <div class="stat-number counter" data-target="500">0</div>
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stat-item">
+      <div class="stat-number">500+</div>
       <div class="stat-label">Successful Placements</div>
     </div>
-    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
-      <div class="stat-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-          <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-        </svg>
-      </div>
-      <div class="stat-number counter" data-target="95">0</div>
-      <div class="stat-label">Client Satisfaction %</div>
+    <div class="stat-item">
+      <div class="stat-number">95%</div>
+      <div class="stat-label">Client Satisfaction</div>
     </div>
-    <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
-      <div class="stat-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-        </svg>
-      </div>
-      <div class="stat-number counter" data-target="200">0</div>
+    <div class="stat-item">
+      <div class="stat-number">200+</div>
       <div class="stat-label">Partner Companies</div>
     </div>
-    <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
-      <div class="stat-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-          <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-          <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-        </svg>
-      </div>
-      <div class="stat-number counter" data-target="10">0</div>
+    <div class="stat-item">
+      <div class="stat-number">10+</div>
       <div class="stat-label">Years Experience</div>
     </div>
   </section>
 
-  <!-- Tech Expertise Section -->
-  <section class="tech-expertise">
-    <h2 class="section-title" data-aos="fade-up">Our Technical Expertise</h2>
-    <div class="tech-grid">
-      <div class="tech-card" data-aos="zoom-in" data-aos-delay="100">
-        <div class="tech-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-            <path d="M6.854 4.646a.5.5 0 0 1 0 .708L4.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L11.793 8l-2.647 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708 0z"/>
+  <!-- Services Section -->
+  <section class="services">
+    <div class="section-header">
+      <h2>Our Services</h2>
+      <p>Comprehensive staffing solutions tailored to your needs</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+            <path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 16H4V8h16v12z"/>
+            <path d="M13 10h-2v3H8v2h3v3h2v-3h3v-2h-3z"/>
           </svg>
         </div>
-        <h3>Software Development</h3>
-        <div class="tech-skills">
-          <span>Java</span>
-          <span>Python</span>
-          <span>JavaScript</span>
-          <span>React</span>
-          <span>Angular</span>
-        </div>
+        <h3>IT Staffing</h3>
+        <p>Connect with top tech talent across all technology domains to power your digital innovation.</p>
       </div>
-      <div class="tech-card" data-aos="zoom-in" data-aos-delay="200">
-        <div class="tech-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855-.143.268-.276.56-.395.872.705.157 1.472.257 2.282.287V1.077zM4.249 3.539c.142-.384.304-.744.481-1.078a6.7 6.7 0 0 1 .597-.933A7.01 7.01 0 0 0 3.051 3.05c.362.184.763.349 1.198.49zM3.509 7.5c.036-1.07.188-2.087.436-3.008a9.124 9.124 0 0 1-1.565-.667A6.964 6.964 0 0 0 1.018 7.5h2.49zm1.4-2.741a12.344 12.344 0 0 0-.4 2.741H7.5V5.091c-.91-.03-1.783-.145-2.591-.332zM8.5 5.09V7.5h2.99a12.342 12.342 0 0 0-.399-2.741c-.808.187-1.681.301-2.591.332zM4.51 8.5c.035.987.176 1.914.399 2.741A13.612 13.612 0 0 1 7.5 10.91V8.5H4.51zm3.99 0v2.409c.91.03 1.783.145 2.591.332.223-.827.364-1.754.4-2.741H8.5zm-3.282 3.696c.12.312.252.604.395.872.552 1.035 1.218 1.65 1.887 1.855V11.91c-.81.03-1.577.13-2.282.287zm.11 2.276a6.696 6.696 0 0 1-.598-.933 8.853 8.853 0 0 1-.481-1.079 8.38 8.38 0 0 0-1.198.49 7.01 7.01 0 0 0 2.276 1.522zm-1.383-2.964A13.36 13.36 0 0 1 3.508 8.5h-2.49a6.963 6.963 0 0 0 1.362 3.675c.47-.258.995-.482 1.565-.667zm6.728 2.964a7.009 7.009 0 0 0 2.275-1.521 8.376 8.376 0 0 0-1.197-.49 8.853 8.853 0 0 1-.481 1.078 6.688 6.688 0 0 1-.597.933zM8.5 11.909v3.014c.67-.204 1.335-.82 1.887-1.855.143-.268.276-.56.395-.872A12.63 12.63 0 0 0 8.5 11.91zm3.555-.401c.57.185 1.095.409 1.565.667A6.963 6.963 0 0 0 14.982 8.5h-2.49a13.36 13.36 0 0 1-.437 3.008zM14.982 7.5a6.963 6.963 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008h2.49zM11.27 2.461c.177.334.339.694.482 1.078a8.368 8.368 0 0 0 1.196-.49 7.01 7.01 0 0 0-2.275-1.52c.218.283.418.597.597.932zm-.488 1.343a7.765 7.765 0 0 0-.395-.872C9.835 1.897 9.17 1.282 8.5 1.077V4.09c.81-.03 1.577-.13 2.282-.287z"/>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
           </svg>
         </div>
-        <h3>Cloud & DevOps</h3>
-        <div class="tech-skills">
-          <span>AWS</span>
-          <span>Azure</span>
-          <span>Docker</span>
-          <span>Kubernetes</span>
-          <span>CI/CD</span>
-        </div>
+        <h3>Contract-to-Hire</h3>
+        <p>Evaluate talent with flexible solutions before making long-term hiring commitments.</p>
       </div>
-      <div class="tech-card" data-aos="zoom-in" data-aos-delay="300">
-        <div class="tech-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-            <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
           </svg>
         </div>
-        <h3>Data & Analytics</h3>
-        <div class="tech-skills">
-          <span>SQL</span>
-          <span>Hadoop</span>
-          <span>Spark</span>
-          <span>Tableau</span>
-          <span>Power BI</span>
-        </div>
+        <h3>Permanent Hiring</h3>
+        <p>Find the perfect full-time talent with our thorough vetting and matching process.</p>
       </div>
-      <div class="tech-card" data-aos="zoom-in" data-aos-delay="400">
-        <div class="tech-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M6 13a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v10z"/>
-            <path d="M2 13a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v10zm12-10a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V3z"/>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+            <path d="M7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
           </svg>
         </div>
-        <h3>Cybersecurity</h3>
-        <div class="tech-skills">
-          <span>Network Security</span>
-          <span>Penetration Testing</span>
-          <span>SIEM</span>
-          <span>IAM</span>
-          <span>Compliance</span>
-        </div>
+        <h3>Workforce Consulting</h3>
+        <p>Optimize your workforce with expert advice for maximum efficiency and growth.</p>
       </div>
     </div>
   </section>
 
-  <!-- Rest of the content remains the same -->
-  <!-- About Preview with Parallax -->
-  <section class="about-preview" data-aos="fade-up">
+  <!-- About Section -->
+  <section class="about">
     <div class="about-content">
-      <h2 class="section-title">About Us</h2>
-      <p>
-        Founded with a vision to bridge the gap between skilled professionals and top-tier companies,
-        SSRM Tech Solution brings over a decade of industry expertise.
-      </p>
-      <p>
-        Our team of specialized recruiters understands the unique challenges of the tech industry and works
-        tirelessly to create perfect matches between talent and opportunity.
-      </p>
-      <a routerLink="/aboutus" class="learn-more-btn">
-        <span>Learn More</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-        </svg>
-      </a>
+      <div class="section-header">
+        <h2>About Us</h2>
+      </div>
+      <p>Founded in 2010, SSRM Tech Solution bridges the gap between exceptional talent and innovative companies. Our specialized recruiters understand the unique challenges of the tech industry and work tirelessly to create perfect matches.</p>
+      <a routerLink="/aboutus" class="btn btn-outline">Learn More</a>
     </div>
-    <div class="about-image parallax-container">
-      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team collaboration" class="parallax-img">
+    <div class="about-image">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" alt="Team collaboration">
     </div>
   </section>
 
-  <!-- Services Overview with 3D Cards -->
-  <section class="services-overview">
-    <h2 class="section-title" data-aos="fade-up">Our Services</h2>
-    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Comprehensive staffing solutions tailored to your needs</p>
-    
-    <div class="services-list">
-      <div class="service-card tilt-card" data-aos="flip-left" data-aos-delay="100">
-        <div class="service-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-            <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <h3>IT Staffing</h3>
-          <p>Providing top tech talent to power digital innovation across all technology stacks.</p>
-        </div>
-      </div>
-      <div class="service-card tilt-card" data-aos="flip-left" data-aos-delay="200">
-        <div class="service-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <h3>Contract-to-Hire</h3>
-          <p>Flexible solutions with the option for long-term hires after evaluation periods.</p>
-        </div>
-      </div>
-      <div class="service-card tilt-card" data-aos="flip-left" data-aos-delay="300">
-        <div class="service-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <h3>Permanent Hiring</h3>
-          <p>Efficient hiring for full-time roles across industries with thorough vetting.</p>
-        </div>
-      </div>
-      <div class="service-card tilt-card" data-aos="flip-left" data-aos-delay="400">
-        <div class="service-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <h3>Workforce Consulting</h3>
-          <p>Expert advice to scale and optimize your workforce for maximum efficiency.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials with Slider -->
+  <!-- Testimonials Section -->
   <section class="testimonials">
-    <h2 class="section-title" data-aos="fade-up">What Our Clients Say</h2>
-    <div class="testimonial-slider" data-aos="fade-up" data-aos-delay="100">
-      <div class="testimonial-container">
-        <div class="testimonial active">
-          <div class="quote">"SSRM Tech helped us find the perfect development team in record time. Their understanding of our technical needs was impressive."</div>
-          <div class="author">
-            <div class="author-image">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Johnson">
-            </div>
-            <div class="author-info">
-              <div class="author-name">Michael Johnson</div>
-              <div class="author-title">CTO, TechInnovate</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial">
-          <div class="quote">"The quality of candidates provided by SSRM Tech was exceptional. They truly understand the tech industry and its unique requirements."</div>
-          <div class="author">
-            <div class="author-image">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Williams">
-            </div>
-            <div class="author-info">
-              <div class="author-name">Sarah Williams</div>
-              <div class="author-title">HR Director, DataSystems Inc.</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial">
-          <div class="quote">"Working with SSRM Tech has transformed our hiring process. Their consultative approach and industry expertise are unmatched."</div>
-          <div class="author">
-            <div class="author-image">
-              <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Chen">
-            </div>
-            <div class="author-info">
-              <div class="author-name">David Chen</div>
-              <div class="author-title">CEO, CloudNative Solutions</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-controls">
-        <button class="prev-btn" (click)="prevTestimonial()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-          </svg>
-        </button>
-        <div class="testimonial-dots">
-          <span class="dot active" (click)="setTestimonial(0)"></span>
-          <span class="dot" (click)="setTestimonial(1)"></span>
-          <span class="dot" (click)="setTestimonial(2)"></span>
-        </div>
-        <button class="next-btn" (click)="nextTestimonial()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-          </svg>
-        </button>
-      </div>
+    <div class="section-header">
+      <h2>What Our Clients Say</h2>
     </div>
-  </section>
-
-  <!-- Why Choose Us with Animated Features -->
-  <section class="why-choose-us">
-    <h2 class="section-title" data-aos="fade-up">Why Choose SSRM?</h2>
-    <div class="features-grid">
-      <div class="feature" data-aos="fade-right" data-aos-delay="100">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
-          </svg>
-        </div>
-        <div class="feature-content">
-          <h3>Trusted Network</h3>
-          <p>Access to a vast network of skilled professionals across all technology domains.</p>
-        </div>
+    <div class="testimonial-card">
+      <div class="testimonial-quote">
+        "SSRM Tech helped us find the perfect development team in record time. Their understanding of our technical needs was impressive."
       </div>
-      <div class="feature" data-aos="fade-right" data-aos-delay="200">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-          </svg>
-        </div>
-        <div class="feature-content">
-          <h3>Industry Experts</h3>
-          <p>Our recruiters specialize in specific tech sectors for better candidate matching.</p>
-        </div>
-      </div>
-      <div class="feature" data-aos="fade-right" data-aos-delay="300">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-          </svg>
-        </div>
-        <div class="feature-content">
-          <h3>High Success Rate</h3>
-          <p>95% of our placements result in long-term successful employment relationships.</p>
-        </div>
-      </div>
-      <div class="feature" data-aos="fade-right" data-aos-delay="400">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 2.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zM6.5 5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm3 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 12.25a4.25 4.25 0 0 0 3.533-1.88.75.75 0 0 0-1.246-.835A2.75 2.75 0 0 1 8 10.75a2.75 2.75 0 0 1-2.287-1.215.75.75 0 0 0-1.246.835A4.25 4.25 0 0 0 8 12.25z"/>
-          </svg>
-        </div>
-        <div class="feature-content">
-          <h3>Complete Support</h3>
-          <p>End-to-end staffing compliance, onboarding assistance, and ongoing support.</p>
+      <div class="testimonial-author">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Johnson">
+        <div>
+          <div class="author-name">Michael Johnson</div>
+          <div class="author-title">CTO, TechInnovate</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA Section with Animated Background -->
-  <section class="cta-section">
-    <div class="cta-bg-animation"></div>
-    <div class="cta-content" data-aos="zoom-in">
-      <h2>Ready to Find Your Perfect Match?</h2>
-      <p>Whether you're looking for top talent or your next career opportunity, we're here to help.</p>
-      <div class="cta-buttons">
-        <button type="button" routerLink="/contact" class="primary-btn pulse-btn">
-          <span class="btn-text">Contact Us Today</span>
-          <span class="btn-icon">→</span>
-        </button>
-        <button type="button" routerLink="/services" class="secondary-btn">
-          <span class="btn-text">Explore Services</span>
-          <span class="btn-icon">→</span>
-        </button>
-      </div>
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to Find Your Perfect Match?</h2>
+    <p>Whether you're looking for top talent or your next career opportunity, we're here to help.</p>
+    <div class="cta-buttons">
+      <a routerLink="/contact" class="btn btn-primary">Contact Us Today</a>
+      <a routerLink="/services" class="btn btn-outline light">Explore Services</a>
     </div>
   </section>
 </main>
