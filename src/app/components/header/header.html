@@ -1,0 +1,59 @@
+<header class="site-header">
+  <div class="container">
+    <div class="header-content">
+      <!-- Logo -->
+      <div class="logo">
+        <a routerLink="/">
+          <span class="logo-icon">SSRM</span>
+          <span class="logo-text">Tech Solution</span>
+        </a>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="main-nav" [class.active]="isMenuOpen">
+        <!-- Close button for mobile menu -->
+        <button class="close-menu" (click)="toggleMenu()" aria-label="Close menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <ul class="nav-list">
+          <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+          <li><a routerLink="/aboutus" routerLinkActive="active">About</a></li>
+          <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
+          <li><a routerLink="/careers" routerLinkActive="active">Careers</a></li>
+          <li><a routerLink="/contactus" routerLinkActive="active">Contact</a></li>
+          
+          <!-- Admin Links -->
+          <li *ngIf="isAdmin()">
+            <a routerLink="/admin-dashboard" routerLinkActive="active">Admin Dashboard</a>
+          </li>
+          
+          <!-- User Links -->
+          <li *ngIf="isUser()">
+            <a routerLink="/user-dashboard" routerLinkActive="active">My Dashboard</a>
+          </li>
+          
+          <!-- Auth Links -->
+          <li *ngIf="!isLoggedIn()" class="auth-link">
+            <a routerLink="/login" class="btn btn-outline">Login</a>
+          </li>
+          <li *ngIf="!isLoggedIn()" class="auth-link">
+            <a routerLink="/register" class="btn btn-primary">Register</a>
+          </li>
+          <li *ngIf="isLoggedIn()" class="auth-link">
+            <a (click)="logout()" class="btn btn-outline">Logout</a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- Mobile Menu Toggle -->
+      <button class="menu-toggle" [class.active]="isMenuOpen" (click)="toggleMenu()" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
