@@ -1,127 +1,257 @@
+/* Careers Page Styles */
+@import '../../styles/shared-styles.css';
+
+.careers-container {
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 100%;
+}
+
+/* Hero Section */
 .careers-hero {
   background: linear-gradient(135deg, var(--primary-color), #1a1f3a);
   color: white;
-  padding: 4rem 2rem;
+  padding: 6rem 1rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.careers-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="rgba(255,255,255,0.1)" d="M37.5,186c-12.1-10.5-11.8-32.3-7.2-46.7c4.8-15,13.1-17.8,30.1-36.7C91,68.8,83.5,56.7,103.4,45 c22.2-13.1,51.1-9.5,69.6,8.8c18.4,18.4,24.2,53.3,5.7,74.7c-10.1,11.8-19.5,19.5-30.3,16.1c-15.9-5,11.1-27.3-3.7-35.2 c-14.2-7.7-25.2,4.4-43.3,17.3c-13.1,9.4-33.9,27.3-38.6,41.9C57.9,181.8,54.7,200,37.5,186L37.5,186z"/></svg>') no-repeat center right;
+  opacity: 0.6;
+}
+
+.hero-text {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .hero-text h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 .hero-text p {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.6;
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
+/* Why SSRM Section */
 .why-ssrm {
-  padding: 4rem 2rem;
+  padding: 5rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .why-ssrm h2 {
   text-align: center;
   color: var(--primary-color);
   margin-bottom: 3rem;
+  font-size: 2.2rem;
+  position: relative;
+}
+
+.why-ssrm h2::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--accent-color);
 }
 
 .why-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .why-card {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.why-card:hover {
-  transform: translateY(-4px);
-}
-
-.why-card h3 {
-  color: var(--accent-color);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
   margin-bottom: 1rem;
 }
 
+.why-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.why-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+
+.why-card p {
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+/* Job Search Section */
 .job-search {
-  background: #f8f9fa;
-  padding: 4rem 2rem;
+  background: var(--background-off);
+  padding: 5rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.job-search .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .job-search h2 {
   text-align: center;
   color: var(--primary-color);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+}
+
+.job-search > p {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  color: var(--text-medium);
+  font-size: 1.1rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 .filters {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
+  gap: 1.5rem;
+  margin: 2.5rem 0;
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
 }
 
 .filters input,
 .filters select {
-  padding: 0.75rem;
+  padding: 1rem;
   border: 2px solid #e1e5e9;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.filters input:focus,
+.filters select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
 }
 
 .job-listings {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  max-width: 1200px;
-  margin: 3rem auto 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
 }
 
 .job-card {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  padding: 2rem 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
 }
 
 .job-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
 .job-card h3 {
   color: var(--primary-color);
   margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.job-card p {
+  margin-bottom: 1.5rem;
+  color: var(--text-medium);
+  flex-grow: 1;
 }
 
 .apply-btn {
-  background: var(--accent-color);
+  background: var(--primary-color);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: all 0.3s ease;
+  align-self: flex-start;
 }
 
+.apply-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+}
+
+/* Visa Sections */
 .visa-sponsorship,
 .visa-support {
-  padding: 4rem 2rem;
+  padding: 5rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .visa-sponsorship h2,
@@ -129,45 +259,191 @@
   text-align: center;
   color: var(--primary-color);
   margin-bottom: 3rem;
+  font-size: 2.2rem;
+  position: relative;
+}
+
+.visa-sponsorship h2::after,
+.visa-support h2::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--accent-color);
 }
 
 .visa-cards,
 .support-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
 }
 
 .card {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.card h3 {
-  color: var(--accent-color);
+  padding: 2rem 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
   margin-bottom: 1rem;
 }
 
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+
+.card p {
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+/* Apply Now Section */
 .apply-now {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   color: white;
-  padding: 4rem 2rem;
+  padding: 5rem 1rem;
   text-align: center;
+  margin-top: 4rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.apply-content {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 1rem;
 }
 
 .apply-content h2 {
-  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.apply-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
 }
 
 .apply-cta {
-  background: var(--accent-color);
-  color: white;
+  background: white;
+  color: var(--primary-color);
   border: none;
-  padding: 1rem 2rem;
-  border-radius: 8px;
+  padding: 1rem 2.5rem;
+  border-radius: 30px;
   font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 2rem;
+  transition: all 0.3s ease;
+}
+
+.apply-cta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+  
+  .visa-cards,
+  .support-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .why-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .job-listings {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .careers-hero {
+    padding: 4rem 1rem;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+  
+  .hero-text p {
+    font-size: 1.1rem;
+  }
+  
+  .why-ssrm,
+  .visa-sponsorship,
+  .visa-support {
+    padding: 4rem 1rem;
+  }
+  
+  .job-search {
+    padding: 4rem 1rem;
+  }
+  
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  
+  .apply-content h2 {
+    font-size: 2rem;
+  }
+  
+  .why-card,
+  .job-card,
+  .card {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-text h1 {
+    font-size: 1.8rem;
+  }
+  
+  .why-cards,
+  .job-listings,
+  .visa-cards,
+  .support-cards {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+  
+  .apply-now {
+    padding: 3rem 1rem;
+  }
+  
+  .apply-content p {
+    font-size: 1.1rem;
+  }
+  
+  .why-card,
+  .job-card,
+  .card {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+  }
 }

@@ -1,123 +1,143 @@
-<section class="careers-hero">
-  <div class="hero-text">
-    <h1>Careers At SSRM Tech Solution</h1>
-    <p>
-      Join SSRM Tech and become part of a dynamic team dedicated to excellence, innovation, and growth. 
-      We offer exciting career opportunities across various industries and functions, providing a platform 
-      for you to thrive and make an impact.
-    </p>
-  </div>
-</section>
-
-<section class="why-ssrm">
-  <h2>Why Work at SSRM Tech?</h2>
-  <div class="why-cards">
-    <div class="why-card">
-      <h3>Diversity & Inclusion</h3>
-      <p>Join a workplace that values diverse perspectives and fosters an inclusive culture.</p>
-    </div>
-    <div class="why-card">
-      <h3>Innovation</h3>
-      <p>Be a part of cutting-edge projects that are shaping the future.</p>
-    </div>
-    <div class="why-card">
-      <h3>Growth Opportunities</h3>
-      <p>Advance your career with opportunities for professional development and growth.</p>
-    </div>
-  </div>
-</section>
-
-<section class="job-search">
-  <h2>Discover Your Dream Career</h2>
-  <p>
-    At SSRM Tech, we are committed to helping you achieve your professional goals in the United States.
-  </p>
-
-  <div class="filters">
-    <input type="text" placeholder="Search job title..." [(ngModel)]="searchKeyword" (input)="onFilterChange()" />
-    <select [(ngModel)]="selectedCategory" (change)="onFilterChange()">
-      <option value="">All Job Category</option>
-      <option value="Design">Design</option>
-      <option value="Development">Development</option>
-      <option value="Testing">Testing</option>
-    </select>
-
-    <select [(ngModel)]="selectedType" (change)="onFilterChange()">
-      <option value="">All Job Type</option>
-      <option value="Full-Time">Full-Time</option>
-      <option value="Part-Time">Part-Time</option>
-      <option value="Contract">Contract</option>
-    </select>
-
-    <select [(ngModel)]="selectedLocation" (change)="onFilterChange()">
-      <option value="">All Job Location</option>
-      <option value="Hyderabad">Hyderabad</option>
-      <option value="Chicago">Chicago</option>
-      <option value="Remote">Remote</option>
-    </select>
-  </div>
-
-  <div class="job-listings">
-    <div class="job-card" *ngFor="let job of filteredJobs">
-      <h3>{{ job.title }}</h3>
-      <p><strong>{{ job.type }}</strong> - {{ job.location }}</p>
-      <button class="apply-btn">Apply Now</button>
-    </div>
-  </div>
-</section>
-
-<section class="visa-sponsorship">
-  <h2>Types of Visas We Sponsor</h2>
-  <div class="visa-cards">
-    <div class="card">
-      <h3>H-1B Visa</h3>
+<div class="careers-container">
+  <!-- Hero Section -->
+  <section class="careers-hero">
+    <div class="hero-text">
+      <h1>Careers At SSRM Tech Solution</h1>
       <p>
-        The H-1B visa allows U.S. companies to employ foreign workers in specialty occupations.
-        We sponsor H-1B visas for roles in tech, engineering, finance, and more.
+        Join SSRM Tech and become part of a dynamic team dedicated to excellence, innovation, and growth. 
+        We offer exciting career opportunities across various industries and functions, providing a platform 
+        for you to thrive and make an impact.
       </p>
     </div>
-    <div class="card">
-      <h3>L-1 Visa</h3>
-      <p>
-        The L-1 visa supports intra-company transfers of managerial or specialized knowledge employees
-        from global offices to the U.S.
-      </p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="visa-support">
-  <h2>Our Support Throughout the Process</h2>
-  <div class="support-cards">
-    <div class="card">
-      <h3>Legal Assistance</h3>
-      <p>
-        We work closely with experienced immigration attorneys to ensure that your visa application is handled smoothly and efficiently.
-      </p>
+  <!-- Why SSRM Section -->
+  <section class="why-ssrm">
+    <h2>Why Work at SSRM Tech?</h2>
+    <div class="why-cards">
+      <div class="why-card">
+        <h3>Diversity & Inclusion</h3>
+        <p>Join a workplace that values diverse perspectives and fosters an inclusive culture where everyone belongs and can contribute their best work.</p>
+      </div>
+      <div class="why-card">
+        <h3>Innovation</h3>
+        <p>Be a part of cutting-edge projects that are shaping the future of technology and making a real impact in various industries.</p>
+      </div>
+      <div class="why-card">
+        <h3>Growth Opportunities</h3>
+        <p>Advance your career with opportunities for professional development, mentorship programs, and clear paths for advancement.</p>
+      </div>
     </div>
-    <div class="card">
-      <h3>Document Preparation</h3>
-      <p>
-        Our team will assist you in gathering the necessary documents and completing the required forms.
-      </p>
-    </div>
-    <div class="card">
-      <h3>Compliance</h3>
-      <p>
-        SSRM Tech Solution's LLC ensures that all visa applications are fully compliant with U.S. immigration laws and regulations.
-      </p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="apply-now">
-  <div class="apply-content">
-    <h2>Ready to join us?</h2>
-    <p>
-      Take the next step in your career journey with SSRM Tech Solution LLC! Explore our current job openings, apply online,
-      and join a team dedicated to your growth and success. Whether you're seeking professional development, a diverse workplace,
-      or visa sponsorship, SSRM offers the perfect environment for you to thrive.
-    </p>
-    <button class="apply-cta">Explore Openings</button>
-  </div>
-</section>
+  <!-- Job Search Section -->
+  <section class="job-search">
+    <div class="container">
+      <h2>Discover Your Dream Career</h2>
+      <p>
+        At SSRM Tech, we are committed to helping you achieve your professional goals in the United States.
+        Browse our current openings and find the perfect role for your skills and aspirations.
+      </p>
+
+      <div class="filters">
+        <input type="text" placeholder="Search job title..." [(ngModel)]="searchKeyword" (input)="onFilterChange()" />
+        <select [(ngModel)]="selectedCategory" (change)="onFilterChange()">
+          <option value="">All Job Categories</option>
+          <option value="Design">Design</option>
+          <option value="Development">Development</option>
+          <option value="Testing">Testing</option>
+          <option value="Management">Management</option>
+        </select>
+
+        <select [(ngModel)]="selectedType" (change)="onFilterChange()">
+          <option value="">All Job Types</option>
+          <option value="Full-Time">Full-Time</option>
+          <option value="Part-Time">Part-Time</option>
+          <option value="Contract">Contract</option>
+          <option value="Remote">Remote</option>
+        </select>
+
+        <select [(ngModel)]="selectedLocation" (change)="onFilterChange()">
+          <option value="">All Locations</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Chicago">Chicago</option>
+          <option value="Remote">Remote</option>
+          <option value="New York">New York</option>
+        </select>
+      </div>
+
+      <div class="job-listings">
+        <div class="job-card" *ngFor="let job of filteredJobs">
+          <h3>{{ job.title }}</h3>
+          <p><strong>{{ job.type }}</strong> - {{ job.location }}</p>
+          <p>{{ job.description }}</p>
+          <button class="apply-btn">Apply Now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visa Sponsorship Section -->
+  <section class="visa-sponsorship">
+    <h2>Types of Visas We Sponsor</h2>
+    <div class="visa-cards">
+      <div class="card">
+        <h3>H-1B Visa</h3>
+        <p>
+          The H-1B visa allows U.S. companies to employ foreign workers in specialty occupations.
+          We sponsor H-1B visas for roles in tech, engineering, finance, and more, supporting you
+          throughout the application process.
+        </p>
+      </div>
+      <div class="card">
+        <h3>L-1 Visa</h3>
+        <p>
+          The L-1 visa supports intra-company transfers of managerial or specialized knowledge employees
+          from global offices to the U.S. We help eligible employees navigate this process with expert
+          guidance and support.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visa Support Section -->
+  <section class="visa-support">
+    <h2>Our Support Throughout the Process</h2>
+    <div class="support-cards">
+      <div class="card">
+        <h3>Legal Assistance</h3>
+        <p>
+          We work closely with experienced immigration attorneys to ensure that your visa application is handled smoothly and efficiently,
+          maximizing your chances of approval.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Document Preparation</h3>
+        <p>
+          Our team will assist you in gathering the necessary documents and completing the required forms,
+          ensuring everything is properly prepared for submission.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Compliance</h3>
+        <p>
+          SSRM Tech Solution LLC ensures that all visa applications are fully compliant with U.S. immigration laws and regulations,
+          giving you peace of mind throughout the process.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply Now Section -->
+  <section class="apply-now">
+    <div class="apply-content">
+      <h2>Ready to join us?</h2>
+      <p>
+        Take the next step in your career journey with SSRM Tech Solution LLC! Explore our current job openings, apply online,
+        and join a team dedicated to your growth and success. Whether you're seeking professional development, a diverse workplace,
+        or visa sponsorship, SSRM offers the perfect environment for you to thrive.
+      </p>
+      <button class="apply-cta">Explore Openings</button>
+    </div>
+  </section>
+</div>
