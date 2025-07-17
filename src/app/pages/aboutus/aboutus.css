@@ -224,9 +224,10 @@
 
 /* Approach Section */
 .approach-section {
-  padding: 5rem 2rem;
+  padding: 5rem 1rem;
   width: 100%;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .approach-image {
@@ -438,7 +439,7 @@
 
 @media (max-width: 768px) {
   .about-hero {
-    padding: 4rem 1.5rem;
+    padding: 4rem 1rem;
   }
   
   .about-hero h1 {
@@ -462,6 +463,24 @@
   
   .section {
     padding: 3rem 1rem;
+  }
+  
+  .approach-section,
+  .our-story {
+    padding: 3rem 1rem;
+  }
+  
+  .container {
+    padding: 0 1rem;
+    width: 100%;
+  }
+  
+  .row {
+    margin: 0;
+  }
+  
+  .col {
+    padding: 0;
   }
 }
 
