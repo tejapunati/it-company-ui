@@ -46,6 +46,7 @@
   font-size: 3rem;
   margin-bottom: 1.5rem;
   font-weight: 700;
+  color: white;
 }
 
 .hero-text p {
@@ -53,6 +54,7 @@
   line-height: 1.6;
   max-width: 700px;
   margin: 0 auto;
+  color: white;
 }
 
 /* Why SSRM Section */
