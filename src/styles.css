@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #0A0F29;
+  --primary-color: rgb(209, 155, 57);
   --secondary-color: #FFD700;
   --accent-color: #FF4C60;
   --bg-color: #F5F6FA;
@@ -15,6 +15,8 @@
 }
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -22,6 +24,10 @@ body {
   background-color: var(--bg-color);
   color: var(--text-dark);
   margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .navbar {
@@ -107,4 +113,20 @@ body {
 }
 .nav-links.open {
   display: flex; /* ✅ Show when 'open' class is applied */
+}
+
+/* Fix for mobile view spacing */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+  
+  .container {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    overflow-x: hidden;
+  }
 }

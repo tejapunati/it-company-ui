@@ -1,0 +1,4 @@
+/* Add this rule to the top of your shared styles */
+p {
+  text-align: justify;
+}
