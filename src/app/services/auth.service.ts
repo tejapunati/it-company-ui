@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface User {
   id: number;
@@ -15,7 +18,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     // Check if user is stored in localStorage (browser only)
     if (typeof window !== 'undefined' && window.localStorage) {
       const storedUser = localStorage.getItem('currentUser');
@@ -25,48 +28,68 @@ export class AuthService {
     }
   }
 
-  login(email: string, password: string, role: string): boolean {
-    if (!email || !password || !role) return false;
+  login(email: string, password: string, role: string): Observable<any> {
+    // Try Spring Security's default login endpoint
+    const loginUrl = `${environment.apiUrl}/login`;
+    console.log(`Sending login request to ${loginUrl} with username: ${email}, role: ${role}`);
     
-    // Check against created users (for regular users)
-    if (role === 'user' && typeof window !== 'undefined' && window.localStorage) {
-      const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
-      const foundUser = allUsers.find((u: any) => 
-        u.email === email && u.password === password && u.status === 'active'
+    // Create form data for Spring Security
+    const formData = new FormData();
+    formData.append('username', email);
+    formData.append('password', password);
+    formData.append('role', role);
+    
+    // Use form data for Spring Security compatibility
+    return this.http.post(loginUrl, formData)
+      .pipe(
+        tap((response: any) => {
+          console.log('Login response:', response);
+          
+          // Handle Spring Security response
+          // For Spring Security, we might need to extract user info from JWT or a separate endpoint
+          // This is a simplified version
+          
+          // Create a user object based on the login info
+          // In a real app, you might want to fetch user details from a /me endpoint
+          const user: User = {
+            id: 0, // We'll need to get this from the backend
+            email: email,
+            role: role as any, // Use the role from the login form
+            name: email.split('@')[0] // Use part of email as name temporarily
+          };
+          
+          console.log('User object created:', user);
+          
+          // Store authentication state
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            // For Spring Security, we might use JSESSIONID cookie instead of token
+            // But we'll store the role for our app's use
+            localStorage.setItem('userRole', role);
+            console.log('User data saved to localStorage');
+          }
+          
+          this.currentUserSubject.next(user);
+          console.log('Current user updated in service');
+        })
       );
-      
-      if (foundUser) {
-        const user: User = {
-          id: foundUser.id,
-          email: foundUser.email,
-          role: 'user',
-          name: foundUser.name
-        };
-        
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        return true;
-      }
-      return false; // User not found or inactive
+  }
+
+  register(userData: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/register`, userData);
+  }
+
+  adminRegister(userData: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/admin-register`, userData);
+  }
+
+  getToken(): string | null {
+    // For Spring Security, we typically use cookies (JSESSIONID)
+    // But we'll return the user role for our interceptor to use
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('userRole');
     }
-    
-    // Allow admin/parent-admin with any credentials (for demo)
-    if (role === 'admin' || role === 'parent-admin') {
-      const user: User = {
-        id: 1,
-        email: email,
-        role: role as 'admin' | 'user' | 'parent-admin',
-        name: email.split('@')[0]
-      };
-      
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-      }
-      this.currentUserSubject.next(user);
-      return true;
-    }
-    
-    return false;
+    return null;
   }
 
   logout(): void {

@@ -48,7 +48,14 @@
       </div>
       
       <div class="processed-status" *ngIf="admin.status !== 'pending'">
-        <span *ngIf="admin.status === 'approved'">✅ Approved - Email sent to candidate</span>
+        <span *ngIf="admin.status === 'approved'">
+          ✅ Approved - Email sent to candidate
+          <div class="login-credentials">
+            <p><strong>Login credentials:</strong></p>
+            <p>Username: {{ admin.email.split('@')[0] }}</p>
+            <p>Password: admin123</p>
+          </div>
+        </span>
         <span *ngIf="admin.status === 'rejected'">❌ Rejected - Email sent to candidate</span>
       </div>
     </div>

@@ -1,51 +1,124 @@
 <!-- Home Page for SSRM Tech Solution LLC -->
 <main class="home-container" role="main">
 
-  <!-- Hero Section -->
+  <!-- Hero Section with Sliding Background -->
   <section class="hero" aria-label="Hero - Company Introduction">
-  <header>
-    <h1>Connecting Top Talent with the Right Opportunities</h1>
-    <p>SSRM Tech Solution LLC is your trusted partner...</p>
-  </header>
-    <div class="cta-buttons">
-      <button type="button" routerLink="/services">Hire Talent</button>
-      <button type="button" routerLink="/careers">Find Jobs</button>
+    <div class="hero-slider">
+      <div class="slide" *ngFor="let slide of backgroundSlides; let i = index" [class.active]="currentSlide === i"></div>
+    </div>
+    <div class="hero-content">
+      <header>
+        <h1>Connecting Top Talent with the Right Opportunities</h1>
+        <p>SSRM Tech Solution LLC is your trusted partner in IT staffing and workforce solutions</p>
+      </header>
+      <div class="cta-buttons">
+        <button type="button" routerLink="/services" class="primary-btn">Hire Talent</button>
+        <button type="button" routerLink="/careers" class="secondary-btn">Find Jobs</button>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <span *ngFor="let slide of backgroundSlides; let i = index" 
+            [class.active]="currentSlide === i"
+            (click)="setCurrentSlide(i)"></span>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stat-item">
+      <div class="stat-number">500+</div>
+      <div class="stat-label">Successful Placements</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">95%</div>
+      <div class="stat-label">Client Satisfaction</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">200+</div>
+      <div class="stat-label">Partner Companies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">10+</div>
+      <div class="stat-label">Years Experience</div>
     </div>
   </section>
 
   <!-- About Preview -->
   <section class="about-preview">
-    <h2>About Us</h2>
-    <p>
-      Founded with a vision to bridge the gap between skilled professionals and top-tier companies,
-      SSRM Tech Solution brings over a decade of industry expertise.
-    </p>
-    <a routerLink="/aboutus" aria-label="Learn more about SSRM Tech Solution LLC">Learn More</a>
+    <div class="about-content">
+      <h2>About Us</h2>
+      <p>
+        Founded with a vision to bridge the gap between skilled professionals and top-tier companies,
+        SSRM Tech Solution brings over a decade of industry expertise.
+      </p>
+      <p>
+        Our team of specialized recruiters understands the unique challenges of the tech industry and works
+        tirelessly to create perfect matches between talent and opportunity.
+      </p>
+      <a routerLink="/aboutus" class="learn-more-btn">Learn More</a>
+    </div>
+    <div class="about-image">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team collaboration">
+    </div>
   </section>
 
   <!-- Services Overview -->
   <section class="services-overview">
     <h2>Our Services</h2>
+    <p class="section-subtitle">Comprehensive staffing solutions tailored to your needs</p>
+    
     <div class="services-list">
       <div class="service-card">
-        <span class="icon" role="img" aria-label="IT Staffing">💻</span>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+            <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"/>
+          </svg>
+        </div>
         <h3>IT Staffing</h3>
-        <p>Providing top tech talent to power digital innovation.</p>
+        <p>Providing top tech talent to power digital innovation across all technology stacks.</p>
       </div>
       <div class="service-card">
-        <span class="icon">🤝</span>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+          </svg>
+        </div>
         <h3>Contract-to-Hire</h3>
-        <p>Flexible solutions with the option for long-term hires.</p>
+        <p>Flexible solutions with the option for long-term hires after evaluation periods.</p>
       </div>
       <div class="service-card">
-        <span class="icon">📋</span>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+          </svg>
+        </div>
         <h3>Permanent Hiring</h3>
-        <p>Efficient hiring for full-time roles across industries.</p>
+        <p>Efficient hiring for full-time roles across industries with thorough vetting.</p>
       </div>
       <div class="service-card">
-        <span class="icon">📊</span>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+          </svg>
+        </div>
         <h3>Workforce Consulting</h3>
-        <p>Expert advice to scale and optimize your workforce.</p>
+        <p>Expert advice to scale and optimize your workforce for maximum efficiency.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What Our Clients Say</h2>
+    <div class="testimonial-slider">
+      <div class="testimonial">
+        <div class="quote">"SSRM Tech helped us find the perfect development team in record time. Their understanding of our technical needs was impressive."</div>
+        <div class="author">
+          <div class="author-name">Michael Johnson</div>
+          <div class="author-title">CTO, TechInnovate</div>
+        </div>
       </div>
     </div>
   </section>
@@ -53,12 +126,47 @@
   <!-- Why Choose Us -->
   <section class="why-choose-us">
     <h2>Why Choose SSRM?</h2>
-    <ul>
-      <li>✅ Trusted network of skilled professionals</li>
-      <li>✅ Industry-specific recruiting experts</li>
-      <li>✅ High success rate in placements</li>
-      <li>✅ End-to-end staffing compliance and support</li>
-    </ul>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <div class="feature-content">
+          <h3>Trusted Network</h3>
+          <p>Access to a vast network of skilled professionals across all technology domains.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <div class="feature-content">
+          <h3>Industry Experts</h3>
+          <p>Our recruiters specialize in specific tech sectors for better candidate matching.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <div class="feature-content">
+          <h3>High Success Rate</h3>
+          <p>95% of our placements result in long-term successful employment relationships.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✓</div>
+        <div class="feature-content">
+          <h3>Complete Support</h3>
+          <p>End-to-end staffing compliance, onboarding assistance, and ongoing support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Ready to Find Your Perfect Match?</h2>
+      <p>Whether you're looking for top talent or your next career opportunity, we're here to help.</p>
+      <div class="cta-buttons">
+        <button type="button" routerLink="/contact" class="primary-btn">Contact Us Today</button>
+        <button type="button" routerLink="/services" class="secondary-btn">Explore Services</button>
+      </div>
+    </div>
   </section>
 </main>
-

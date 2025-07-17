@@ -1,4 +1,4 @@
-<div class="user-approvals-container">
+<div class="user-approval-container">
   <header class="approval-header">
     <h2>User Registration Approvals</h2>
     <div class="pending-count">
@@ -43,8 +43,15 @@
       </div>
       
       <div class="processed-status" *ngIf="user.status !== 'pending'">
-        <span *ngIf="user.status === 'approved'">✅ Approved - User can now login</span>
-        <span *ngIf="user.status === 'rejected'">❌ Rejected - User cannot login</span>
+        <span *ngIf="user.status === 'approved'">
+          ✅ Approved - Email sent to user
+          <div class="login-credentials">
+            <p><strong>Login credentials:</strong></p>
+            <p>Username: {{ user.email.split('@')[0] }}</p>
+            <p>Password: user123</p>
+          </div>
+        </span>
+        <span *ngIf="user.status === 'rejected'">❌ Rejected - Email sent to user</span>
       </div>
     </div>
   </div>

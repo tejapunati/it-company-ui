@@ -65,6 +65,9 @@ export class AdminApprovalComponent implements OnInit {
     admin.status = 'approved';
     this.updateAdminStatus(admin);
     
+    // Add the approved admin to the mock users list
+    this.addApprovedAdminToUsers(admin);
+    
     // Send approval email
     this.emailService.sendApprovalStatusEmail(admin, 'approved');
     
@@ -85,6 +88,31 @@ export class AdminApprovalComponent implements OnInit {
     // Update localStorage (browser only)
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.setItem('pendingAdmins', JSON.stringify(this.pendingAdmins));
+    }
+  }
+  
+  private addApprovedAdminToUsers(admin: PendingAdmin) {
+    // Get existing approved users from localStorage
+    let approvedUsers = [];
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const stored = localStorage.getItem('approvedUsers');
+      if (stored) {
+        approvedUsers = JSON.parse(stored);
+      }
+    }
+    
+    // Add the newly approved admin
+    approvedUsers.push({
+      id: admin.id,
+      email: admin.email.split('@')[0], // Use first part of email as username
+      password: 'admin123', // Default password
+      role: 'admin',
+      name: admin.name
+    });
+    
+    // Save back to localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('approvedUsers', JSON.stringify(approvedUsers));
     }
   }
   

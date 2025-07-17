@@ -74,6 +74,9 @@ export class TimesheetsComponent implements OnInit {
       const weekEnding = (timesheet as any).weekEnding || 'Current Week';
       this.emailService.sendTimesheetApprovalEmail(employeeEmail, employeeName, weekEnding, true);
       
+      // Add activity to user's recent activities
+      this.addUserActivity(timesheet, 'approved');
+      
       console.log('Timesheet approved');
     }
   }
@@ -92,6 +95,9 @@ export class TimesheetsComponent implements OnInit {
       const weekEnding = (timesheet as any).weekEnding || 'Current Week';
       this.emailService.sendTimesheetApprovalEmail(employeeEmail, employeeName, weekEnding, false);
       
+      // Add activity to user's recent activities
+      this.addUserActivity(timesheet, 'rejected');
+      
       console.log('Timesheet rejected');
     }
   }
@@ -104,7 +110,12 @@ export class TimesheetsComponent implements OnInit {
   
   // Helper methods for template
   getEmployeeName(timesheet: any): string {
-    return timesheet.employeeName || timesheet.user || 'Unknown User';
+    // Prioritize employeeName field which comes from user submissions
+    if (timesheet.employeeName && timesheet.employeeName !== 'Unknown User') {
+      return timesheet.employeeName;
+    }
+    // Fall back to user field from sample data
+    return timesheet.user || 'Regular User';
   }
   
   getWeekEnding(timesheet: any): string {
@@ -121,5 +132,36 @@ export class TimesheetsComponent implements OnInit {
   
   getId(timesheet: any): number {
     return timesheet.id;
+  }
+  
+  // Add activity to user's recent activities
+  private addUserActivity(timesheet: any, status: 'approved' | 'rejected') {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      // Get existing activities
+      const storedActivities = JSON.parse(localStorage.getItem('userActivities') || '[]');
+      
+      // Get user ID from timesheet
+      const userId = (timesheet as any).userId || (timesheet as any).employeeId || 0;
+      const employeeName = (timesheet as any).employeeName || 'Employee';
+      const weekEnding = (timesheet as any).weekEnding || (timesheet as any).week || 'Current Week';
+      
+      // Create new activity
+      const newActivity = {
+        id: Date.now(),
+        type: status === 'approved' ? 'timesheet_approved' : 'timesheet_rejected',
+        description: `Admin ${status} your timesheet for week ending ${weekEnding}`,
+        timestamp: new Date(),
+        icon: status === 'approved' ? '✅' : '❌',
+        userId: userId
+      };
+      
+      // Add to activities
+      storedActivities.unshift(newActivity);
+      
+      // Save back to localStorage
+      localStorage.setItem('userActivities', JSON.stringify(storedActivities));
+      
+      console.log(`Added ${status} activity for user ${employeeName}`);
+    }
   }
 }

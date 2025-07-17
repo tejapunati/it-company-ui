@@ -1,62 +1,7 @@
-<main class="main">
-  <nav class="navbar">
-    <div class="logo">
-      <a routerLink="/" routerLinkActive="active"><img src="/logo.png" alt="SSRM Tech Solution Logo" /></a>
-    </div>
-    <button class="menu-toggle" (click)="toggleMenu()" type="button" aria-label="Toggle menu">☰</button>
-    <ul class="nav-links" [class.open]="isMenuOpen">
-      <li><a routerLink="/" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
-      <li><a routerLink="/careers" routerLinkActive="active">Careers</a></li>
-      <li><a routerLink="/aboutus" routerLinkActive="active">About Us</a></li>
-      <li><a routerLink="/contactus" routerLinkActive="active">Contact Us</a></li>
-      
-      <!-- Show different links based on authentication state -->
-      <li *ngIf="!isLoggedIn"><a routerLink="/login" routerLinkActive="active">Login</a></li>
-      <li *ngIf="!isLoggedIn"><a routerLink="/admin-register" routerLinkActive="active">Admin Register</a></li>
-      
-      <!-- Show user-specific links when logged in -->
-      <li *ngIf="isLoggedIn && !isAdmin"><a routerLink="/user-dashboard" routerLinkActive="active">Dashboard</a></li>
-      <li *ngIf="isLoggedIn && isAdmin"><a routerLink="/admin-dashboard" routerLinkActive="active">Admin Dashboard</a></li>
-      
-      <!-- Show logout when logged in -->
-      <li *ngIf="isLoggedIn"><a (click)="logout()" style="cursor: pointer;">Logout ({{ currentUser?.name }})</a></li>
-    </ul>
-  </nav>
-  <router-outlet></router-outlet>
-</main>
-<footer class="footer">
-  <div class="footer-top">
-    <!-- Add Logo -->
-    <div class="footer-logo">
-      <a routerLink="/" routerLinkActive="active"><img src="/logo.png" alt="SSRM Tech Solution Logo" /></a>
-    </div>
-
-    <!-- Existing Links -->
-    <div class="footer-links">
-      <a href="#">Company</a>
-      <a href="#">Industries</a>
-      <a href="#">Solutions</a>
-      <a href="#">Partners</a>
-      <a href="#">People & Careers</a>
-      <a href="#">Resources</a>
-      <a href="#">Contact</a>
-    </div>
-
-    <!-- Existing Locations -->
-    <div class="footer-locations">
-      <p>Naperville, Illinois, United States</p>
-      <p>Hyderabad, India</p>
-      <p>Mississauga, Canada</p>
-      <p>Belfast, United Kingdom</p>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <p>
-      © 2025 SSRM Tech Solution LLC. All Rights Reserved.
-      <a href="#">Privacy Policy</a> |
-      <a href="#">Compliance</a>
-    </p>
-  </div>
-</footer>
+<div class="app-container">
+  <app-header></app-header>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
+</div>

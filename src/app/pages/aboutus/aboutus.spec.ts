@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Aboutus } from './aboutus';
+import { AboutusComponent } from './aboutus';
 
-describe('Aboutus', () => {
-  let component: Aboutus;
-  let fixture: ComponentFixture<Aboutus>;
+describe('AboutusComponent', () => {
+  let component: AboutusComponent;
+  let fixture: ComponentFixture<AboutusComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -12,7 +12,7 @@ describe('Aboutus', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Aboutus);
+    fixture = TestBed.createComponent(AboutusComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

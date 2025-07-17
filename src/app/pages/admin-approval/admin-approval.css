@@ -146,6 +146,23 @@
   font-weight: 600;
 }
 
+.login-credentials {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #e9f7ef;
+  border-radius: 8px;
+  text-align: left;
+  border-left: 4px solid #28a745;
+}
+
+.login-credentials p {
+  margin: 0.5rem 0;
+}
+
+.login-credentials strong {
+  color: #155724;
+}
+
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;

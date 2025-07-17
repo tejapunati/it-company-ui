@@ -37,7 +37,7 @@ export const routes: Routes = [
   { path: 'admin-dashboard/add-user', component: AddUserComponent, canActivate: [AdminGuard] },
   { path: 'admin-dashboard/user-management', component: UserManagementComponent, canActivate: [ParentAdminGuard] },
   { path: 'admin-dashboard/admin-management', component: AdminManagementComponent, canActivate: [ParentAdminGuard] },
-  { path: 'user-approvals', component: UserApprovalsComponent, canActivate: [AdminGuard] },
+  { path: 'user-approvals', component: UserApprovalsComponent, canActivate: [AdminGuard] }, // Both admin and parent-admin can approve users
   { path: 'email-logs', component: EmailLogsComponent, canActivate: [AuthGuard] },
   { path: 'admin-dashboard/timesheets', component: TimesheetsComponent, canActivate: [AdminGuard] },
   { path: '**', redirectTo: '' }
