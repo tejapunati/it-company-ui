@@ -23,12 +23,12 @@
   overflow-x: hidden;
 }
 
-/* Hero Section */
+/* Hero Section with Image Slider */
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 600px;
-  background: linear-gradient(to right, var(--bg-dark) 50%, var(--primary) 50%);
+  background: var(--bg-dark);
   position: relative;
 }
 
@@ -39,6 +39,7 @@
   justify-content: center;
   color: var(--white);
   max-width: 600px;
+  z-index: 2;
 }
 
 .hero h1 {
@@ -63,11 +64,55 @@
   gap: 1rem;
 }
 
-.hero-image {
-  background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80');
+/* Hero Slider */
+.hero-slider {
+  position: relative;
+  grid-column: 2;
+  overflow: hidden;
+  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.hero-slider .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
-  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+  opacity: 0;
+  transition: opacity 1s ease, transform 8s ease;
+  transform: scale(1);
+}
+
+.hero-slider .slide.active {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.slider-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 5;
+}
+
+.slider-controls span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-controls span.active {
+  background-color: var(--white);
+  transform: scale(1.2);
 }
 
 /* Stats Section */
@@ -87,6 +132,14 @@
 
 .stat-item {
   text-align: center;
+  transition: all 0.3s ease;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+}
+
+.stat-item:hover {
+  background-color: rgba(37, 99, 235, 0.05);
+  transform: translateY(-5px);
 }
 
 .stat-number {
@@ -151,7 +204,23 @@
   padding: 2rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(14, 165, 233, 0.05));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .service-card:hover {
@@ -159,9 +228,18 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+.service-card:hover::before {
+  opacity: 1;
+}
+
 .service-icon {
   margin-bottom: 1.5rem;
   color: var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.1);
 }
 
 .service-card h3 {
@@ -174,7 +252,7 @@
   color: var(--text-light);
 }
 
-/* About Section */
+/* About Section with Image Slider */
 .about {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -207,17 +285,30 @@
   line-height: 1.7;
 }
 
-.about-image {
+.about-slider {
+  position: relative;
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+  height: 400px;
 }
 
-.about-image img {
+.about-slider .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease, transform 8s ease;
+  transform: scale(1);
+}
+
+.about-slider .slide.active {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* Testimonials Section */
@@ -226,14 +317,32 @@
   background-color: var(--bg-light);
 }
 
-.testimonial-card {
+.testimonial-slider {
+  position: relative;
   max-width: 800px;
   margin: 0 auto;
+}
+
+.testimonial-card {
   background: var(--white);
   padding: 3rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   position: relative;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.5s ease;
+  height: 0;
+  overflow: hidden;
+}
+
+.testimonial-card.active {
+  opacity: 1;
+  position: relative;
+  height: auto;
 }
 
 .testimonial-card::before {
@@ -279,6 +388,12 @@
   font-size: 0.9rem;
 }
 
+.testimonials .slider-controls {
+  position: relative;
+  bottom: auto;
+  margin-top: 2rem;
+}
+
 /* CTA Section */
 .cta {
   padding: 6rem 4rem;
@@ -307,7 +422,7 @@
   gap: 1rem;
 }
 
-/* Button Styles */
+/* Button Styles with Enhanced Hover Effects */
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
@@ -316,6 +431,28 @@
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .btn-primary {
@@ -354,11 +491,19 @@
   color: var(--primary);
 }
 
+/* Enhanced hover effects for all interactive elements */
+a, button, .service-card, .stat-item, .testimonial-card {
+  transition: all 0.3s ease;
+}
+
+a:hover, button:hover {
+  transform: translateY(-3px);
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .hero {
     grid-template-columns: 1fr;
-    background: var(--bg-dark);
   }
   
   .hero-content {
@@ -366,9 +511,18 @@
     max-width: 100%;
   }
   
-  .hero-image {
-    min-height: 400px;
+  .hero-slider {
+    grid-column: 1;
+    grid-row: 1;
+    height: 100%;
     clip-path: none;
+  }
+  
+  .hero-content {
+    grid-column: 1;
+    grid-row: 1;
+    background: rgba(15, 23, 42, 0.7);
+    z-index: 2;
   }
   
   .stats {

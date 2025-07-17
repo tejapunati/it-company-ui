@@ -1,6 +1,6 @@
 <!-- Modern Home Page for SSRM Tech Solution LLC -->
 <main class="home-container">
-  <!-- Hero Section -->
+  <!-- Hero Section with Image Slider -->
   <section class="hero">
     <div class="hero-content">
       <h1>Connecting Top Tech Talent With Industry Leaders</h1>
@@ -10,7 +10,16 @@
         <a routerLink="/careers" class="btn btn-outline">Find Jobs</a>
       </div>
     </div>
-    <div class="hero-image"></div>
+    <div class="hero-slider">
+      <div class="slide" *ngFor="let image of heroImages; let i = index" 
+           [ngStyle]="{'background-image': 'url(' + image + ')'}"
+           [class.active]="currentSlide === i"></div>
+      <div class="slider-controls">
+        <span *ngFor="let image of heroImages; let i = index" 
+              [class.active]="currentSlide === i"
+              (click)="setCurrentSlide(i)"></span>
+      </div>
+    </div>
   </section>
 
   <!-- Stats Section -->
@@ -81,7 +90,7 @@
     </div>
   </section>
 
-  <!-- About Section -->
+  <!-- About Section with Image Slider -->
   <section class="about">
     <div class="about-content">
       <div class="section-header">
@@ -90,8 +99,15 @@
       <p>Founded in 2010, SSRM Tech Solution bridges the gap between exceptional talent and innovative companies. Our specialized recruiters understand the unique challenges of the tech industry and work tirelessly to create perfect matches.</p>
       <a routerLink="/aboutus" class="btn btn-outline">Learn More</a>
     </div>
-    <div class="about-image">
-      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80" alt="Team collaboration">
+    <div class="about-slider">
+      <div class="slide" *ngFor="let image of aboutImages; let i = index" 
+           [ngStyle]="{'background-image': 'url(' + image + ')'}"
+           [class.active]="currentAboutSlide === i"></div>
+      <div class="slider-controls">
+        <span *ngFor="let image of aboutImages; let i = index" 
+              [class.active]="currentAboutSlide === i"
+              (click)="setAboutSlide(i)"></span>
+      </div>
     </div>
   </section>
 
@@ -100,16 +116,23 @@
     <div class="section-header">
       <h2>What Our Clients Say</h2>
     </div>
-    <div class="testimonial-card">
-      <div class="testimonial-quote">
-        "SSRM Tech helped us find the perfect development team in record time. Their understanding of our technical needs was impressive."
-      </div>
-      <div class="testimonial-author">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Johnson">
-        <div>
-          <div class="author-name">Michael Johnson</div>
-          <div class="author-title">CTO, TechInnovate</div>
+    <div class="testimonial-slider">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials; let i = index" [class.active]="currentTestimonial === i">
+        <div class="testimonial-quote">
+          "{{testimonial.quote}}"
         </div>
+        <div class="testimonial-author">
+          <img [src]="testimonial.image" [alt]="testimonial.name">
+          <div>
+            <div class="author-name">{{testimonial.name}}</div>
+            <div class="author-title">{{testimonial.title}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-controls">
+        <span *ngFor="let testimonial of testimonials; let i = index" 
+              [class.active]="currentTestimonial === i"
+              (click)="setTestimonial(i)"></span>
       </div>
     </div>
   </section>
