@@ -1,0 +1,3 @@
+@echo off
+echo Starting Angular app with proxy configuration...
+ng serve --proxy-config proxy.conf.json

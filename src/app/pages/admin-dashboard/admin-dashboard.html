@@ -79,7 +79,7 @@
         <div class="activity-item" *ngFor="let activity of recentActivities">
           <span class="activity-icon">{{ activity.icon }}</span>
           <span class="activity-description">{{ activity.description }}</span>
-          <span class="activity-time">{{ activity.time }}</span>
+          <span class="activity-time">{{ activity.timestamp | date:'short' }}</span>
         </div>
         
         <div *ngIf="recentActivities.length === 0" class="empty-state">

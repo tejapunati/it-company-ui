@@ -1,0 +1,3 @@
+@echo off
+echo Building Angular application for production...
+ng build --configuration=production

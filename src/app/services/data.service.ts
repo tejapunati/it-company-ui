@@ -1,75 +1,77 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface Timesheet {
-  id: number;
-  user: string;
-  week: string;
-  hours: number;
-  status: 'pending' | 'approved' | 'rejected';
-}
-
-export interface UserData {
-  id: number;
-  name: string;
-  email: string;
-  role: 'admin' | 'user';
-  status: 'active' | 'inactive' | 'pending';
-}
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, catchError } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { MockApiService } from './mock-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private timesheetsSubject = new BehaviorSubject<Timesheet[]>([
-    { id: 1, user: 'Alice Johnson', week: '2024-W01', hours: 40, status: 'approved' },
-    { id: 2, user: 'Bob Smith', week: '2024-W01', hours: 35, status: 'pending' },
-    { id: 3, user: 'Carol Davis', week: '2024-W01', hours: 42, status: 'approved' },
-    { id: 4, user: 'Alice Johnson', week: '2024-W02', hours: 38, status: 'pending' }
-  ]);
+  private apiUrl = environment.apiUrl;
 
-  private usersSubject = new BehaviorSubject<UserData[]>([
-    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'user', status: 'active' },
-    { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'user', status: 'active' },
-    { id: 3, name: 'Carol Davis', email: 'carol@example.com', role: 'admin', status: 'pending' },
-    { id: 4, name: 'David Wilson', email: 'david@example.com', role: 'user', status: 'inactive' }
-  ]);
+  private useMockApi = false;
 
-  public timesheets$ = this.timesheetsSubject.asObservable();
-  public users$ = this.usersSubject.asObservable();
-
-  getTimesheets(): Observable<Timesheet[]> {
-    return this.timesheets$;
+  constructor(private http: HttpClient, private mockApiService: MockApiService) {
+    // Check if backend is available
+    this.checkBackendConnection();
+  }
+  
+  private checkBackendConnection(): void {
+    this.http.get(`${environment.apiUrl}/health`).subscribe({
+      next: () => {
+        this.useMockApi = false;
+        console.log('Using real backend API');
+      },
+      error: () => {
+        this.useMockApi = true;
+        console.log('Backend not available, using mock API');
+      }
+    });
   }
 
-  getUsers(): Observable<UserData[]> {
-    return this.users$;
-  }
-
-  updateUserStatus(userId: number, status: 'active' | 'inactive' | 'pending'): void {
-    const users = this.usersSubject.value;
-    const userIndex = users.findIndex(u => u.id === userId);
-    if (userIndex !== -1) {
-      users[userIndex].status = status;
-      this.usersSubject.next([...users]);
+  // Get services from backend or mock
+  getServices(): Observable<any[]> {
+    if (this.useMockApi) {
+      return this.mockApiService.getServices();
     }
+    return this.http.get<any[]>(`${this.apiUrl}/services`)
+      .pipe(catchError(() => this.mockApiService.getServices()));
   }
 
-  approveTimesheet(timesheetId: number): void {
-    const timesheets = this.timesheetsSubject.value;
-    const timesheetIndex = timesheets.findIndex(t => t.id === timesheetId);
-    if (timesheetIndex !== -1) {
-      timesheets[timesheetIndex].status = 'approved';
-      this.timesheetsSubject.next([...timesheets]);
+  // Get testimonials from backend or mock
+  getTestimonials(): Observable<any[]> {
+    if (this.useMockApi) {
+      return this.mockApiService.getTestimonials();
     }
+    return this.http.get<any[]>(`${this.apiUrl}/testimonials`)
+      .pipe(catchError(() => this.mockApiService.getTestimonials()));
   }
 
-  rejectTimesheet(timesheetId: number): void {
-    const timesheets = this.timesheetsSubject.value;
-    const timesheetIndex = timesheets.findIndex(t => t.id === timesheetId);
-    if (timesheetIndex !== -1) {
-      timesheets[timesheetIndex].status = 'rejected';
-      this.timesheetsSubject.next([...timesheets]);
+  // Get technologies from backend or mock
+  getTechnologies(): Observable<any[]> {
+    if (this.useMockApi) {
+      return this.mockApiService.getTechnologies();
     }
+    return this.http.get<any[]>(`${this.apiUrl}/technologies`)
+      .pipe(catchError(() => this.mockApiService.getTechnologies()));
+  }
+
+  // Get industries from backend or mock
+  getIndustries(): Observable<any[]> {
+    if (this.useMockApi) {
+      return this.mockApiService.getIndustries();
+    }
+    return this.http.get<any[]>(`${this.apiUrl}/industries`)
+      .pipe(catchError(() => this.mockApiService.getIndustries()));
+  }
+
+  // Get stats from backend or mock
+  getStats(): Observable<any[]> {
+    if (this.useMockApi) {
+      return this.mockApiService.getStats();
+    }
+    return this.http.get<any[]>(`${this.apiUrl}/stats`)
+      .pipe(catchError(() => this.mockApiService.getStats()));
   }
 }

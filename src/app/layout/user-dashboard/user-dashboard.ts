@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService, User } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/database.models';
 import { EmailService, EmailTemplate } from '../../services/email.service';
 
 interface UserTimesheet {
@@ -134,9 +135,54 @@ export class UserDashboardComponent implements OnInit {
   }
   
   calculateUserStats() {
-    // Calculate current week hours (latest pending/approved timesheet)
-    const latestTimesheet = this.myTimesheets[0];
-    this.currentWeekHours = latestTimesheet ? latestTimesheet.totalHours : 0;
+    // Get current date and start of week
+    const now = new Date();
+    const currentWeekStart = new Date(now);
+    currentWeekStart.setDate(now.getDate() - now.getDay() + 1); // Monday of current week
+    currentWeekStart.setHours(0, 0, 0, 0);
+    
+    // Format date for comparison
+    const formatDate = (date: Date) => {
+      return date.toISOString().split('T')[0];
+    };
+    
+    // Find current week's timesheet
+    const currentWeekTimesheet = this.myTimesheets.find(t => {
+      const weekEndDate = new Date(t.weekEnding);
+      const weekStartDate = new Date(weekEndDate);
+      weekStartDate.setDate(weekEndDate.getDate() - 6); // Assuming week ending is Sunday
+      
+      return formatDate(currentWeekStart) === formatDate(weekStartDate);
+    });
+    
+    // Calculate current week hours
+    this.currentWeekHours = currentWeekTimesheet ? currentWeekTimesheet.totalHours : 0;
+    
+    // If no current week timesheet found, calculate from all timesheets in current week
+    if (!currentWeekTimesheet && typeof window !== 'undefined' && window.localStorage) {
+      const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
+      const userEmail = this.currentUser?.email;
+      
+      if (userEmail) {
+        // Find all timesheets for current user in current week
+        const userCurrentWeekTimesheets = allTimesheets.filter((t: any) => {
+          if (t.employeeEmail !== userEmail) return false;
+          
+          const weekEndDate = new Date(t.weekEnding);
+          const weekStartDate = new Date(weekEndDate);
+          weekStartDate.setDate(weekEndDate.getDate() - 6);
+          
+          return formatDate(currentWeekStart) === formatDate(weekStartDate);
+        });
+        
+        // Sum hours for current week
+        if (userCurrentWeekTimesheets.length > 0) {
+          this.currentWeekHours = userCurrentWeekTimesheets.reduce(
+            (total: number, t: any) => total + (t.totalHours || 0), 0
+          );
+        }
+      }
+    }
     
     // Calculate approved hours (sum of all approved timesheets)
     this.approvedHours = this.myTimesheets
@@ -268,6 +314,41 @@ export class UserDashboardComponent implements OnInit {
           console.error('Error parsing activities:', e);
         }
       }
+      
+      // Check for timesheet approvals in allTimesheets
+      const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
+      const userEmail = this.currentUser?.email;
+      
+      if (userEmail) {
+        // Find timesheets for current user that have been approved/rejected
+        const userTimesheets = allTimesheets.filter((t: any) => 
+          t.employeeEmail === userEmail && 
+          (t.status === 'approved' || t.status === 'rejected') &&
+          t.statusUpdatedBy // Only include if they were updated by someone
+        );
+        
+        // Add timesheet approval activities
+        userTimesheets.forEach((timesheet: any) => {
+          const isApproved = timesheet.status === 'approved';
+          const activity = {
+            id: Date.now() + Math.random(), // Ensure unique ID
+            type: isApproved ? 'timesheet_approved' : 'timesheet_rejected',
+            description: `Your timesheet for week ending ${timesheet.weekEnding} was ${timesheet.status} by ${timesheet.statusUpdatedBy}`,
+            timestamp: new Date(timesheet.statusUpdatedAt || Date.now()),
+            icon: isApproved ? '✅' : '❌'
+          };
+          
+          // Check if this activity already exists to avoid duplicates
+          const exists = this.recentActivities.some(a => 
+            a.type === activity.type && 
+            a.description === activity.description
+          );
+          
+          if (!exists) {
+            this.recentActivities.push(activity);
+          }
+        });
+      }
     }
 
     // If no activities found, add sample activities
@@ -283,7 +364,7 @@ export class UserDashboardComponent implements OnInit {
         {
           id: 2,
           type: 'timesheet_approved',
-          description: 'Your timesheet for week ending Jan 7 was approved',
+          description: 'Your timesheet for week ending Jan 7 was approved by Admin',
           timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
           icon: '✅'
         },
@@ -325,7 +406,51 @@ export class UserDashboardComponent implements OnInit {
 
   // Load email logs
   loadEmailLogs() {
-    this.emailLogs = this.emailService.getEmailQueue();
+    // Get all emails
+    const allEmails = this.emailService.getEmailQueue();
+    
+    // Filter emails for current user
+    if (this.currentUser?.email) {
+      this.emailLogs = allEmails.filter(email => 
+        email.to === this.currentUser?.email || 
+        // Include timesheet approval emails
+        (email.type === 'timesheet_approved' || email.type === 'timesheet_rejected')
+      );
+    } else {
+      this.emailLogs = allEmails;
+    }
+    
+    // If no emails found in the queue, check localStorage for timesheet approvals
+    if (this.emailLogs.length === 0 && typeof window !== 'undefined' && window.localStorage) {
+      const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
+      const userEmail = this.currentUser?.email;
+      
+      if (userEmail) {
+        // Find approved/rejected timesheets for current user
+        const userTimesheets = allTimesheets.filter((t: any) => 
+          t.employeeEmail === userEmail && 
+          (t.status === 'approved' || t.status === 'rejected') &&
+          t.statusUpdatedBy
+        );
+        
+        // Create email logs for these timesheets
+        userTimesheets.forEach((timesheet: any) => {
+          const isApproved = timesheet.status === 'approved';
+          const email: EmailTemplate = {
+            to: userEmail,
+            subject: `Timesheet ${isApproved ? 'Approved' : 'Rejected'} - Week ending ${timesheet.weekEnding}`,
+            body: `Your timesheet for week ending ${timesheet.weekEnding} has been ${timesheet.status} by ${timesheet.statusUpdatedBy}.`,
+            type: isApproved ? 'timesheet_approved' : 'timesheet_rejected',
+            timestamp: new Date(timesheet.statusUpdatedAt || Date.now()).getTime()
+          };
+          
+          this.emailLogs.push(email);
+        });
+      }
+    }
+    
+    // Sort emails by timestamp (newest first)
+    this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
   }
 
   // Format timestamp for display

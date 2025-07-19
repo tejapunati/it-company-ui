@@ -2,19 +2,20 @@
   <h2>Login to Your Account</h2>
   
   <div class="form-group">
-    <input type="text" [(ngModel)]="email" placeholder="Username" />
+    <input type="email" [(ngModel)]="email" placeholder="Email" />
   </div>
   
   <div class="form-group">
     <input type="password" [(ngModel)]="password" placeholder="Password" />
   </div>
   
+  <!-- Role selection is now optional and will be auto-detected based on email -->
   <div class="form-group">
     <select [(ngModel)]="role">
-      <option value="">Select Your Role</option>
-      <option value="admin">Admin</option>
-      <option value="parent-admin">Parent Admin</option>
-      <option value="user">User/Employee</option>
+      <option value="">Auto-detect Role</option>
+      <option value="ADMIN">Admin</option>
+      <option value="PARENT_ADMIN">Parent Admin</option>
+      <option value="USER">User/Employee</option>
     </select>
   </div>
   
@@ -30,10 +31,10 @@
     <a routerLink="/admin-register">Register as Admin</a>
   </div>
   
-  <div class="test-credentials" *ngIf="errorMessage">
+  <div class="test-credentials">
     <p><strong>Test Credentials:</strong></p>
-    <p>Admin: admin / admin</p>
-    <p>Parent Admin: parent / parent</p>
-    <p>User: user / user</p>
+    <p>Admin: admin&#64;ssrmtech.com / password123</p>
+    <p>Parent Admin: parentadmin&#64;ssrmtech.com / password123</p>
+    <p>User: user&#64;ssrmtech.com / password123</p>
   </div>
 </div>

@@ -14,7 +14,19 @@ export interface EmailTemplate {
 export class EmailService {
   private emailQueue: EmailTemplate[] = [];
 
-  constructor() {}
+  constructor() {
+    // Load emails from localStorage if available
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedEmails = localStorage.getItem('emailLogs');
+      if (storedEmails) {
+        try {
+          this.emailQueue = JSON.parse(storedEmails);
+        } catch (e) {
+          console.error('Error parsing stored emails:', e);
+        }
+      }
+    }
+  }
 
   // Simulate sending email (in real app, this would call backend API)
   sendEmail(template: EmailTemplate): Promise<boolean> {
@@ -24,6 +36,11 @@ export class EmailService {
       
       // Add to queue for demo
       this.emailQueue.unshift(template); // Add to beginning for most recent first
+      
+      // Save to localStorage
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('emailLogs', JSON.stringify(this.emailQueue));
+      }
       
       // Simulate email sending delay
       setTimeout(() => {
@@ -63,13 +80,13 @@ export class EmailService {
   }
 
   // Timesheet approval email
-  sendTimesheetApprovalEmail(userEmail: string, userName: string, weekEnding: string, approved: boolean) {
+  sendTimesheetApprovalEmail(userEmail: string, userName: string, weekEnding: string, approved: boolean, approverName: string = 'Admin') {
     const template: EmailTemplate = {
       to: userEmail,
       subject: `Timesheet ${approved ? 'Approved' : 'Rejected'} - Week ending ${weekEnding}`,
       body: approved
-        ? `Dear ${userName},\n\nYour timesheet for week ending ${weekEnding} has been approved.\n\nThank you for your submission.\n\nBest regards,\nSSRM Tech Team`
-        : `Dear ${userName},\n\nYour timesheet for week ending ${weekEnding} requires revision. Please resubmit with corrections.\n\nContact your manager for details.\n\nBest regards,\nSSRM Tech Team`,
+        ? `Dear ${userName},\n\nYour timesheet for week ending ${weekEnding} has been approved by ${approverName}.\n\nThank you for your submission.\n\nBest regards,\nSSRM Tech Team`
+        : `Dear ${userName},\n\nYour timesheet for week ending ${weekEnding} requires revision and was rejected by ${approverName}. Please resubmit with corrections.\n\nContact your manager for details.\n\nBest regards,\nSSRM Tech Team`,
       type: approved ? 'timesheet_approved' : 'timesheet_rejected',
       timestamp: 0 // Will be set in sendEmail
     };

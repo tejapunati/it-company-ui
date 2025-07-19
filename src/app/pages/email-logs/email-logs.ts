@@ -25,6 +25,11 @@ export class EmailLogsComponent implements OnInit {
   clearLogs() {
     this.emailService.clearEmailQueue();
     this.emailLogs = [];
+    
+    // Also clear from localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('emailLogs');
+    }
   }
 
   getEmailIcon(type: string): string {

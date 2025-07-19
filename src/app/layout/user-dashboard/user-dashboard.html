@@ -22,13 +22,17 @@
       </button>
     </div>
 
-    <div class="dashboard-card">
+    <div class="dashboard-card highlight-card">
       <h3>📊 This Week</h3>
       <p>Current week progress and hours</p>
       <div class="stats">
         <span class="stat-number">{{ currentWeekHours }}</span>
         <span class="stat-label">Hours This Week</span>
       </div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="(currentWeekHours / 40) * 100"></div>
+      </div>
+      <small class="progress-text">{{ (currentWeekHours / 40) * 100 | number:'1.0-0' }}% of target (40 hours)</small>
     </div>
 
     <div class="dashboard-card">

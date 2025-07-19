@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DataService, Timesheet } from '../../../services/data.service';
-import { EmailService } from '../../../services/email.service';
+import { Timesheet, TimesheetService } from '../../../services/timesheet.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -17,36 +17,66 @@ export class TimesheetsComponent implements OnInit {
   selectedUser: string = '';
   filteredTimesheets: Timesheet[] = [];
 
-  constructor(private dataService: DataService, private emailService: EmailService) {}
+  constructor(
+    private timesheetService: TimesheetService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.loadTimesheets();
   }
   
   loadTimesheets() {
-    // Load from localStorage (user submissions)
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const storedTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
-      console.log('Raw stored timesheets:', storedTimesheets);
-      if (storedTimesheets.length > 0) {
-        this.timesheets = storedTimesheets;
-        console.log('Loaded timesheets:', this.timesheets);
+    // Load timesheets from the backend API
+    this.timesheetService.getPendingTimesheets().subscribe({
+      next: (timesheets) => {
+        console.log('Loaded timesheets from API:', timesheets);
+        this.timesheets = timesheets;
         this.updateUniqueUsers();
         this.filterTimesheets();
-        return;
+      },
+      error: (error) => {
+        console.error('Error loading timesheets:', error);
+        
+        // If API fails, use sample data
+        const sampleTimesheets: Timesheet[] = [
+          { 
+            id: 1, 
+            userId: 1, 
+            weekEnding: '2024-01-07', 
+            totalHours: 40, 
+            status: 'APPROVED',
+            hours: { 'Monday': 8, 'Tuesday': 8, 'Wednesday': 8, 'Thursday': 8, 'Friday': 8 }
+          },
+          { 
+            id: 2, 
+            userId: 2, 
+            weekEnding: '2024-01-07', 
+            totalHours: 35, 
+            status: 'PENDING',
+            hours: { 'Monday': 7, 'Tuesday': 7, 'Wednesday': 7, 'Thursday': 7, 'Friday': 7 }
+          },
+          { 
+            id: 3, 
+            userId: 3, 
+            weekEnding: '2024-01-07', 
+            totalHours: 42, 
+            status: 'APPROVED',
+            hours: { 'Monday': 9, 'Tuesday': 9, 'Wednesday': 8, 'Thursday': 8, 'Friday': 8 }
+          }
+        ];
+        
+        this.timesheets = sampleTimesheets;
+        this.updateUniqueUsers();
+        this.filterTimesheets();
       }
-    }
-    
-    // Load sample data if no user submissions
-    this.dataService.getTimesheets().subscribe((timesheets: Timesheet[]) => {
-      this.timesheets = timesheets;
-      this.updateUniqueUsers();
-      this.filterTimesheets();
     });
   }
 
   updateUniqueUsers() {
-    this.uniqueUsers = Array.from(new Set(this.timesheets.map(ts => ts.user || (ts as any).employeeName)));
+    this.uniqueUsers = Array.from(new Set(this.timesheets.map(ts => 
+      ts.userId ? `User ${ts.userId}` : 'Unknown User'
+    )));
   }
 
   filterTimesheets() {
@@ -54,114 +84,93 @@ export class TimesheetsComponent implements OnInit {
       this.filteredTimesheets = this.timesheets;
     } else {
       this.filteredTimesheets = this.timesheets.filter(ts => 
-        ts.user === this.selectedUser || (ts as any).employeeName === this.selectedUser
+        `User ${ts.userId}` === this.selectedUser
       );
     }
   }
 
   approveTimesheet(id: number) {
     console.log('Approving timesheet ID:', id);
-    const timesheet = this.timesheets.find(ts => (ts as any).id === id);
-    console.log('Found timesheet:', timesheet);
-    if (timesheet) {
-      (timesheet as any).status = 'approved';
-      this.updateTimesheetStorage();
-      this.filterTimesheets();
-      
-      // Send approval email
-      const employeeName = (timesheet as any).employeeName || 'Employee';
-      const employeeEmail = `${employeeName.toLowerCase().replace(' ', '.')}@company.com`;
-      const weekEnding = (timesheet as any).weekEnding || 'Current Week';
-      this.emailService.sendTimesheetApprovalEmail(employeeEmail, employeeName, weekEnding, true);
-      
-      // Add activity to user's recent activities
-      this.addUserActivity(timesheet, 'approved');
-      
-      console.log('Timesheet approved');
-    }
+    
+    this.timesheetService.approveTimesheet(id, '').subscribe({
+      next: (updatedTimesheet) => {
+        console.log('Timesheet approved:', updatedTimesheet);
+        
+        // Update the local list
+        const index = this.timesheets.findIndex(t => t.id === id);
+        if (index !== -1) {
+          this.timesheets[index] = updatedTimesheet;
+        }
+        
+        this.filterTimesheets();
+        
+        // Get admin name
+        const currentUser = this.authService.getCurrentUser();
+        const adminName = currentUser?.name || 'Admin';
+        
+        // Email notification would be sent by the backend
+        const weekEnding = updatedTimesheet.weekEnding || 'Current Week';
+      },
+      error: (error) => {
+        console.error('Error approving timesheet:', error);
+      }
+    });
   }
 
   rejectTimesheet(id: number) {
     console.log('Rejecting timesheet ID:', id);
-    const timesheet = this.timesheets.find(ts => (ts as any).id === id);
-    if (timesheet) {
-      (timesheet as any).status = 'rejected';
-      this.updateTimesheetStorage();
-      this.filterTimesheets();
-      
-      // Send rejection email
-      const employeeName = (timesheet as any).employeeName || 'Employee';
-      const employeeEmail = `${employeeName.toLowerCase().replace(' ', '.')}@company.com`;
-      const weekEnding = (timesheet as any).weekEnding || 'Current Week';
-      this.emailService.sendTimesheetApprovalEmail(employeeEmail, employeeName, weekEnding, false);
-      
-      // Add activity to user's recent activities
-      this.addUserActivity(timesheet, 'rejected');
-      
-      console.log('Timesheet rejected');
-    }
-  }
-  
-  updateTimesheetStorage() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem('allTimesheets', JSON.stringify(this.timesheets));
-    }
+    
+    this.timesheetService.rejectTimesheet(id, '').subscribe({
+      next: (updatedTimesheet) => {
+        console.log('Timesheet rejected:', updatedTimesheet);
+        
+        // Update the local list
+        const index = this.timesheets.findIndex(t => t.id === id);
+        if (index !== -1) {
+          this.timesheets[index] = updatedTimesheet;
+        }
+        
+        this.filterTimesheets();
+        
+        // Get admin name
+        const currentUser = this.authService.getCurrentUser();
+        const adminName = currentUser?.name || 'Admin';
+        
+        // Email notification would be sent by the backend
+        const weekEnding = updatedTimesheet.weekEnding || 'Current Week';
+      },
+      error: (error) => {
+        console.error('Error rejecting timesheet:', error);
+      }
+    });
   }
   
   // Helper methods for template
-  getEmployeeName(timesheet: any): string {
-    // Prioritize employeeName field which comes from user submissions
-    if (timesheet.employeeName && timesheet.employeeName !== 'Unknown User') {
-      return timesheet.employeeName;
+  getEmployeeName(timesheet: Timesheet): string {
+    return `User ${timesheet.userId}`;
+  }
+  
+  getWeekEnding(timesheet: Timesheet): string {
+    return timesheet.weekEnding || 'N/A';
+  }
+  
+  getTotalHours(timesheet: Timesheet): number {
+    if (timesheet.totalHours) {
+      return timesheet.totalHours;
     }
-    // Fall back to user field from sample data
-    return timesheet.user || 'Regular User';
-  }
-  
-  getWeekEnding(timesheet: any): string {
-    return timesheet.weekEnding || timesheet.week || 'N/A';
-  }
-  
-  getTotalHours(timesheet: any): number {
-    return timesheet.totalHours || timesheet.hours || 0;
-  }
-  
-  getStatus(timesheet: any): string {
-    return timesheet.status || 'pending';
-  }
-  
-  getId(timesheet: any): number {
-    return timesheet.id;
-  }
-  
-  // Add activity to user's recent activities
-  private addUserActivity(timesheet: any, status: 'approved' | 'rejected') {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      // Get existing activities
-      const storedActivities = JSON.parse(localStorage.getItem('userActivities') || '[]');
-      
-      // Get user ID from timesheet
-      const userId = (timesheet as any).userId || (timesheet as any).employeeId || 0;
-      const employeeName = (timesheet as any).employeeName || 'Employee';
-      const weekEnding = (timesheet as any).weekEnding || (timesheet as any).week || 'Current Week';
-      
-      // Create new activity
-      const newActivity = {
-        id: Date.now(),
-        type: status === 'approved' ? 'timesheet_approved' : 'timesheet_rejected',
-        description: `Admin ${status} your timesheet for week ending ${weekEnding}`,
-        timestamp: new Date(),
-        icon: status === 'approved' ? '✅' : '❌',
-        userId: userId
-      };
-      
-      // Add to activities
-      storedActivities.unshift(newActivity);
-      
-      // Save back to localStorage
-      localStorage.setItem('userActivities', JSON.stringify(storedActivities));
-      
-      console.log(`Added ${status} activity for user ${employeeName}`);
+    
+    if (timesheet.hours && typeof timesheet.hours === 'object') {
+      return Object.values(timesheet.hours).reduce((sum: number, hours: number) => sum + hours, 0);
     }
+    
+    return 0;
+  }
+  
+  getStatus(timesheet: Timesheet): string {
+    return timesheet.status?.toLowerCase() || 'pending';
+  }
+  
+  getId(timesheet: Timesheet): number {
+    return timesheet.id || 0;
   }
 }

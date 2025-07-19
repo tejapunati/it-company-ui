@@ -2,15 +2,18 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
+  const token = authService.getToken();
   
-  // For Spring Security, we don't need to add Authorization header
-  // as it uses cookies (JSESSIONID) for authentication
-  // We'll just pass the request through
-  
-  // Log the request for debugging
-  console.log(`Sending ${req.method} request to ${req.url}`);
+  // Clone the request and add the token if available
+  if (token) {
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
   
   return next(req);
 };

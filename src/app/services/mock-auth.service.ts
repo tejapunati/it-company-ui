@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { User } from './auth.service';
+import { User } from '../models/database.models';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +24,13 @@ export class MockAuthService {
     if (email === 'parent' && password === 'parent') {
       console.log('Parent admin login detected');
       
-      const parentAdminUser = {
+      const parentAdminUser: User = {
         id: 2,
         email: 'parent',
-        role: 'parent-admin' as 'parent-admin', // Type assertion
-        name: 'Parent Admin'
+        role: 'parent-admin',
+        name: 'Parent Admin',
+        status: 'active',
+        createdDate: new Date().toISOString()
       };
       
       // Store in localStorage
@@ -74,8 +76,10 @@ export class MockAuthService {
       this.currentUser = {
         id: approvedAdmin.id,
         email: approvedAdmin.email,
-        role: 'admin' as 'admin',
-        name: approvedAdmin.name
+        role: 'admin',
+        name: approvedAdmin.name,
+        status: 'active',
+        createdDate: new Date().toISOString()
       };
       
       // Store in localStorage
@@ -101,8 +105,10 @@ export class MockAuthService {
       this.currentUser = {
         id: approvedUser.id,
         email: approvedUser.email,
-        role: 'user' as 'user',
-        name: approvedUser.name
+        role: 'user',
+        name: approvedUser.name,
+        status: 'active',
+        createdDate: new Date().toISOString()
       };
       
       // Store in localStorage
@@ -130,7 +136,9 @@ export class MockAuthService {
         id: user.id,
         email: user.email,
         role: user.role as any,
-        name: user.name
+        name: user.name,
+        status: 'active',
+        createdDate: new Date().toISOString()
       };
       
       // Store in localStorage

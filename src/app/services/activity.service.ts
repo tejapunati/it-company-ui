@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Activity {
   id: number;
-  time: string;
+  userId: number;
+  action: string;
   description: string;
-  type: 'user' | 'timesheet' | 'approval' | 'admin';
-  icon: string;
+  type: string;
+  timestamp: string;
+  metadata?: any;
+  icon?: string;
 }
 
 @Injectable({
@@ -16,61 +21,96 @@ export class ActivityService {
   private activitiesSubject = new BehaviorSubject<Activity[]>([]);
   public activities$ = this.activitiesSubject.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.loadActivities();
   }
 
-  private loadActivities() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const stored = localStorage.getItem('recentActivities');
-      if (stored) {
-        this.activitiesSubject.next(JSON.parse(stored));
+  // Load activities from the backend
+  loadActivities(): void {
+    this.http.get<Activity[]>(`${environment.apiUrl}/activities`).subscribe(
+      (activities) => {
+        // Add icons for UI display
+        const activitiesWithIcons = activities.map(activity => ({
+          ...activity,
+          icon: this.getActivityIcon(activity.type)
+        }));
+        this.activitiesSubject.next(activitiesWithIcons);
+      },
+      (error) => {
+        console.error('Error loading activities:', error);
+        // Create sample activities if API fails
+        const sampleActivities: Activity[] = [
+          {
+            id: 1,
+            userId: 1,
+            action: 'login',
+            description: 'User logged in',
+            type: 'user',
+            timestamp: new Date().toISOString(),
+            icon: '🔑'
+          },
+          {
+            id: 2,
+            userId: 1,
+            action: 'timesheet_submit',
+            description: 'User submitted timesheet',
+            type: 'timesheet',
+            timestamp: new Date(Date.now() - 3600000).toISOString(),
+            icon: '📋'
+          }
+        ];
+        this.activitiesSubject.next(sampleActivities);
       }
-    }
+    );
   }
-
-  addActivity(description: string, type: 'user' | 'timesheet' | 'approval' | 'admin') {
-    const activities = this.activitiesSubject.value;
-    const newActivity: Activity = {
-      id: Date.now(),
-      time: this.getTimeAgo(new Date()),
+  
+  // Log a new activity
+  logActivity(type: string, action: string, description: string, userId?: number): void {
+    const activity: Partial<Activity> = {
+      action,
       description,
       type,
-      icon: this.getIcon(type)
+      userId,
+      timestamp: new Date().toISOString()
     };
-
-    const updatedActivities = [newActivity, ...activities].slice(0, 10); // Keep only latest 10
-    this.activitiesSubject.next(updatedActivities);
     
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem('recentActivities', JSON.stringify(updatedActivities));
-    }
+    this.http.post<Activity>(`${environment.apiUrl}/activities`, activity).subscribe(
+      (newActivity) => {
+        const updatedActivities = [
+          {
+            ...newActivity,
+            icon: this.getActivityIcon(newActivity.type)
+          },
+          ...this.activitiesSubject.value
+        ];
+        this.activitiesSubject.next(updatedActivities);
+      },
+      (error) => {
+        console.error('Error logging activity:', error);
+        // Add to local list anyway
+        const localActivity: Activity = {
+          id: Date.now(),
+          userId: userId || 0,
+          action,
+          description,
+          type,
+          timestamp: new Date().toISOString(),
+          icon: this.getActivityIcon(type)
+        };
+        const updatedActivities = [localActivity, ...this.activitiesSubject.value];
+        this.activitiesSubject.next(updatedActivities);
+      }
+    );
   }
 
-  private getIcon(type: string): string {
-    switch (type) {
+  // Get activity icon based on type
+  private getActivityIcon(type: string): string {
+    switch (type.toLowerCase()) {
       case 'user': return '👤';
       case 'timesheet': return '📋';
       case 'approval': return '✅';
-      case 'admin': return '👨‍💼';
+      case 'admin': return '🔑';
       default: return '📝';
     }
-  }
-
-  private getTimeAgo(date: Date): string {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins} minutes ago`;
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    return `${diffDays} days ago`;
-  }
-
-  getActivities(): Activity[] {
-    return this.activitiesSubject.value;
   }
 }

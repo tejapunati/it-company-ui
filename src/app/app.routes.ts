@@ -6,7 +6,7 @@ import { ServicesComponent } from './pages/services/services';
 import { CareersComponent } from './pages/careers/careers';
 import { AboutusComponent } from './pages/aboutus/aboutus';
 import { ContactusComponent } from './pages/contactus/contactus';
-import { LoginComponent } from './auth/login/login';
+import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './auth/register/register';
 import { AdminRegisterComponent } from './pages/admin-register/admin-register';
 import { UserDashboardComponent } from './layout/user-dashboard/user-dashboard';
@@ -19,6 +19,9 @@ import { UserApprovalsComponent } from './pages/user-approvals/user-approvals';
 import { UserManagementComponent } from './pages/admin-dashboard/user-management/user-management';
 import { AdminManagementComponent } from './pages/admin-dashboard/admin-management/admin-management';
 import { EmailLogsComponent } from './pages/email-logs/email-logs';
+import { ConnectionTestComponent } from './components/connection-test';
+import { BackendStatusComponent } from './components/backend-status/backend-status.component';
+import { ConnectionTestPageComponent } from './pages/connection-test-page/connection-test-page.component';
 import { AuthGuard, AdminGuard, ParentAdminGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -40,6 +43,9 @@ export const routes: Routes = [
   { path: 'user-approvals', component: UserApprovalsComponent, canActivate: [AdminGuard] }, // Both admin and parent-admin can approve users
   { path: 'email-logs', component: EmailLogsComponent, canActivate: [AuthGuard] },
   { path: 'admin-dashboard/timesheets', component: TimesheetsComponent, canActivate: [AdminGuard] },
+  { path: 'test-connection', component: ConnectionTestComponent },
+  { path: 'backend-status', component: BackendStatusComponent },
+  { path: 'connection-test', component: ConnectionTestPageComponent },
   { path: '**', redirectTo: '' }
 ];
 

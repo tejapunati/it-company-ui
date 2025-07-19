@@ -1,19 +1,28 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { DataService } from '../../services/data.service';
 
 declare var particlesJS: any;
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
-  // Services data
-  services = [
+  constructor(private dataService: DataService) {}
+  // Data properties
+  services: any[] = [];
+  technologies: any[] = [];
+  industries: any[] = [];
+  stats: any[] = [];
+  testimonials: any[] = [];
+  
+  // Fallback data in case backend is not available
+  private fallbackServices = [
     {
       title: 'IT Staffing',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 16H4V8h16v12z"/><path fill="currentColor" d="M13 10h-2v3H8v2h3v3h2v-3h3v-2h-3z"/></svg>',
@@ -36,8 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
   
-  // Technologies data
-  technologies = [
+  private fallbackTechnologies = [
     {
       name: 'Web Development',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>',
@@ -55,8 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
   
-  // Industries data
-  industries = [
+  private fallbackIndustries = [
     {
       name: 'Information Technology',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>'
@@ -83,16 +90,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
   
-  // Stats data
-  stats = [
+  private fallbackStats = [
     { value: '500+', label: 'Successful Projects', offset: '0' },
     { value: '95%', label: 'Client Satisfaction', offset: '14' },
     { value: '200+', label: 'Partner Companies', offset: '113' },
     { value: '10+', label: 'Years Experience', offset: '198' }
   ];
   
-  // Testimonials data
-  testimonials = [
+  private fallbackTestimonials = [
     {
       quote: 'SSRM Tech helped us find the perfect development team in record time. Their understanding of our technical needs was impressive.',
       name: 'Michael Johnson',
@@ -120,6 +125,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   private testimonialInterval: any;
   
   ngOnInit() {
+    // Load data from backend
+    this.loadData();
+    
     // Start testimonial slider
     this.startTestimonialSlider();
     
@@ -148,6 +156,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     
     // Add scroll event listener for stats animation
     window.addEventListener('scroll', this.handleScroll.bind(this));
+    
+    // Trigger initial check in case stats are already visible
+    setTimeout(() => {
+      this.handleScroll();
+    }, 500);
   }
   
   ngOnDestroy() {
@@ -252,14 +265,21 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   
+  // Flag to track if stats have been animated
+  private statsAnimated = false;
+  
   // Handle scroll events for animations
   handleScroll() {
+    // Skip if already animated
+    if (this.statsAnimated) return;
+    
     const statsSection = document.querySelector('.stats');
     if (statsSection) {
       const rect = statsSection.getBoundingClientRect();
       const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
       
       if (isVisible) {
+        console.log('Stats section is visible, starting animation');
         this.animateStatCounters();
         // Remove event listener after animation starts
         window.removeEventListener('scroll', this.handleScroll.bind(this));
@@ -272,6 +292,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     const statNumbers = document.querySelectorAll('.stat-number');
     statNumbers.forEach(stat => {
       (stat as HTMLElement).textContent = '0';
+      (stat as HTMLElement).dataset['animated'] = 'false';
     });
   }
   
@@ -279,11 +300,17 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   animateStatCounters() {
     const statNumbers = document.querySelectorAll('.stat-number');
     statNumbers.forEach(stat => {
+      // Skip if this counter has already been animated
+      if ((stat as HTMLElement).dataset['animated'] === 'true') return;
+      
       const target = (stat as HTMLElement).getAttribute('data-target') || '0';
       const numTarget = parseInt(target.replace(/\D/g, ''), 10);
       const duration = 2000; // 2 seconds
       const step = numTarget / (duration / 16); // 60fps
       let current = 0;
+      
+      // Mark as being animated
+      (stat as HTMLElement).dataset['animated'] = 'true';
       
       const updateCounter = () => {
         current += step;
@@ -295,8 +322,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       };
       
+      // Start the animation
       updateCounter();
     });
+    
+    // Force animation to start immediately
+    this.statsAnimated = true;
   }
   
   // Testimonial slider methods
@@ -314,5 +345,68 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.currentTestimonial = index;
     this.stopTestimonialSlider();
     this.startTestimonialSlider();
+  }
+  
+  // Load data from backend
+  loadData() {
+    // Load services
+    this.dataService.getServices().subscribe({
+      next: (data) => {
+        this.services = data;
+        console.log('Services loaded from backend:', data);
+      },
+      error: (error) => {
+        console.error('Error loading services:', error);
+        this.services = this.fallbackServices;
+      }
+    });
+    
+    // Load technologies
+    this.dataService.getTechnologies().subscribe({
+      next: (data) => {
+        this.technologies = data;
+        console.log('Technologies loaded from backend:', data);
+      },
+      error: (error) => {
+        console.error('Error loading technologies:', error);
+        this.technologies = this.fallbackTechnologies;
+      }
+    });
+    
+    // Load industries
+    this.dataService.getIndustries().subscribe({
+      next: (data) => {
+        this.industries = data;
+        console.log('Industries loaded from backend:', data);
+      },
+      error: (error) => {
+        console.error('Error loading industries:', error);
+        this.industries = this.fallbackIndustries;
+      }
+    });
+    
+    // Load stats
+    this.dataService.getStats().subscribe({
+      next: (data) => {
+        this.stats = data;
+        console.log('Stats loaded from backend:', data);
+      },
+      error: (error) => {
+        console.error('Error loading stats:', error);
+        this.stats = this.fallbackStats;
+      }
+    });
+    
+    // Load testimonials
+    this.dataService.getTestimonials().subscribe({
+      next: (data) => {
+        this.testimonials = data;
+        console.log('Testimonials loaded from backend:', data);
+      },
+      error: (error) => {
+        console.error('Error loading testimonials:', error);
+        this.testimonials = this.fallbackTestimonials;
+      }
+    });
   }
 }

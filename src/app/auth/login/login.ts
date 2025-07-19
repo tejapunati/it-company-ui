@@ -23,31 +23,56 @@ export class LoginComponent {
   login() {
     console.log('Login clicked - Email:', this.email, 'Password:', this.password, 'Role:', this.role);
     
-    if (!this.email || !this.password || !this.role) {
-      this.errorMessage = 'Please fill in all fields';
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Please enter email and password';
       return;
+    }
+
+    // Auto-detect role based on email if not provided
+    if (!this.role) {
+      if (this.email === 'admin@ssrmtech.com') {
+        this.role = 'ADMIN';
+      } else if (this.email === 'parentadmin@ssrmtech.com') {
+        this.role = 'PARENT_ADMIN';
+      } else {
+        this.role = 'USER';
+      }
     }
 
     this.isLoading = true;
     this.errorMessage = '';
-    
-    // For debugging - show what we're sending to the service
-    console.log('Calling AuthService login with:', {
-      email: this.email,
-      password: this.password,
-      role: this.role
-    });
     
     this.authService.login(this.email, this.password, this.role).subscribe({
       next: (response) => {
         console.log('Login successful!', response);
         this.isLoading = false;
         
-        if (this.role === 'admin' || this.role === 'parent-admin') {
-          console.log('Navigating to admin dashboard');
+        // Display success message
+        const successElement = document.createElement('div');
+        successElement.className = 'backend-connection-success';
+        successElement.innerHTML = `
+          <div class="success-icon">✓</div>
+          <div class="success-message">
+            <strong>Login Successful!</strong>
+            <p>Welcome back, ${response.name}!</p>
+          </div>
+        `;
+        document.body.appendChild(successElement);
+        
+        // Remove the success message after 3 seconds
+        setTimeout(() => {
+          successElement.classList.add('fade-out');
+          setTimeout(() => {
+            document.body.removeChild(successElement);
+          }, 500);
+        }, 3000);
+        
+        // Check if the user is an admin based on the response
+        const isAdmin = response.role.toUpperCase() === 'ADMIN' || response.role.toUpperCase() === 'PARENT_ADMIN';
+        
+        if (isAdmin) {
           this.router.navigate(['/admin-dashboard']);
         } else {
-          console.log('Navigating to user dashboard');
           this.router.navigate(['/user-dashboard']);
         }
       },
@@ -60,7 +85,7 @@ export class LoginComponent {
         } else if (error.status === 401) {
           this.errorMessage = 'Invalid credentials. Please try again.';
         } else {
-          this.errorMessage = `Login failed: ${error.error?.message || error.message || 'Unknown error'}`;
+          this.errorMessage = error.error?.message || error.message || 'Unknown error';
         }
       }
     });

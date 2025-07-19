@@ -32,7 +32,12 @@ export class HeaderComponent {
   }
   
   logout() {
+    console.log('Logout clicked');
     this.authService.logout();
+    // Use timeout to ensure logout completes before navigation
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 100);
   }
   
   @HostListener('document:click', ['$event'])

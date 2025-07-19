@@ -1,21 +1,108 @@
-<section class="services-page">
-  <h1>Our Core Services</h1>
-  <div class="service-grid">
-    <div class="service-card">
-      <h3>💻 IT Staffing</h3>
-      <p>Providing top tech talent to power digital transformation.</p>
+<div class="services-page">
+  <!-- Hero Section -->
+  <section class="services-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Innovative Technology Solutions</h1>
+        <p class="hero-subtitle">Empowering businesses with cutting-edge services tailored to your unique needs</p>
+        <div class="hero-description">
+          <p>Our comprehensive range of IT services and solutions are designed to help your business navigate the digital landscape and achieve sustainable growth through technology innovation.</p>
+        </div>
+        <div class="hero-buttons">
+          <a routerLink="/contactus" class="btn btn-primary">Get Started</a>
+          <a routerLink="/aboutus" class="btn btn-outline light">Learn More</a>
+        </div>
+      </div>
     </div>
-    <div class="service-card">
-      <h3>🤝 Contract-to-Hire</h3>
-      <p>Try top candidates with the option to hire permanently.</p>
+  </section>
+
+  <!-- Core Services Section -->
+  <section class="services-section">
+    <div class="section-header">
+      <h2>Core Services</h2>
+      <p>Our comprehensive range of technology services designed to drive your business forward</p>
     </div>
-    <div class="service-card">
-      <h3>📋 Permanent Hiring</h3>
-      <p>Hire full-time professionals across domains efficiently.</p>
+
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of coreServices">
+        <div class="service-icon">{{ service.icon }}</div>
+        <h3>{{ service.title }}</h3>
+        <p class="service-description">{{ service.description }}</p>
+        <ul class="service-features">
+          <li *ngFor="let feature of service.features">{{ feature }}</li>
+        </ul>
+        <a href="#contact" class="service-cta">Learn More</a>
+      </div>
     </div>
-    <div class="service-card">
-      <h3>📊 Workforce Consulting</h3>
-      <p>Expert solutions to optimize your team structure.</p>
+  </section>
+
+  <!-- Specialized Services Section -->
+  <section class="services-section specialized-bg">
+    <div class="section-header">
+      <h2>Specialized Services</h2>
+      <p>Advanced technology solutions to address specific business challenges</p>
     </div>
-  </div>
-</section>
+
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of specializedServices">
+        <div class="service-icon">{{ service.icon }}</div>
+        <h3>{{ service.title }}</h3>
+        <p class="service-description">{{ service.description }}</p>
+        <ul class="service-features">
+          <li *ngFor="let feature of service.features">{{ feature }}</li>
+        </ul>
+        <a href="#contact" class="service-cta">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Process Section -->
+  <section class="process-section">
+    <div class="section-header">
+      <h2>Our Approach</h2>
+      <p>A proven methodology that delivers consistent results</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step" *ngFor="let step of processSteps">
+        <div class="step-number">{{ step.number }}</div>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry Solutions Section -->
+  <section class="industry-section">
+    <div class="section-header">
+      <h2>Industry Solutions</h2>
+      <p>Specialized technology solutions for your industry's unique challenges</p>
+    </div>
+
+    <div class="industry-grid">
+      <div class="industry-card" *ngFor="let industry of industrySolutions">
+        <div class="industry-icon">{{ industry.icon }}</div>
+        <h3>{{ industry.name }}</h3>
+        <ul class="industry-solutions">
+          <li *ngFor="let solution of industry.solutions">{{ solution }}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section with Wave Animation -->
+  <section id="contact" class="cta">
+    <div class="wave-container">
+      <div class="wave"></div>
+      <div class="wave"></div>
+    </div>
+    <div class="cta-content">
+      <h2>Ready to Transform Your Business?</h2>
+      <p>Let's discuss how our technology solutions can help you achieve your goals</p>
+      <div class="cta-buttons">
+        <a routerLink="/contactus" class="btn btn-primary">Get in Touch</a>
+        <a routerLink="/aboutus" class="btn btn-outline light">Learn About Us</a>
+      </div>
+    </div>
+  </section>
+</div>

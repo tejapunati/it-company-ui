@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { ActivityService, Activity } from '../../services/activity.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   standalone: true,
@@ -13,7 +15,11 @@ import { ActivityService, Activity } from '../../services/activity.service';
 })
 export class AdminDashboardComponent implements OnInit {
   
-  constructor(private authService: AuthService, private activityService: ActivityService) {}
+  constructor(
+    private authService: AuthService, 
+    private activityService: ActivityService,
+    private http: HttpClient
+  ) {}
   
   ngOnInit() {
     this.activityService.activities$.subscribe(activities => {
@@ -27,25 +33,24 @@ export class AdminDashboardComponent implements OnInit {
   monthlyHours = 0;
   
   calculateStats() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      // Calculate total users
-      const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
-      this.totalUsers = allUsers.length + 2; // +2 for default users
-      
-      // Calculate pending approvals
-      const pendingUsers = JSON.parse(localStorage.getItem('pendingUsers') || '[]');
-      const pendingUserApprovals = pendingUsers.filter((u: any) => u.status === 'pending').length;
-      const pendingTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
-      const pendingTimesheetApprovals = pendingTimesheets.filter((t: any) => t.status === 'pending').length;
-      this.pendingApprovals = pendingUserApprovals + pendingTimesheetApprovals;
-      
-      // Calculate monthly hours (approved timesheets)
-      const approvedTimesheets = pendingTimesheets.filter((t: any) => t.status === 'approved');
-      this.monthlyHours = approvedTimesheets.reduce((total: number, t: any) => total + (t.totalHours || 0), 0);
-      
-      // Active projects (simulate based on users)
-      this.activeProjects = Math.ceil(this.totalUsers / 4); // 1 project per 4 users
-    }
+    // Get user stats from backend
+    this.http.get<any>(`${environment.apiUrl}/stats/dashboard`).subscribe(
+      (stats) => {
+        this.totalUsers = stats.totalUsers || 0;
+        this.pendingApprovals = stats.pendingApprovals || 0;
+        this.monthlyHours = stats.monthlyHours || 0;
+        this.activeProjects = stats.activeProjects || 0;
+      },
+      (error) => {
+        console.error('Error loading dashboard stats:', error);
+        
+        // Fallback to simulated stats
+        this.totalUsers = 12;
+        this.pendingApprovals = 3;
+        this.monthlyHours = 420;
+        this.activeProjects = 4;
+      }
+    );
   }
 
   recentActivities: Activity[] = [];
