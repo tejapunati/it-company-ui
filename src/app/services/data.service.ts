@@ -18,7 +18,10 @@ export class DataService {
   }
   
   private checkBackendConnection(): void {
-    this.http.get(`${environment.apiUrl}/health`).subscribe({
+    this.http.get(`${environment.apiUrl}/health`, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: false
+    }).subscribe({
       next: () => {
         this.useMockApi = false;
         console.log('Using real backend API');

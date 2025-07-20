@@ -72,7 +72,10 @@ export class BackendConnectionComponent implements OnInit {
   }
 
   checkConnection(): void {
-    this.http.get(`${environment.apiUrl}/health`)
+    this.http.get(`${environment.apiUrl}/health`, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: false
+    })
       .subscribe({
         next: () => {
           this.isConnected = true;

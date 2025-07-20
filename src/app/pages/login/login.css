@@ -127,3 +127,19 @@
     padding: 20px;
   }
 }
+.test-credentials {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  border-left: 3px solid #667eea;
+  font-size: 13px;
+}
+
+.test-credentials p {
+  margin: 5px 0;
+}
+
+.test-credentials strong {
+  color: #4a5568;
+}

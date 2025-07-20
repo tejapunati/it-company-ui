@@ -222,15 +222,15 @@
   position: absolute;
   width: 200px;
   height: 200px;
-  background: rgba(193, 115, 228, 0.7);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(189, 103, 205, 0.7);
+  border: 2px solid rgba(96, 96, 96, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--white);
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  color: white;
+  text-shadow: 0 0 10px rgba(230, 221, 221, 0.5);
   box-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
   backdrop-filter: blur(5px);
 }
@@ -438,6 +438,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -679,6 +680,15 @@
 
 .tech-icon svg {
   width: 36px !important;
+  height: 36px !important;
+  fill: currentColor !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  fill: currentColor !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   height: 36px !important;
   fill: currentColor !important;
   display: block !important;
@@ -1192,4 +1202,195 @@ svg {
   stroke: none !important;
   visibility: visible !important;
   display: block !important;
+}
+
+.stat-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 1rem;
+}
+
+.stat-circle svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.stat-circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 5;
+}
+
+.stat-circle-fill {
+  fill: none;
+  stroke: white;
+  stroke-width: 5;
+  stroke-dasharray: 283;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.stat-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+  .hero-content {
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .hero-visual {
+    display: none;
+  }
+  
+  .services {
+    padding: 4rem 2rem;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats {
+    padding: 4rem 2rem;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .glitch {
+    font-size: 2.5rem;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
+  }
+}
+.stat-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 1rem;
+}
+
+.stat-circle svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.stat-circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 5;
+}
+
+.stat-circle-fill {
+  fill: none;
+  stroke: white;
+  stroke-width: 5;
+  stroke-dasharray: 283;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.stat-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+  .hero-content {
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .hero-visual {
+    display: none;
+  }
+  
+  .services {
+    padding: 4rem 2rem;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats {
+    padding: 4rem 2rem;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .glitch {
+    font-size: 2.5rem;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
+  }
 }

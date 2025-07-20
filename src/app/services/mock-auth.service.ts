@@ -8,9 +8,9 @@ import { User } from '../models/database.models';
 })
 export class MockAuthService {
   private users = [
-    { email: 'admin', password: 'admin', role: 'admin', name: 'Admin User', id: 1 },
-    { email: 'parent', password: 'parent', role: 'parent-admin', name: 'Parent Admin', id: 2 },
-    { email: 'user', password: 'user', role: 'user', name: 'Regular User', id: 3 }
+    { email: 'admin@example.com', password: 'admin123', role: 'ADMIN', name: 'Admin User', id: 1 },
+    { email: 'parent@example.com', password: 'parent123', role: 'PARENT_ADMIN', name: 'Parent Admin', id: 2 },
+    { email: 'user@example.com', password: 'user123', role: 'USER', name: 'Regular User', id: 3 }
   ];
 
   private currentUser: User | null = null;

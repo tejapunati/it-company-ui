@@ -54,11 +54,11 @@ export class LoginComponent {
   
   redirectBasedOnRole(): void {
     if (this.authService.isParentAdmin()) {
-      this.router.navigate(['/admin/dashboard']);
+      this.router.navigate(['/admin-dashboard']);
     } else if (this.authService.isAdmin()) {
-      this.router.navigate(['/admin/dashboard']);
+      this.router.navigate(['/admin-dashboard']);
     } else {
-      this.router.navigate(['/user/dashboard']);
+      this.router.navigate(['/user-dashboard']);
     }
   }
 }
