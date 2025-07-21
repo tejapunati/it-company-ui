@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef } from '@angular/core';
+import { Component, HostListener, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class HeaderComponent {
   isMenuOpen = false;
   
-  constructor(private authService: AuthService, private elementRef: ElementRef) {}
+  constructor(private authService: AuthService, private elementRef: ElementRef, private renderer: Renderer2) {}
   
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -51,6 +51,16 @@ export class HeaderComponent {
     
     if (!clickedInsideMenu && !clickedOnMenuToggle) {
       this.isMenuOpen = false;
+    }
+  }
+  
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const header = this.elementRef.nativeElement.querySelector('.site-header');
+    if (window.scrollY > 50) {
+      this.renderer.addClass(header, 'scrolled');
+    } else {
+      this.renderer.removeClass(header, 'scrolled');
     }
   }
 }

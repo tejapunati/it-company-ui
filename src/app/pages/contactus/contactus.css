@@ -36,6 +36,7 @@
   font-size: 3rem;
   margin-bottom: 1.5rem;
   font-weight: 700;
+  color: white;
 }
 
 .contact-hero p {
@@ -45,6 +46,7 @@
   line-height: 1.6;
   padding: 0 1rem;
   box-sizing: border-box;
+  color: white;
 }
 
 /* Main Contact Section */

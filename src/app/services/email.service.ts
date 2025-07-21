@@ -4,7 +4,7 @@ export interface EmailTemplate {
   to: string;
   subject: string;
   body: string;
-  type: 'user_approved' | 'user_rejected' | 'timesheet_approved' | 'timesheet_rejected' | 'admin_approved';
+  type: 'user_approved' | 'user_rejected' | 'timesheet_approved' | 'timesheet_rejected' | 'admin_approved' | 'timesheet_submitted';
   timestamp: number;
 }
 
@@ -186,7 +186,41 @@ export class EmailService {
 
   // Get email queue (for admin to see sent emails)
   getEmailQueue(): EmailTemplate[] {
-    return [...this.emailQueue].sort((a, b) => b.timestamp - a.timestamp);
+    // Get current user from localStorage
+    let currentUser = null;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+      }
+    }
+    
+    // Filter emails based on user role
+    let filteredEmails = [...this.emailQueue];
+    
+    if (currentUser) {
+      if (currentUser.role === 'ADMIN') {
+        // Regular admin should not see parent admin approval emails
+        filteredEmails = filteredEmails.filter(email => 
+          email.type !== 'admin_approved' || 
+          !email.subject.includes('Parent Admin')
+        );
+      } else if (currentUser.role === 'PARENT_ADMIN') {
+        // Parent admin should not see regular admin timesheet approval emails
+        filteredEmails = filteredEmails.filter(email => 
+          email.type !== 'timesheet_approved' && 
+          email.type !== 'timesheet_rejected' && 
+          email.type !== 'timesheet_submitted'
+        );
+      } else if (currentUser.role === 'USER') {
+        // Users should only see their own emails
+        filteredEmails = filteredEmails.filter(email => 
+          email.to === currentUser.email
+        );
+      }
+    }
+    
+    return filteredEmails.sort((a, b) => b.timestamp - a.timestamp);
   }
 
   // Clear email queue
@@ -226,7 +260,7 @@ export class EmailService {
       to: 'admin@ssrmtech.com',
       subject: `Timesheet Submitted - ${employeeName} (Week ending ${weekEnding})`,
       body: `A new timesheet has been submitted for your review:\n\nEmployee: ${employeeName}\nEmail: ${employeeEmail}\nWeek Ending: ${weekEnding}\nTotal Hours: ${totalHours}\n\nPlease review and approve/reject this timesheet in the admin dashboard.\n\nBest regards,\nSSRM Tech System`,
-      type: 'timesheet_approved',
+      type: 'timesheet_submitted', // Using the new specific type for timesheet submissions
       timestamp: 0 // Will be set in sendEmail
     };
     return this.sendEmail(template);

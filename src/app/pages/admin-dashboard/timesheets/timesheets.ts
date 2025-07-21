@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Timesheet, TimesheetService } from '../../../services/timesheet.service';
 import { AuthService } from '../../../services/auth.service';
+import { EmailService } from '../../../services/email.service';
 
 @Component({
   standalone: true,
@@ -19,7 +20,8 @@ export class TimesheetsComponent implements OnInit {
 
   constructor(
     private timesheetService: TimesheetService,
-    private authService: AuthService
+    private authService: AuthService,
+    private emailService: EmailService
   ) {}
 
   ngOnInit() {
@@ -108,8 +110,31 @@ export class TimesheetsComponent implements OnInit {
         const currentUser = this.authService.getCurrentUser();
         const adminName = currentUser?.name || 'Admin';
         
-        // Email notification would be sent by the backend
-        const weekEnding = updatedTimesheet.weekEnding || 'Current Week';
+        // Get the timesheet details
+        const timesheet = this.timesheets.find(t => t.id === id);
+        if (timesheet) {
+          // Find the user email from localStorage
+          if (typeof window !== 'undefined' && window.localStorage) {
+            const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
+            const matchingTimesheet = allTimesheets.find((t: any) => t.id === id || t.id === timesheet.id);
+            
+            if (matchingTimesheet && matchingTimesheet.employeeEmail) {
+              // Send email notification to user
+              const userEmail = matchingTimesheet.employeeEmail;
+              const userName = matchingTimesheet.employeeName || 'User';
+              const weekEnding = timesheet.weekEnding || 'Current Week';
+              
+              // Send email notification to user
+              this.emailService.sendTimesheetApprovalEmail(
+                userEmail,
+                userName,
+                weekEnding,
+                true, // approved
+                adminName
+              );
+            }
+          }
+        }
       },
       error: (error) => {
         console.error('Error approving timesheet:', error);
@@ -136,8 +161,31 @@ export class TimesheetsComponent implements OnInit {
         const currentUser = this.authService.getCurrentUser();
         const adminName = currentUser?.name || 'Admin';
         
-        // Email notification would be sent by the backend
-        const weekEnding = updatedTimesheet.weekEnding || 'Current Week';
+        // Get the timesheet details
+        const timesheet = this.timesheets.find(t => t.id === id);
+        if (timesheet) {
+          // Find the user email from localStorage
+          if (typeof window !== 'undefined' && window.localStorage) {
+            const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
+            const matchingTimesheet = allTimesheets.find((t: any) => t.id === id || t.id === timesheet.id);
+            
+            if (matchingTimesheet && matchingTimesheet.employeeEmail) {
+              // Send email notification to user
+              const userEmail = matchingTimesheet.employeeEmail;
+              const userName = matchingTimesheet.employeeName || 'User';
+              const weekEnding = timesheet.weekEnding || 'Current Week';
+              
+              // Send email notification to user
+              this.emailService.sendTimesheetApprovalEmail(
+                userEmail,
+                userName,
+                weekEnding,
+                false, // rejected
+                adminName
+              );
+            }
+          }
+        }
       },
       error: (error) => {
         console.error('Error rejecting timesheet:', error);

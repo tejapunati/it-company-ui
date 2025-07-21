@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/database.models';
 import { EmailService, EmailTemplate } from '../../services/email.service';
+import { TimesheetService } from '../../services/timesheet.service';
 
 interface UserTimesheet {
   id?: number;
@@ -116,7 +117,8 @@ export class UserDashboardComponent implements OnInit {
   
   constructor(
     private authService: AuthService, 
-    private emailService: EmailService
+    private emailService: EmailService,
+    private timesheetService: TimesheetService
   ) {}
   
   ngOnInit() {
@@ -224,67 +226,98 @@ export class UserDashboardComponent implements OnInit {
     const submittedTimesheet = {
       ...this.newTimesheet,
       employeeName: userName,
-      employeeEmail: userEmail
+      employeeEmail: userEmail,
+      userId: this.currentUser?.id // Add userId for backend
     };
     
     // Log the user info for debugging
     console.log('Current user submitting timesheet:', this.currentUser);
     console.log('Submitted timesheet with employee name:', submittedTimesheet.employeeName);
     
-    this.myTimesheets.unshift(submittedTimesheet);
-    
-    // Store in localStorage for admin to see
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
-      allTimesheets.unshift(submittedTimesheet);
-      localStorage.setItem('allTimesheets', JSON.stringify(allTimesheets));
-    }
-    
-    // Reset form
-    this.newTimesheet = {
-      weekEnding: '',
-      hours: {},
-      totalHours: 0,
-      comments: '',
-      status: 'pending',
-      submittedDate: ''
+    // Create a timesheet object for the backend API
+    const backendTimesheet = {
+      userId: this.currentUser?.id,
+      weekEnding: submittedTimesheet.weekEnding,
+      hours: submittedTimesheet.hours,
+      totalHours: submittedTimesheet.totalHours,
+      comments: submittedTimesheet.comments,
+      status: 'PENDING' // Backend expects uppercase status
     };
     
-    this.weekDays.forEach(day => {
-      this.newTimesheet.hours[day] = 0;
+    // Send timesheet to backend API
+    console.log('Sending timesheet to backend:', backendTimesheet);
+    
+    // Call the API to create a timesheet
+    this.timesheetService.createTimesheet(backendTimesheet).subscribe({
+      next: (response) => {
+        console.log('Timesheet created successfully:', response);
+        
+        // Add the timesheet to the local list with the ID from the backend
+        const timesheetWithId = {
+          ...submittedTimesheet,
+          id: response.id // Use the ID from the backend
+        };
+        
+        this.myTimesheets.unshift(timesheetWithId);
+        
+        // Store in localStorage for admin to see
+        if (typeof window !== 'undefined' && window.localStorage) {
+          const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
+          allTimesheets.unshift(timesheetWithId);
+          localStorage.setItem('allTimesheets', JSON.stringify(allTimesheets));
+        }
+        
+        // Reset form
+        this.newTimesheet = {
+          weekEnding: '',
+          hours: {},
+          totalHours: 0,
+          comments: '',
+          status: 'pending',
+          submittedDate: ''
+        };
+        
+        this.weekDays.forEach(day => {
+          this.newTimesheet.hours[day] = 0;
+        });
+        
+        this.showTimesheetForm = false;
+        
+        // Send email notification to admin
+        this.emailService.sendTimesheetSubmissionNotification(
+          submittedTimesheet.employeeName,
+          submittedTimesheet.employeeEmail,
+          submittedTimesheet.weekEnding,
+          submittedTimesheet.totalHours
+        );
+        
+        // Add notification
+        this.notifications.unshift({
+          id: this.notifications.length + 1,
+          title: 'Timesheet Submitted',
+          message: 'Your timesheet has been submitted for approval',
+          time: 'Just now',
+          icon: '📋',
+          read: false
+        });
+        
+        // Add to recent activities
+        this.addActivity({
+          id: Date.now(),
+          type: 'timesheet_submitted',
+          description: `You submitted a timesheet for week ending ${submittedTimesheet.weekEnding} with ${submittedTimesheet.totalHours} hours`,
+          timestamp: new Date(),
+          icon: '📋'
+        });
+        
+        // Recalculate stats
+        this.calculateUserStats();
+      },
+      error: (error) => {
+        console.error('Error creating timesheet:', error);
+        alert('Failed to submit timesheet. Please try again.');
+      }
     });
-    
-    this.showTimesheetForm = false;
-    
-    // Send email notification to admin
-    this.emailService.sendTimesheetSubmissionNotification(
-      submittedTimesheet.employeeName,
-      submittedTimesheet.employeeEmail,
-      this.newTimesheet.weekEnding,
-      this.getTotalHours()
-    );
-    
-    // Add notification
-    this.notifications.unshift({
-      id: this.notifications.length + 1,
-      title: 'Timesheet Submitted',
-      message: 'Your timesheet has been submitted for approval',
-      time: 'Just now',
-      icon: '📋',
-      read: false
-    });
-    
-    // Add to recent activities
-    this.addActivity({
-      id: Date.now(),
-      type: 'timesheet_submitted',
-      description: `You submitted a timesheet for week ending ${submittedTimesheet.weekEnding} with ${submittedTimesheet.totalHours} hours`,
-      timestamp: new Date(),
-      icon: '📋'
-    });
-    
-    // Recalculate stats
-    this.calculateUserStats();
   }
   
   viewTimesheet(timesheet: UserTimesheet) {
