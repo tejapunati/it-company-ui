@@ -11,22 +11,22 @@ export class MockApiService {
     return of([
       {
         title: 'IT Staffing',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 4h4v2h-4V4zm10 16H4V8h16v12z"/><path fill="currentColor" d="M13 10h-2v3H8v2h3v3h2v-3h3v-2h-3z"/></svg>',
+        icon: '<i class="fas fa-users"></i>',
         description: 'Connect with top tech talent across all technology domains to power your digital innovation.'
       },
       {
         title: 'Software Development',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>',
+        icon: '<i class="fas fa-code"></i>',
         description: 'Custom software solutions designed to meet your specific business requirements and challenges.'
       },
       {
         title: 'Cloud Services',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>',
+        icon: '<i class="fas fa-cloud"></i>',
         description: 'Comprehensive cloud solutions for scalable, secure, and resilient infrastructure.'
       },
       {
         title: 'IT Consulting',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path fill="currentColor" d="M7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>',
+        icon: '<i class="fas fa-chart-line"></i>',
         description: 'Strategic technology guidance to optimize your IT infrastructure and drive business growth.'
       }
     ]);
@@ -37,17 +37,17 @@ export class MockApiService {
     return of([
       {
         name: 'Web Development',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>',
+        icon: '<i class="fas fa-laptop-code"></i>',
         tags: ['React', 'Angular', 'Node.js', 'Vue', 'Next.js']
       },
       {
         name: 'Cloud Computing',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>',
+        icon: '<i class="fas fa-cloud"></i>',
         tags: ['AWS', 'Azure', 'GCP', 'Kubernetes', 'Docker']
       },
       {
         name: 'Data Science',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>',
+        icon: '<i class="fas fa-chart-bar"></i>',
         tags: ['Python', 'TensorFlow', 'PyTorch', 'Big Data', 'ML']
       }
     ]);
@@ -58,19 +58,19 @@ export class MockApiService {
     return of([
       {
         name: 'Information Technology',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>'
+        icon: '<i class="fas fa-desktop"></i>'
       },
       {
         name: 'Finance & Banking',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/></svg>'
+        icon: '<i class="fas fa-landmark"></i>'
       },
       {
         name: 'Healthcare',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>'
+        icon: '<i class="fas fa-hospital"></i>'
       },
       {
         name: 'Manufacturing',
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>'
+        icon: '<i class="fas fa-industry"></i>'
       }
     ]);
   }

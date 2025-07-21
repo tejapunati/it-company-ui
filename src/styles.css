@@ -30,6 +30,18 @@ body {
   box-sizing: border-box;
 }
 
+/* Global SVG fixes */
+svg {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+svg path {
+  fill: currentColor !important;
+  visibility: visible !important;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
