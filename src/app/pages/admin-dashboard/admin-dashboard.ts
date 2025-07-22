@@ -5,11 +5,12 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { ActivityService, Activity } from '../../services/activity.service';
 import { environment } from '../../../environments/environment';
+import { EmailWidgetComponent } from '../../components/email-widget/email-widget.component';
 
 @Component({
   standalone: true,
   selector: 'app-admin-dashboard',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, EmailWidgetComponent],
   templateUrl: './admin-dashboard.html',
   styleUrls: ['./admin-dashboard.css']
 })

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmailService, EmailTemplate } from '../../services/email.service';
+import { EmailApiService } from '../../services/email-api.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -12,9 +13,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class EmailLogsComponent implements OnInit {
   emailLogs: EmailTemplate[] = [];
-  private emailsLoaded = false;
+  emailsLoaded = false;
 
-  constructor(private emailService: EmailService, private authService: AuthService) {}
+  constructor(
+    private emailService: EmailService, 
+    private emailApiService: EmailApiService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.loadEmailLogs();
@@ -35,69 +40,121 @@ export class EmailLogsComponent implements OnInit {
   loadEmailsFromServer(email: string) {
     console.log('Loading email logs for user:', email);
     
-    // Use the direct access endpoint
-    const apiUrl = 'http://localhost:8081/api/v1';
-    const directUrl = `${apiUrl}/direct-emails/${email}`;
-    
-    // Call direct endpoint to get emails
-    fetch(directUrl)
-      .then(response => {
-        console.log('Direct endpoint response status:', response.status);
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
+    // Try both endpoints to ensure we get emails
+    this.emailApiService.getDirectEmailLogs(email).subscribe({
+      next: (data) => {
         console.log('Email logs from direct endpoint:', data);
         
-        // Process user email logs
-        const userLogs = data.userEmailLogs || [];
-        const userEmailLogs = userLogs.map((log: any) => ({
-          to: log.toEmail,
-          subject: log.subject,
-          body: log.body,
-          type: this.mapEmailType(log.type),
-          timestamp: new Date(log.sentDate).getTime()
+        if (!data || (!data.userEmailLogs && !data.adminEmailLogs && !data.parentAdminEmailLogs)) {
+          console.log('No data from direct endpoint, trying standard endpoint');
+          this.tryStandardEndpoint(email);
+          return;
+        }
+        
+        this.processEmailData(data);
+      },
+      error: (error) => {
+        console.error('Error fetching email logs from direct endpoint:', error);
+        // Try the standard endpoint as fallback
+        this.tryStandardEndpoint(email);
+      }
+    });
+  }
+  
+  tryStandardEndpoint(email: string) {
+    this.emailApiService.getEmailLogs(email).subscribe({
+      next: (data) => {
+        console.log('Email logs from standard endpoint:', data);
+        this.processEmailData(data);
+      },
+      error: (error) => {
+        console.error('Error fetching email logs from standard endpoint:', error);
+        // Use sample data as last resort
+        this.useSampleData(email);
+      }
+    });
+  }
+  
+  processEmailData(data: any) {
+    try {
+      // Check if data is an array (direct API response format)
+      if (Array.isArray(data)) {
+        console.log('Processing array data format');
+        // Map the array format to our internal format with proper type casting
+        const emailLogs = data.map((log: any) => ({
+          to: log.toEmail || 'unknown',
+          subject: log.subject || 'No Subject',
+          body: log.body || 'No Content',
+          type: this.mapEmailType(log.type), // Return type is now properly typed
+          timestamp: log.sentDate ? new Date(log.sentDate).getTime() : Date.now()
         }));
         
-        // Process admin email logs if user is an admin
-        const adminLogs = data.adminEmailLogs || [];
-        const adminEmailLogs = adminLogs.map((log: any) => ({
-          to: log.toEmail,
-          subject: log.subject,
-          body: log.body,
-          type: this.mapEmailType(log.type),
-          timestamp: new Date(log.sentDate).getTime()
-        }));
-        
-        // Process parent admin email logs if user is a parent admin
-        const parentAdminLogs = data.parentAdminEmailLogs || [];
-        const parentAdminEmailLogs = parentAdminLogs.map((log: any) => ({
-          to: log.toEmail,
-          subject: log.subject,
-          body: log.body,
-          type: this.mapEmailType(log.type),
-          timestamp: new Date(log.sentDate).getTime()
-        }));
-        
-        // Combine all email logs
-        this.emailLogs = [...userEmailLogs, ...adminEmailLogs, ...parentAdminEmailLogs];
-        
-        // Sort by timestamp (newest first)
+        // Set the emails and sort
+        this.emailLogs = emailLogs as EmailTemplate[];
         this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
-        
-        // Mark emails as loaded
         this.emailsLoaded = true;
-        
-        console.log('Processed email logs:', this.emailLogs);
-      })
-      .catch(error => {
-        console.error('Error fetching email logs:', error);
-        // Set empty array if there's an error
-        this.emailLogs = [];
-        this.emailsLoaded = true;
-      });
+        console.log('Processed array email logs:', this.emailLogs);
+        return;
+      }
+      
+      // Process object format with collections
+      // Process user email logs
+      const userLogs = data.userEmailLogs || [];
+      const userEmailLogs = userLogs.map((log: any) => ({
+        to: log.toEmail || 'unknown',
+        subject: log.subject || 'No Subject',
+        body: log.body || 'No Content',
+        type: this.mapEmailType(log.type),
+        timestamp: log.sentDate ? new Date(log.sentDate).getTime() : Date.now()
+      }));
+      
+      // Process admin email logs if user is an admin
+      const adminLogs = data.adminEmailLogs || [];
+      const adminEmailLogs = adminLogs.map((log: any) => ({
+        to: log.toEmail || 'unknown',
+        subject: log.subject || 'No Subject',
+        body: log.body || 'No Content',
+        type: this.mapEmailType(log.type),
+        timestamp: log.sentDate ? new Date(log.sentDate).getTime() : Date.now()
+      }));
+      
+      // Process parent admin email logs if user is a parent admin
+      const parentAdminLogs = data.parentAdminEmailLogs || [];
+      const parentAdminEmailLogs = parentAdminLogs.map((log: any) => ({
+        to: log.toEmail || 'unknown',
+        subject: log.subject || 'No Subject',
+        body: log.body || 'No Content',
+        type: this.mapEmailType(log.type),
+        timestamp: log.sentDate ? new Date(log.sentDate).getTime() : Date.now()
+      }));
+      
+      // Combine all email logs
+      this.emailLogs = [...userEmailLogs, ...adminEmailLogs, ...parentAdminEmailLogs];
+      
+      // Sort by timestamp (newest first)
+      this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
+      
+      // If no emails were found, use sample data
+      if (this.emailLogs.length === 0) {
+        const currentUser = this.authService.getCurrentUser();
+        if (currentUser) {
+          this.useSampleData(currentUser.email);
+          return;
+        }
+      }
+      
+      // Mark emails as loaded
+      this.emailsLoaded = true;
+      
+      console.log('Processed email logs:', this.emailLogs);
+    } catch (error) {
+      console.error('Error processing email data:', error);
+      // Use sample data as fallback
+      const currentUser = this.authService.getCurrentUser();
+      if (currentUser) {
+        this.useSampleData(currentUser.email);
+      }
+    }
   }
 
   clearLogs() {
@@ -107,10 +164,6 @@ export class EmailLogsComponent implements OnInit {
       console.error('No current user found');
       return;
     }
-    
-    // Clear emails from backend using the direct endpoint
-    const apiUrl = 'http://localhost:8081/api/v1';
-    const clearUrl = `${apiUrl}/clear-emails/${currentUser.email}`;
     
     // First, clear local state immediately to provide instant feedback
     this.emailService.clearEmailQueue();
@@ -123,25 +176,44 @@ export class EmailLogsComponent implements OnInit {
     }
     
     // Then attempt to clear on the server
-    fetch(clearUrl, { 
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
+    this.emailApiService.clearEmailLogs(currentUser.email).subscribe({
+      next: (data) => {
+        console.log('Emails cleared successfully:', data);
+      },
+      error: (error) => {
+        console.error('Error in clear logs process:', error);
+        // We've already cleared the UI, so no additional action needed
       }
-    })
-    .then(response => {
-      console.log('Clear emails response status:', response.status);
-      if (!response.ok) {
-        throw new Error(`Failed to clear emails: ${response.status}`);
+    });
+  }
+
+  // Map backend email type to frontend type
+  mapEmailType(type: string): 'user_approved' | 'user_rejected' | 'timesheet_approved' | 'timesheet_rejected' | 'admin_approved' | 'timesheet_submitted' {
+    switch (type) {
+      case 'TIMESHEET_APPROVED': return 'timesheet_approved';
+      case 'TIMESHEET_REJECTED': return 'timesheet_rejected';
+      case 'TIMESHEET_SUBMITTED': return 'timesheet_submitted';
+      case 'USER_APPROVED': return 'user_approved';
+      case 'USER_REJECTED': return 'user_rejected';
+      case 'ADMIN_NOTIFICATION': return 'admin_approved';
+      case 'PARENT_ADMIN_NOTIFICATION': return 'admin_approved';
+      case 'SAMPLE': return 'timesheet_submitted';
+      default: return 'timesheet_submitted'; // Default to a valid type
+    }
+  }
+  
+  useSampleData(email: string) {
+    console.log('Using sample email data for:', email);
+    this.emailApiService.getSampleEmailLogs(email).subscribe({
+      next: (data) => {
+        console.log('Sample email data:', data);
+        this.processEmailData(data);
+      },
+      error: (error) => {
+        console.error('Error generating sample emails:', error);
+        this.emailLogs = [];
+        this.emailsLoaded = true;
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Emails cleared successfully:', data);
-    })
-    .catch(error => {
-      console.error('Error in clear logs process:', error);
-      // We've already cleared the UI, so no additional action needed
     });
   }
 
@@ -166,21 +238,6 @@ export class EmailLogsComponent implements OnInit {
       case 'timesheet_submitted': return 'Timesheet Submitted';
       case 'admin_approved': return 'Admin Notification';
       default: return 'Email';
-    }
-  }
-  
-  // Map backend email type to frontend type
-  mapEmailType(type: string): string {
-    switch (type) {
-      case 'TIMESHEET_APPROVED': return 'timesheet_approved';
-      case 'TIMESHEET_REJECTED': return 'timesheet_rejected';
-      case 'TIMESHEET_SUBMITTED': return 'timesheet_submitted';
-      case 'USER_APPROVED': return 'user_approved';
-      case 'USER_REJECTED': return 'user_rejected';
-      case 'ADMIN_NOTIFICATION': return 'admin_approved';
-      case 'PARENT_ADMIN_NOTIFICATION': return 'admin_approved';
-      case 'SAMPLE': return 'timesheet_submitted';
-      default: return type.toLowerCase();
     }
   }
 }

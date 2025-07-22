@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/database.models';
 import { EmailService, EmailTemplate } from '../../services/email.service';
 import { TimesheetService } from '../../services/timesheet.service';
+import { EmailWidgetComponent } from '../../components/email-widget/email-widget.component';
 
 interface UserTimesheet {
   id?: number;
@@ -37,7 +38,7 @@ interface Activity {
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterModule, EmailWidgetComponent],
   templateUrl: './user-dashboard.html',
   styleUrls: ['./user-dashboard.css']
 })
@@ -437,43 +438,11 @@ export class UserDashboardComponent implements OnInit {
     }
   }
 
-  // Load email logs
+  // Load email logs - now handled by EmailWidgetComponent
   loadEmailLogs() {
-    // Get current user
-    if (!this.currentUser) {
-      return;
-    }
-    
-    // Use the direct access endpoint
-    const apiUrl = 'http://localhost:8081/api/v1';
-    const directUrl = `${apiUrl}/direct-emails/${this.currentUser.email}`;
-    
-    // Call direct endpoint to get emails
-    fetch(directUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        // Process user email logs
-        const userLogs = data.userEmailLogs || [];
-        this.emailLogs = userLogs.map((log: any) => ({
-          to: log.toEmail,
-          subject: log.subject,
-          body: log.body,
-          type: this.mapEmailType(log.type),
-          timestamp: new Date(log.sentDate).getTime()
-        }));
-        
-        // Sort by timestamp (newest first)
-        this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
-      })
-      .catch(error => {
-        console.error('Error fetching email logs:', error);
-        this.emailLogs = [];
-      });
+    // This method is kept for backward compatibility
+    // Email logs are now loaded by the EmailWidgetComponent
+    console.log('Email logs are now handled by EmailWidgetComponent');
   }
   
   // Map backend email type to frontend type

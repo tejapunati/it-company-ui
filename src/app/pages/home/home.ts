@@ -134,7 +134,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     // Load particles.js script dynamically
     this.loadScript('https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js')
       .then(() => {
-        this.initParticles();
+        // Add a small delay to ensure DOM is ready
+        setTimeout(() => {
+          this.initParticles();
+        }, 100);
       })
       .catch(error => console.error('Error loading particles.js', error));
       
@@ -170,8 +173,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   // Handle window resize events
   handleResize() {
     // Reinitialize particles on resize for better responsiveness
+    // Only attempt to reinitialize if both particlesJS is defined and the element exists
     if (typeof particlesJS !== 'undefined') {
-      this.initParticles();
+      const particlesElement = document.getElementById('particles-js');
+      if (particlesElement) {
+        this.initParticles();
+      }
     }
   }
   
@@ -197,7 +204,20 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   
   // Initialize particles.js
   initParticles() {
-    if (typeof particlesJS !== 'undefined') {
+    // First check if particlesJS is defined
+    if (typeof particlesJS === 'undefined') {
+      console.warn('particlesJS is not defined, skipping initialization');
+      return;
+    }
+    
+    // Then check if the particles-js element exists before initializing
+    const particlesElement = document.getElementById('particles-js');
+    if (!particlesElement) {
+      console.warn('particles-js element not found, skipping initialization');
+      return;
+    }
+    
+    try {
       particlesJS('particles-js', {
         particles: {
           number: {
@@ -306,6 +326,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         ]
       });
+    } catch (error) {
+      console.error('Error initializing particles.js:', error);
     }
   }
   
@@ -324,71 +346,101 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       
       if (isVisible) {
         console.log('Stats section is visible, starting animation');
-        this.animateStatCounters();
-        // Remove event listener after animation starts
-        window.removeEventListener('scroll', this.handleScroll.bind(this));
+        try {
+          this.animateStatCounters();
+          // Remove event listener after animation starts
+          window.removeEventListener('scroll', this.handleScroll.bind(this));
+        } catch (error) {
+          console.error('Error animating stat counters:', error);
+        }
       }
     }
   }
   
   // Initialize stat counters
   initStatCounters() {
-    const statNumbers = document.querySelectorAll('.stat-number');
-    statNumbers.forEach(stat => {
-      (stat as HTMLElement).textContent = '0';
-      (stat as HTMLElement).dataset['animated'] = 'false';
-    });
+    try {
+      const statNumbers = document.querySelectorAll('.stat-number');
+      if (statNumbers && statNumbers.length > 0) {
+        statNumbers.forEach(stat => {
+          if (stat) {
+            (stat as HTMLElement).textContent = '0';
+            (stat as HTMLElement).dataset['animated'] = 'false';
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error initializing stat counters:', error);
+    }
   }
   
   // Animate stat counters
   animateStatCounters() {
-    const statNumbers = document.querySelectorAll('.stat-number');
-    statNumbers.forEach(stat => {
-      // Skip if this counter has already been animated
-      if ((stat as HTMLElement).dataset['animated'] === 'true') return;
+    try {
+      const statNumbers = document.querySelectorAll('.stat-number');
+      if (!statNumbers || statNumbers.length === 0) {
+        console.warn('No stat numbers found to animate');
+        return;
+      }
       
-      const target = (stat as HTMLElement).getAttribute('data-target') || '0';
-      const numTarget = parseInt(target.replace(/\D/g, ''), 10);
-      const duration = 2000; // 2 seconds
-      const step = numTarget / (duration / 16); // 60fps
-      let current = 0;
+      statNumbers.forEach(stat => {
+        if (!stat) return;
+        
+        // Skip if this counter has already been animated
+        if ((stat as HTMLElement).dataset['animated'] === 'true') return;
+        
+        const target = (stat as HTMLElement).getAttribute('data-target') || '0';
+        const numTarget = parseInt(target.replace(/\D/g, ''), 10) || 0;
+        const duration = 2000; // 2 seconds
+        const step = numTarget / (duration / 16); // 60fps
+        let current = 0;
+        
+        // Mark as being animated
+        (stat as HTMLElement).dataset['animated'] = 'true';
+        
+        const updateCounter = () => {
+          current += step;
+          if (current < numTarget) {
+            (stat as HTMLElement).textContent = Math.floor(current) + (target.includes('+') ? '+' : target.includes('%') ? '%' : '');
+            requestAnimationFrame(updateCounter);
+          } else {
+            (stat as HTMLElement).textContent = target;
+          }
+        };
+        
+        // Start the animation
+        updateCounter();
+      });
       
-      // Mark as being animated
-      (stat as HTMLElement).dataset['animated'] = 'true';
-      
-      const updateCounter = () => {
-        current += step;
-        if (current < numTarget) {
-          (stat as HTMLElement).textContent = Math.floor(current) + (target.includes('+') ? '+' : target.includes('%') ? '%' : '');
-          requestAnimationFrame(updateCounter);
-        } else {
-          (stat as HTMLElement).textContent = target;
-        }
-      };
-      
-      // Start the animation
-      updateCounter();
-    });
-    
-    // Force animation to start immediately
-    this.statsAnimated = true;
+      // Force animation to start immediately
+      this.statsAnimated = true;
+    } catch (error) {
+      console.error('Error animating stat counters:', error);
+    }
   }
   
   // Testimonial slider methods
   startTestimonialSlider() {
-    this.testimonialInterval = setInterval(() => {
-      this.currentTestimonial = (this.currentTestimonial + 1) % this.testimonials.length;
-    }, 7000);
+    // Only start the slider if we have testimonials
+    if (this.testimonials && this.testimonials.length > 0) {
+      this.testimonialInterval = setInterval(() => {
+        this.currentTestimonial = (this.currentTestimonial + 1) % this.testimonials.length;
+      }, 7000);
+    }
   }
   
   stopTestimonialSlider() {
-    clearInterval(this.testimonialInterval);
+    if (this.testimonialInterval) {
+      clearInterval(this.testimonialInterval);
+    }
   }
   
   setTestimonial(index: number) {
-    this.currentTestimonial = index;
-    this.stopTestimonialSlider();
-    this.startTestimonialSlider();
+    if (this.testimonials && this.testimonials.length > 0) {
+      this.currentTestimonial = index;
+      this.stopTestimonialSlider();
+      this.startTestimonialSlider();
+    }
   }
   
   // Load data from backend

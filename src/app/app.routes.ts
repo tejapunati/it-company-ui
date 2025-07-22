@@ -22,6 +22,7 @@ import { EmailLogsComponent } from './pages/email-logs/email-logs';
 import { ConnectionTestComponent } from './components/connection-test';
 import { BackendStatusComponent } from './components/backend-status/backend-status.component';
 import { ConnectionTestPageComponent } from './pages/connection-test-page/connection-test-page.component';
+import { EmailDebugComponent } from './components/email-debug/email-debug.component';
 import { AuthGuard, AdminGuard, ParentAdminGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -46,6 +47,7 @@ export const routes: Routes = [
   { path: 'test-connection', component: ConnectionTestComponent },
   { path: 'backend-status', component: BackendStatusComponent },
   { path: 'connection-test', component: ConnectionTestPageComponent },
+  { path: 'email-debug', component: EmailDebugComponent },
   { path: '**', redirectTo: '' }
 ];
 

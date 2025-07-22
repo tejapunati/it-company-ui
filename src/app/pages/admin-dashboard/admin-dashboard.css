@@ -145,7 +145,8 @@
 }
 
 .recent-activities,
-.quick-actions {
+.quick-actions,
+.recent-emails {
   background: white;
   padding: 1.8rem;
   border-radius: 16px;

@@ -252,6 +252,17 @@
   font-weight: 600;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   font-family: 'Montserrat', sans-serif;
+  letter-s:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --secondary: #8b5cf6;
+  --accent: #10b981;
+  --white: #ffffff;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+}
+}
+.hero-tagline {
   letter-spacing: 0.5px;
   animation: fadeInUp 0.8s ease-out forwards;
   animation-delay: 0.3s;
@@ -462,7 +473,9 @@
   gap: 2rem;
   position: relative;
   z-index: 1;
-}id {
+}
+
+.services-grid {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
