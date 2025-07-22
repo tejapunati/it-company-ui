@@ -346,7 +346,7 @@
   border: 1px solid #f0f0f0;
 }
 
-.my-timesheets h2, .notifications-section h2 {
+.my-timesheets h2 {
   padding: 1.5rem;
   margin: 0;
   background: #f8f9fa;

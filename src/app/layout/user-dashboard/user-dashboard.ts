@@ -439,51 +439,56 @@ export class UserDashboardComponent implements OnInit {
 
   // Load email logs
   loadEmailLogs() {
-    // Get all emails
-    const allEmails = this.emailService.getEmailQueue();
-    
-    // Filter emails for current user
-    if (this.currentUser?.email) {
-      this.emailLogs = allEmails.filter(email => 
-        email.to === this.currentUser?.email || 
-        // Include timesheet approval emails
-        (email.type === 'timesheet_approved' || email.type === 'timesheet_rejected')
-      );
-    } else {
-      this.emailLogs = allEmails;
+    // Get current user
+    if (!this.currentUser) {
+      return;
     }
     
-    // If no emails found in the queue, check localStorage for timesheet approvals
-    if (this.emailLogs.length === 0 && typeof window !== 'undefined' && window.localStorage) {
-      const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
-      const userEmail = this.currentUser?.email;
-      
-      if (userEmail) {
-        // Find approved/rejected timesheets for current user
-        const userTimesheets = allTimesheets.filter((t: any) => 
-          t.employeeEmail === userEmail && 
-          (t.status === 'approved' || t.status === 'rejected') &&
-          t.statusUpdatedBy
-        );
+    // Use the direct access endpoint
+    const apiUrl = 'http://localhost:8081/api/v1';
+    const directUrl = `${apiUrl}/direct-emails/${this.currentUser.email}`;
+    
+    // Call direct endpoint to get emails
+    fetch(directUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Process user email logs
+        const userLogs = data.userEmailLogs || [];
+        this.emailLogs = userLogs.map((log: any) => ({
+          to: log.toEmail,
+          subject: log.subject,
+          body: log.body,
+          type: this.mapEmailType(log.type),
+          timestamp: new Date(log.sentDate).getTime()
+        }));
         
-        // Create email logs for these timesheets
-        userTimesheets.forEach((timesheet: any) => {
-          const isApproved = timesheet.status === 'approved';
-          const email: EmailTemplate = {
-            to: userEmail,
-            subject: `Timesheet ${isApproved ? 'Approved' : 'Rejected'} - Week ending ${timesheet.weekEnding}`,
-            body: `Your timesheet for week ending ${timesheet.weekEnding} has been ${timesheet.status} by ${timesheet.statusUpdatedBy}.`,
-            type: isApproved ? 'timesheet_approved' : 'timesheet_rejected',
-            timestamp: new Date(timesheet.statusUpdatedAt || Date.now()).getTime()
-          };
-          
-          this.emailLogs.push(email);
-        });
-      }
+        // Sort by timestamp (newest first)
+        this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
+      })
+      .catch(error => {
+        console.error('Error fetching email logs:', error);
+        this.emailLogs = [];
+      });
+  }
+  
+  // Map backend email type to frontend type
+  mapEmailType(type: string): string {
+    switch (type) {
+      case 'TIMESHEET_APPROVED': return 'timesheet_approved';
+      case 'TIMESHEET_REJECTED': return 'timesheet_rejected';
+      case 'TIMESHEET_SUBMITTED': return 'timesheet_submitted';
+      case 'USER_APPROVED': return 'user_approved';
+      case 'USER_REJECTED': return 'user_rejected';
+      case 'ADMIN_NOTIFICATION': return 'admin_approved';
+      case 'PARENT_ADMIN_NOTIFICATION': return 'admin_approved';
+      case 'SAMPLE': return 'timesheet_submitted';
+      default: return type.toLowerCase();
     }
-    
-    // Sort emails by timestamp (newest first)
-    this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
   }
 
   // Format timestamp for display
@@ -503,6 +508,32 @@ export class UserDashboardComponent implements OnInit {
       return `${days} day${days !== 1 ? 's' : ''} ago`;
     }
   }
-
-  // Email logs are accessed via RouterLink in the template
+  
+  // Clear all activities
+  clearActivities() {
+    this.recentActivities = [];
+    
+    // Clear activities from localStorage for current user
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedActivities = JSON.parse(localStorage.getItem('userActivities') || '[]');
+      
+      // Filter out activities for current user
+      const filteredActivities = storedActivities.filter((a: any) => 
+        a.userId !== this.currentUser?.id
+      );
+      
+      localStorage.setItem('userActivities', JSON.stringify(filteredActivities));
+    }
+  }
+  
+  // Clear all notifications
+  clearNotifications() {
+    this.notifications = [];
+    this.unreadNotifications = 0;
+    
+    // Clear notifications from localStorage for current user
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('userNotifications');
+    }
+  }
 }

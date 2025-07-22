@@ -62,7 +62,10 @@
 
   <!-- Recent Activities -->
   <div class="recent-activities-section">
-    <h2>Recent Activities</h2>
+    <div class="section-header-with-action">
+      <h2>Recent Activities</h2>
+      <button class="clear-btn" (click)="clearActivities()" *ngIf="recentActivities.length > 0">Clear All</button>
+    </div>
     <div class="activity-list">
       <div class="activity-item" *ngFor="let activity of recentActivities">
         <div class="activity-icon">{{ activity.icon }}</div>
@@ -134,7 +137,10 @@
 
   <!-- Notifications -->
   <div class="notifications-section">
-    <h2>Recent Notifications</h2>
+    <div class="section-header-with-action">
+      <h2>Recent Notifications</h2>
+      <button class="clear-btn" (click)="clearNotifications()" *ngIf="notifications.length > 0">Clear All</button>
+    </div>
     <div class="notification-list">
       <div class="notification-item" *ngFor="let notification of notifications" [class.unread]="!notification.read">
         <div class="notification-icon">{{ notification.icon }}</div>

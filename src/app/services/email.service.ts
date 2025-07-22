@@ -200,17 +200,18 @@ export class EmailService {
     
     if (currentUser) {
       if (currentUser.role === 'ADMIN') {
-        // Regular admin should not see parent admin approval emails
+        // Regular admin should see admin emails and timesheet submissions
         filteredEmails = filteredEmails.filter(email => 
-          email.type !== 'admin_approved' || 
-          !email.subject.includes('Parent Admin')
+          email.to === currentUser.email || 
+          email.to === 'admin@ssrmtech.com' || 
+          email.type === 'timesheet_submitted'
         );
       } else if (currentUser.role === 'PARENT_ADMIN') {
-        // Parent admin should not see regular admin timesheet approval emails
+        // Parent admin should see parent admin emails and admin approvals
         filteredEmails = filteredEmails.filter(email => 
-          email.type !== 'timesheet_approved' && 
-          email.type !== 'timesheet_rejected' && 
-          email.type !== 'timesheet_submitted'
+          email.to === currentUser.email || 
+          email.to === 'parentadmin@ssrmtech.com' || 
+          email.type === 'admin_approved'
         );
       } else if (currentUser.role === 'USER') {
         // Users should only see their own emails
