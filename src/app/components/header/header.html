@@ -1,13 +1,20 @@
 <header class="site-header">
+  <div class="tech-particles"></div>
   <div class="container">
     <div class="header-content">
       <!-- Logo -->
       <div class="logo">
         <a routerLink="/">
-          <span class="logo-icon">SSRM</span>
-          <span class="logo-text">Tech Solution</span>
+          <div class="logo-container">
+            <div class="logo-icon">SSRM</div>
+          </div>
+          <div class="logo-text-container">
+            <span class="logo-text">Tech Solution</span>
+            <span class="tagline">Innovating Tomorrow's Technology</span>
+          </div>
         </a>
       </div>
+
       
       <!-- Navigation -->
       <nav class="main-nav" [class.active]="isMenuOpen">
@@ -18,12 +25,13 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
+   
         <ul class="nav-list">
-          <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-          <li><a routerLink="/aboutus" routerLinkActive="active">About</a></li>
-          <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
-          <li><a routerLink="/careers" routerLinkActive="active">Careers</a></li>
-          <li><a routerLink="/contactus" routerLinkActive="active">Contact</a></li>
+          <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><i class="nav-icon home-icon"></i>Home</a></li>
+          <li><a routerLink="/aboutus" routerLinkActive="active"><i class="nav-icon about-icon"></i>About</a></li>
+          <li><a routerLink="/services" routerLinkActive="active"><i class="nav-icon services-icon"></i>Services</a></li>
+          <li><a routerLink="/careers" routerLinkActive="active"><i class="nav-icon careers-icon"></i>Careers</a></li>
+          <li><a routerLink="/contactus" routerLinkActive="active"><i class="nav-icon contact-icon"></i>Contact</a></li>
           
           <!-- Admin Links -->
           <li *ngIf="isAdmin()">
@@ -37,13 +45,13 @@
           
           <!-- Auth Links -->
           <li *ngIf="!isLoggedIn()" class="auth-link">
-            <a routerLink="/login" class="btn btn-outline">Login</a>
+            <a routerLink="/login" class="btn btn-outline"><i class="auth-icon login-icon"></i>Login</a>
           </li>
           <li *ngIf="!isLoggedIn()" class="auth-link">
-            <a routerLink="/register" class="btn btn-primary">Register</a>
+            <a routerLink="/register" class="btn btn-primary"><i class="auth-icon register-icon"></i>Register</a>
           </li>
           <li *ngIf="isLoggedIn()" class="auth-link">
-            <a (click)="logout()" class="btn btn-outline">Logout</a>
+            <a (click)="logout()" class="btn btn-outline"><i class="auth-icon logout-icon"></i>Logout</a>
           </li>
         </ul>
       </nav>
