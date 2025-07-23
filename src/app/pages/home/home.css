@@ -532,7 +532,7 @@
   color: var(--primary);
   margin-bottom: 1.5rem;
   font-size: 2.5rem;
-  background: rgba(79, 70, 229, 0.1);
+  background: rgba(70, 147, 229, 0.1);
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -598,7 +598,7 @@
 /* Stats Section */
 .stats {
   padding: 5rem 4rem;
-  background: linear-gradient(135deg, #e3e3e4, #a58bb9ec);
+  background: linear-gradient(135deg, #e3e3e4, #1c8fd6ec);
   position: relative;
 }
 
@@ -842,7 +842,7 @@
   color: var(--primary);
   margin-bottom: 1.5rem;
   font-size: 2.5rem;
-  background: rgba(79, 70, 229, 0.08);
+  background: rgba(70, 144, 229, 0.08);
   width: 80px;
   height: 80px;
   border-radius: 16px;
@@ -873,7 +873,7 @@
 }
 
 .tech-tags span {
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(139, 92, 246, 0.1));
+  background: linear-gradient(135deg, rgba(26, 104, 172, 0.1), rgba(16, 119, 221, 0.1));
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.85rem;

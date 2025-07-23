@@ -126,6 +126,7 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 180px;
+  
 }
 
 .logo-text {
@@ -133,7 +134,6 @@ body {
   font-weight: 700;
   position: relative;
   transition: all 0.3s ease;
-  
   letter-spacing: 0.5px;
 }
 
@@ -148,8 +148,8 @@ body {
 .logo-text::after {
   content: '_';
   position: absolute;
-  right: -12px;
-  color: #00d2ff;
+  right: 45px;
+  color: #070707;
   animation: blink 1s infinite;
   text-shadow: 0 0 5px rgba(0, 210, 255, 0.5);
 }
@@ -341,7 +341,7 @@ body {
 
 .nav-list li a:hover,
 .nav-list li a.active {
-  color: #00d2ff;
+  color: white;
   text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
 }
 
@@ -512,7 +512,7 @@ body {
     width: 80%;
     max-width: 400px;
     height: 100vh;
-    background: rgba(120, 124, 126, 0.95);
+    background: linear-gradient(to left, #4780a9, #0f6386);
     box-shadow: -5px 0 15px rgba(0, 100, 255, 0.2);
     transition: right 0.3s ease;
     z-index: 1000;
