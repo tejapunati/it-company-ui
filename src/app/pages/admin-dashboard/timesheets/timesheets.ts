@@ -77,7 +77,7 @@ export class TimesheetsComponent implements OnInit {
 
   updateUniqueUsers() {
     this.uniqueUsers = Array.from(new Set(this.timesheets.map(ts => 
-      ts.userId ? `User ${ts.userId}` : 'Unknown User'
+      this.getEmployeeName(ts)
     )));
   }
 
@@ -86,7 +86,7 @@ export class TimesheetsComponent implements OnInit {
       this.filteredTimesheets = this.timesheets;
     } else {
       this.filteredTimesheets = this.timesheets.filter(ts => 
-        `User ${ts.userId}` === this.selectedUser
+        this.getEmployeeName(ts) === this.selectedUser
       );
     }
   }
@@ -194,8 +194,13 @@ export class TimesheetsComponent implements OnInit {
   }
   
   // Helper methods for template
-  getEmployeeName(timesheet: Timesheet): string {
-    return `User ${timesheet.userId}`;
+  getEmployeeName(timesheet: any): string {
+    // Check if timesheet has userName property (from TimesheetWithUserDTO)
+    if (timesheet.userName) {
+      return timesheet.userName;
+    }
+    // Fallback to userId if userName is not available
+    return timesheet.userId ? `User ${timesheet.userId}` : 'Unknown User';
   }
   
   getWeekEnding(timesheet: Timesheet): string {

@@ -40,39 +40,66 @@ export class EmailLogsComponent implements OnInit {
   loadEmailsFromServer(email: string) {
     console.log('Loading email logs for user:', email);
     
-    // Try both endpoints to ensure we get emails
-    this.emailApiService.getDirectEmailLogs(email).subscribe({
-      next: (data) => {
-        console.log('Email logs from direct endpoint:', data);
-        
-        if (!data || (!data.userEmailLogs && !data.adminEmailLogs && !data.parentAdminEmailLogs)) {
-          console.log('No data from direct endpoint, trying standard endpoint');
-          this.tryStandardEndpoint(email);
-          return;
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser) {
+      console.error('No current user found');
+      return;
+    }
+    
+    // Use role-specific API calls
+    if (currentUser.role === 'PARENT_ADMIN') {
+      this.emailApiService.getParentAdminEmails(email).subscribe({
+        next: (data) => {
+          console.log('Parent admin email logs:', data);
+          this.processEmailArray(data);
+        },
+        error: (error) => {
+          console.error('Error fetching parent admin emails:', error);
+          this.emailLogs = [];
+          this.emailsLoaded = true;
         }
-        
-        this.processEmailData(data);
-      },
-      error: (error) => {
-        console.error('Error fetching email logs from direct endpoint:', error);
-        // Try the standard endpoint as fallback
-        this.tryStandardEndpoint(email);
-      }
-    });
+      });
+    } else if (currentUser.role === 'ADMIN') {
+      this.emailApiService.getAdminEmails(email).subscribe({
+        next: (data) => {
+          console.log('Admin email logs:', data);
+          this.processEmailArray(data);
+        },
+        error: (error) => {
+          console.error('Error fetching admin emails:', error);
+          this.emailLogs = [];
+          this.emailsLoaded = true;
+        }
+      });
+    } else {
+      this.emailApiService.getUserEmails(email).subscribe({
+        next: (data) => {
+          console.log('User email logs:', data);
+          this.processEmailArray(data);
+        },
+        error: (error) => {
+          console.error('Error fetching user emails:', error);
+          this.emailLogs = [];
+          this.emailsLoaded = true;
+        }
+      });
+    }
   }
   
-  tryStandardEndpoint(email: string) {
-    this.emailApiService.getEmailLogs(email).subscribe({
-      next: (data) => {
-        console.log('Email logs from standard endpoint:', data);
-        this.processEmailData(data);
-      },
-      error: (error) => {
-        console.error('Error fetching email logs from standard endpoint:', error);
-        // Use sample data as last resort
-        this.useSampleData(email);
-      }
-    });
+  processEmailArray(data: any[]) {
+    console.log('Processing email array:', data);
+    const emailLogs = data.map((log: any) => ({
+      to: log.toEmail || 'unknown',
+      subject: log.subject || 'No Subject',
+      body: log.body || 'No Content',
+      type: this.mapEmailType(log.type),
+      timestamp: log.sentDate ? new Date(log.sentDate).getTime() : Date.now()
+    }));
+    
+    this.emailLogs = emailLogs;
+    this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
+    this.emailsLoaded = true;
+    console.log('Processed email logs:', this.emailLogs);
   }
   
   processEmailData(data: any) {
@@ -134,14 +161,8 @@ export class EmailLogsComponent implements OnInit {
       // Sort by timestamp (newest first)
       this.emailLogs.sort((a, b) => b.timestamp - a.timestamp);
       
-      // If no emails were found, use sample data
-      if (this.emailLogs.length === 0) {
-        const currentUser = this.authService.getCurrentUser();
-        if (currentUser) {
-          this.useSampleData(currentUser.email);
-          return;
-        }
-      }
+      // Mark emails as loaded even if empty
+      this.emailsLoaded = true;
       
       // Mark emails as loaded
       this.emailsLoaded = true;
@@ -149,11 +170,8 @@ export class EmailLogsComponent implements OnInit {
       console.log('Processed email logs:', this.emailLogs);
     } catch (error) {
       console.error('Error processing email data:', error);
-      // Use sample data as fallback
-      const currentUser = this.authService.getCurrentUser();
-      if (currentUser) {
-        this.useSampleData(currentUser.email);
-      }
+      this.emailLogs = [];
+      this.emailsLoaded = true;
     }
   }
 

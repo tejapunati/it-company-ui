@@ -68,6 +68,45 @@ export class EmailApiService {
   }
   
   /**
+   * Get user emails from user_email_logs collection
+   */
+  getUserEmails(email: string): Observable<any> {
+    const url = `${this.apiUrl}/email-logs/user/${email}`;
+    return this.http.get(url).pipe(
+      catchError(error => {
+        console.error('Error fetching user emails:', error);
+        return of([]);
+      })
+    );
+  }
+  
+  /**
+   * Get admin emails from admin_email_logs collection
+   */
+  getAdminEmails(email: string): Observable<any> {
+    const url = `${this.apiUrl}/email-logs/admin/${email}`;
+    return this.http.get(url).pipe(
+      catchError(error => {
+        console.error('Error fetching admin emails:', error);
+        return of([]);
+      })
+    );
+  }
+  
+  /**
+   * Get parent admin emails from parent_admin_email_logs collection
+   */
+  getParentAdminEmails(email: string): Observable<any> {
+    const url = `${this.apiUrl}/email-logs/parent-admin/${email}`;
+    return this.http.get(url).pipe(
+      catchError(error => {
+        console.error('Error fetching parent admin emails:', error);
+        return of([]);
+      })
+    );
+  }
+
+  /**
    * Get sample email logs for testing when API is not available
    * @param email The email address of the user
    * @returns Observable with sample email logs data

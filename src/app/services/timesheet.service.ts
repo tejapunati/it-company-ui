@@ -6,6 +6,8 @@ import { environment } from '../../environments/environment';
 export interface Timesheet {
   id?: number;
   userId: number;
+  userName?: string;
+  userEmail?: string;
   weekEnding: string;
   status: string;
   totalHours: number;

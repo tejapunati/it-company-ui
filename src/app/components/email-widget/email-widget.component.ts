@@ -168,22 +168,56 @@ export class EmailWidgetComponent implements OnInit {
       return;
     }
     
-    this.emailApiService.getDirectEmailLogs(currentUser.email).subscribe({
-      next: (data) => {
-        console.log('Email widget data:', data);
-        
-        if (!data || (!data.userEmailLogs && !data.adminEmailLogs && !data.parentAdminEmailLogs)) {
-          // Try standard endpoint if direct endpoint returns no data
-          this.tryStandardEndpoint(currentUser.email);
-          return;
-        }
-        
-        this.processEmailData(data);
+    console.log('Loading emails for user:', currentUser);
+    
+    // Use EmailApiService to get emails based on role
+    if (currentUser.role === 'PARENT_ADMIN') {
+      this.loadParentAdminEmails(currentUser.email);
+    } else if (currentUser.role === 'ADMIN') {
+      this.loadAdminEmails(currentUser.email);
+    } else {
+      this.loadUserEmails(currentUser.email);
+    }
+  }
+  
+  loadUserEmails(email: string) {
+    console.log('Loading user emails for:', email);
+    this.emailApiService.getUserEmails(email).subscribe({
+      next: (data: any) => {
+        console.log('User email data received:', data);
+        this.processEmailArray(data);
       },
       error: (error) => {
-        console.error('Error fetching emails for widget:', error);
-        // Try standard endpoint as fallback
-        this.tryStandardEndpoint(currentUser.email);
+        console.error('Error fetching user emails:', error);
+        this.emails = [];
+      }
+    });
+  }
+  
+  loadAdminEmails(email: string) {
+    console.log('Loading admin emails for:', email);
+    this.emailApiService.getAdminEmails(email).subscribe({
+      next: (data: any) => {
+        console.log('Admin email data received:', data);
+        this.processEmailArray(data);
+      },
+      error: (error) => {
+        console.error('Error fetching admin emails:', error);
+        this.emails = [];
+      }
+    });
+  }
+  
+  loadParentAdminEmails(email: string) {
+    console.log('Loading parent admin emails for:', email);
+    this.emailApiService.getParentAdminEmails(email).subscribe({
+      next: (data: any) => {
+        console.log('Parent admin email data received:', data);
+        this.processEmailArray(data);
+      },
+      error: (error) => {
+        console.error('Error fetching parent admin emails:', error);
+        this.emails = [];
       }
     });
   }
@@ -216,31 +250,26 @@ export class EmailWidgetComponent implements OnInit {
     });
   }
   
+  processEmailArray(data: any[]) {
+    console.log('Processing email array:', data);
+    const emailLogs = data.map((log: any) => ({
+      to: log.toEmail || 'unknown',
+      subject: log.subject || 'No Subject',
+      body: log.body || 'No Content',
+      type: this.mapEmailType(log.type),
+      timestamp: log.sentDate ? new Date(log.sentDate).getTime() : Date.now()
+    }));
+    
+    this.emails = emailLogs;
+    this.emails.sort((a, b) => b.timestamp - a.timestamp);
+    
+    if (this.emails.length > this.maxEmails) {
+      this.emails = this.emails.slice(0, this.maxEmails);
+    }
+  }
+  
   processEmailData(data: any) {
     try {
-      // Check if data is an array (direct API response format)
-      if (Array.isArray(data)) {
-        console.log('Processing array data format for widget');
-        // Map the array format to our internal format with proper type casting
-        const emailLogs = data.map((log: any) => ({
-          to: log.toEmail || 'unknown',
-          subject: log.subject || 'No Subject',
-          body: log.body || 'No Content',
-          type: this.mapEmailType(log.type), // Return type is now properly typed
-          timestamp: log.sentDate ? new Date(log.sentDate).getTime() : Date.now()
-        }));
-        
-        // Set the emails and sort
-        this.emails = emailLogs as EmailTemplate[];
-        this.emails.sort((a, b) => b.timestamp - a.timestamp);
-        
-        // Limit to maxEmails
-        if (this.emails.length > this.maxEmails) {
-          this.emails = this.emails.slice(0, this.maxEmails);
-        }
-        return;
-      }
-      
       // Process object format with collections
       // Process user email logs
       const userLogs = data.userEmailLogs || [];
