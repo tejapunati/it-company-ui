@@ -8,9 +8,9 @@ import { User } from '../models/database.models';
 })
 export class MockAuthService {
   private users = [
-    { email: 'admin@example.com', password: 'admin123', role: 'ADMIN', name: 'Admin User', id: 1 },
-    { email: 'parent@example.com', password: 'parent123', role: 'PARENT_ADMIN', name: 'Parent Admin', id: 2 },
-    { email: 'user@example.com', password: 'user123', role: 'USER', name: 'Regular User', id: 3 }
+    { email: 'admin@ssrmtech.com', password: 'admin123', role: 'ADMIN', name: 'Admin User', id: 1 },
+    { email: 'parent-admin@ssrmtech.com', password: 'admin123', role: 'PARENT_ADMIN', name: 'Parent Admin', id: 2 },
+    { email: 'user@ssrmtech.com', password: 'user123', role: 'USER', name: 'Regular User', id: 3 }
   ];
 
   private currentUser: User | null = null;
@@ -21,13 +21,13 @@ export class MockAuthService {
     console.log('Mock auth service looking for user with:', { email, password, role });
     
     // Special handling for parent-admin
-    if (email === 'parent' && password === 'parent') {
+    if (email === 'parent-admin@ssrmtech.com' && password === 'admin123') {
       console.log('Parent admin login detected');
       
       const parentAdminUser: User = {
         id: 2,
-        email: 'parent',
-        role: 'parent-admin',
+        email: 'parent-admin@ssrmtech.com',
+        role: 'PARENT_ADMIN',
         name: 'Parent Admin',
         status: 'active',
         createdDate: new Date().toISOString()

@@ -14,6 +14,85 @@
   margin-bottom: 2rem;
 }
 
+.actions-bar {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-admin-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.add-admin-btn:hover {
+  background: #0056b3;
+}
+
+.add-admin-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+
+.add-admin-form h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-row input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.save-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #218838;
+}
+
+.cancel-btn:hover {
+  background: #545b62;
+}
+
 .table-container {
   background: white;
   border-radius: 12px;
@@ -90,16 +169,6 @@
   font-size: 0.875rem;
   font-weight: 600;
   transition: all 0.3s ease;
-}
-
-.toggle-btn.activate {
-  background: #28a745;
-  color: white;
-}
-
-.toggle-btn.deactivate {
-  background: #ffc107;
-  color: #212529;
 }
 
 .delete-btn {

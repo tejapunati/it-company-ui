@@ -59,4 +59,9 @@ export class AdminDashboardComponent implements OnInit {
   isParentAdmin(): boolean {
     return this.authService.isParentAdmin();
   }
+  
+  getCurrentUserName(): string {
+    const currentUser = this.authService.getCurrentUser();
+    return currentUser?.name || 'Admin';
+  }
 }

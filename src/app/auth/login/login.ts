@@ -32,7 +32,7 @@ export class LoginComponent {
     if (!this.role) {
       if (this.email === 'admin@ssrmtech.com') {
         this.role = 'ADMIN';
-      } else if (this.email === 'parentadmin@ssrmtech.com') {
+      } else if (this.email === 'parent-admin@ssrmtech.com') {
         this.role = 'PARENT_ADMIN';
       } else {
         this.role = 'USER';

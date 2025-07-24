@@ -1,8 +1,14 @@
 <div class="admin-dashboard">
   <!-- Modern Header with Gradient -->
   <header class="dashboard-header">
-    <h1>{{ isParentAdmin() ? 'Parent Admin Dashboard' : 'Admin Dashboard' }}</h1>
-    <p>{{ isParentAdmin() ? 'Manage users, admins, and system administration' : 'Manage users, timesheets, and system operations' }}</p>
+    <div class="header-content">
+      <h1>{{ isParentAdmin() ? 'Parent Admin Dashboard' : 'Admin Dashboard' }}</h1>
+      <p>{{ isParentAdmin() ? 'Manage users, admins, and system administration' : 'Manage users, timesheets, and system operations' }}</p>
+    </div>
+    <div class="user-info">
+      <span class="welcome-text">Welcome back,</span>
+      <span class="user-name">{{ getCurrentUserName() }}</span>
+    </div>
   </header>
 
   <!-- Modern Navigation -->

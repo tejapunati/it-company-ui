@@ -7,15 +7,40 @@
 
 /* Modern Header with Gradient */
 .dashboard-header {
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2.5rem;
   padding: 2rem;
   background: linear-gradient(135deg, #3a7bd5, #00d2ff);
   border-radius: 16px;
-  color: white;
+  color: rgb(6, 6, 6);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.welcome-text {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 0.2rem;
+}
+
+.user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #030303;
 }
 
 .dashboard-header::before {

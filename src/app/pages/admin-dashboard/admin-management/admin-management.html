@@ -2,6 +2,31 @@
   <h2>👨‍💼 Admin Management</h2>
   <p>Manage administrators and parent administrators</p>
   
+  <div class="actions-bar">
+    <button class="add-admin-btn" (click)="toggleAddForm()">
+      {{ showAddForm ? 'Cancel' : '+ Add Admin' }}
+    </button>
+  </div>
+  
+  <div class="add-admin-form" *ngIf="showAddForm">
+    <h3>Add New Admin</h3>
+    <div class="form-row">
+      <input type="text" [(ngModel)]="newAdmin.name" placeholder="Full Name *" required>
+      <input type="email" [(ngModel)]="newAdmin.email" placeholder="Email *" required>
+    </div>
+    <div class="form-row">
+      <input type="password" [(ngModel)]="newAdmin.password" placeholder="Password *" required>
+      <input type="tel" [(ngModel)]="newAdmin.phone" placeholder="Phone">
+    </div>
+    <div class="form-row">
+      <input type="text" [(ngModel)]="newAdmin.department" placeholder="Department">
+    </div>
+    <div class="form-actions">
+      <button class="save-btn" (click)="addAdmin()">Create Admin</button>
+      <button class="cancel-btn" (click)="toggleAddForm()">Cancel</button>
+    </div>
+  </div>
+  
   <div class="table-container">
     <table class="admins-table">
       <thead>
@@ -28,13 +53,6 @@
             </span>
           </td>
           <td class="actions">
-            <button 
-              class="action-btn toggle-btn" 
-              (click)="toggleStatus(admin)"
-              [class.activate]="admin.status === 'inactive'"
-              [class.deactivate]="admin.status === 'active'">
-              {{ admin.status === 'active' ? 'Deactivate' : 'Activate' }}
-            </button>
             <button 
               class="action-btn delete-btn" 
               (click)="deleteAdmin(admin.id)"
