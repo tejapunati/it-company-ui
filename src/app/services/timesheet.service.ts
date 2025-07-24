@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface Timesheet {
-  id?: number;
-  userId: number;
+  id?: string;
+  userId: string;
   userName?: string;
   userEmail?: string;
   weekEnding: string;

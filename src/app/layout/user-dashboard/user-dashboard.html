@@ -105,29 +105,6 @@
     </form>
   </div>
 
-  <!-- My Timesheets -->
-  <div class="my-timesheets">
-    <h2>My Submitted Timesheets</h2>
-    <div class="timesheet-list">
-      <div class="timesheet-item" *ngFor="let timesheet of myTimesheets">
-        <div class="timesheet-info">
-          <h4>Week of {{ timesheet.weekEnding }}</h4>
-          <p>Total Hours: {{ timesheet.totalHours }}</p>
-          <span class="status-badge" [class]="'status-' + timesheet.status">
-            {{ timesheet.status | titlecase }}
-          </span>
-        </div>
-        <div class="timesheet-actions">
-          <button class="view-btn" (click)="viewTimesheet(timesheet)">View Details</button>
-        </div>
-      </div>
-      
-      <div *ngIf="myTimesheets.length === 0" class="empty-state">
-        <p>No timesheets submitted yet. Submit your first timesheet to get started.</p>
-      </div>
-    </div>
-  </div>
-
   <!-- Notifications -->
   <div class="notifications-section">
     <div class="section-header-with-action">

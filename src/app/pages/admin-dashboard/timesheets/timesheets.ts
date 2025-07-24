@@ -43,24 +43,24 @@ export class TimesheetsComponent implements OnInit {
         // If API fails, use sample data
         const sampleTimesheets: Timesheet[] = [
           { 
-            id: 1, 
-            userId: 1, 
+            id: '1', 
+            userId: '1', 
             weekEnding: '2024-01-07', 
             totalHours: 40, 
             status: 'APPROVED',
             hours: { 'Monday': 8, 'Tuesday': 8, 'Wednesday': 8, 'Thursday': 8, 'Friday': 8 }
           },
           { 
-            id: 2, 
-            userId: 2, 
+            id: '2', 
+            userId: '2', 
             weekEnding: '2024-01-07', 
             totalHours: 35, 
             status: 'PENDING',
             hours: { 'Monday': 7, 'Tuesday': 7, 'Wednesday': 7, 'Thursday': 7, 'Friday': 7 }
           },
           { 
-            id: 3, 
-            userId: 3, 
+            id: '3', 
+            userId: '3', 
             weekEnding: '2024-01-07', 
             totalHours: 42, 
             status: 'APPROVED',
@@ -91,7 +91,7 @@ export class TimesheetsComponent implements OnInit {
     }
   }
 
-  approveTimesheet(id: number) {
+  approveTimesheet(id: string) {
     console.log('Approving timesheet ID:', id);
     
     this.timesheetService.approveTimesheet(id, '').subscribe({
@@ -142,7 +142,7 @@ export class TimesheetsComponent implements OnInit {
     });
   }
 
-  rejectTimesheet(id: number) {
+  rejectTimesheet(id: string) {
     console.log('Rejecting timesheet ID:', id);
     
     this.timesheetService.rejectTimesheet(id, '').subscribe({
@@ -223,7 +223,7 @@ export class TimesheetsComponent implements OnInit {
     return timesheet.status?.toLowerCase() || 'pending';
   }
   
-  getId(timesheet: Timesheet): number {
-    return timesheet.id || 0;
+  getId(timesheet: Timesheet): string {
+    return timesheet.id?.toString() || '0';
   }
 }
