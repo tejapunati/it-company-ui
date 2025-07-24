@@ -63,17 +63,17 @@
       <h3>Total Users</h3>
       <div class="stat-number">{{ totalUsers }}</div>
     </div>
-    <div class="stat-card">
-      <h3>Active Projects</h3>
-      <div class="stat-number">{{ activeProjects }}</div>
+    <div class="stat-card" *ngIf="isParentAdmin()">
+      <h3>Total Admins</h3>
+      <div class="stat-number">{{ totalAdmins }}</div>
     </div>
     <div class="stat-card">
       <h3>Pending Approvals</h3>
       <div class="stat-number">{{ pendingApprovals }}</div>
     </div>
     <div class="stat-card">
-      <h3>This Month Hours</h3>
-      <div class="stat-number">{{ monthlyHours }}</div>
+      <h3>Total Timesheets</h3>
+      <div class="stat-number">{{ totalTimesheets }}</div>
     </div>
   </div>
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-add-user',
@@ -17,14 +18,16 @@ export class AddUserComponent {
     phone: '',
     password: '',
     department: '',
-    role: 'user',
-    status: 'active'
+    role: 'USER'
   };
   
   errorMessage = '';
   successMessage = '';
 
-  constructor(public router: Router) {}
+  constructor(
+    public router: Router,
+    private userService: UserService
+  ) {}
 
   addUser() {
     if (!this.user.name || !this.user.email || !this.user.password) {
@@ -32,23 +35,20 @@ export class AddUserComponent {
       return;
     }
 
-    // Store in localStorage
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const users = JSON.parse(localStorage.getItem('allUsers') || '[]');
-      const newUser = {
-        ...this.user,
-        id: Date.now(),
-        createdDate: new Date().toISOString()
-      };
-      users.push(newUser);
-      localStorage.setItem('allUsers', JSON.stringify(users));
-    }
-
-    this.successMessage = 'User added successfully!';
-    
-    // Reset form
-    setTimeout(() => {
-      this.router.navigate(['/admin-dashboard/users']);
-    }, 2000);
+    this.userService.createUser(this.user).subscribe({
+      next: (response) => {
+        this.successMessage = 'User created successfully!';
+        this.errorMessage = '';
+        
+        setTimeout(() => {
+          this.router.navigate(['/admin-dashboard/users']);
+        }, 2000);
+      },
+      error: (error) => {
+        console.error('Error creating user:', error);
+        this.errorMessage = error.error?.message || 'Error creating user';
+        this.successMessage = '';
+      }
+    });
   }
 }

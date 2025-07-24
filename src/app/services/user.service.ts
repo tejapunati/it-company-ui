@@ -15,7 +15,7 @@ export class UserService {
     return this.http.get<any[]>(`${this.apiUrl}/users`);
   }
   
-  getUserById(id: number): Observable<any> {
+  getUserById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/users/${id}`);
   }
   
@@ -23,19 +23,19 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/users`, user);
   }
   
-  updateUser(id: number, user: any): Observable<any> {
+  updateUser(id: string, user: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/users/${id}`, user);
   }
   
-  deleteUser(id: number): Observable<any> {
+  deleteUser(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/users/${id}`);
   }
   
-  approveUser(id: number): Observable<any> {
+  approveUser(id: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/users/${id}/approve`, {});
   }
   
-  rejectUser(id: number): Observable<any> {
+  rejectUser(id: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/users/${id}/reject`, {});
   }
   

@@ -29,29 +29,30 @@ export class AdminDashboardComponent implements OnInit {
     this.calculateStats();
   }
   totalUsers = 0;
+  totalAdmins = 0;
   activeProjects = 0;
   pendingApprovals = 0;
-  monthlyHours = 0;
+  totalTimesheets = 0;
   
   calculateStats() {
-    // Get user stats from backend
-    this.http.get<any>(`${environment.apiUrl}/stats/dashboard`).subscribe(
-      (stats) => {
+    this.http.get<any>(`${environment.apiUrl}/stats/dashboard`).subscribe({
+      next: (stats) => {
+        console.log('Dashboard stats from backend:', stats);
         this.totalUsers = stats.totalUsers || 0;
+        this.totalAdmins = stats.totalAdmins || 0;
         this.pendingApprovals = stats.pendingApprovals || 0;
-        this.monthlyHours = stats.monthlyHours || 0;
         this.activeProjects = stats.activeProjects || 0;
+        this.totalTimesheets = stats.totalTimesheets || 0;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error loading dashboard stats:', error);
-        
-        // Fallback to simulated stats
-        this.totalUsers = 12;
-        this.pendingApprovals = 3;
-        this.monthlyHours = 420;
-        this.activeProjects = 4;
+        this.totalUsers = 0;
+        this.totalAdmins = 0;
+        this.pendingApprovals = 0;
+        this.activeProjects = 0;
+        this.totalTimesheets = 0;
       }
-    );
+    });
   }
 
   recentActivities: Activity[] = [];
