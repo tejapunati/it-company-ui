@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 import { User } from '../../models/database.models';
 import { EmailService, EmailTemplate } from '../../services/email.service';
 import { TimesheetService } from '../../services/timesheet.service';
@@ -120,7 +122,8 @@ export class UserDashboardComponent implements OnInit {
   constructor(
     private authService: AuthService, 
     private emailService: EmailService,
-    private timesheetService: TimesheetService
+    private timesheetService: TimesheetService,
+    private http: HttpClient
   ) {}
   
   ngOnInit() {
@@ -139,68 +142,33 @@ export class UserDashboardComponent implements OnInit {
   }
   
   calculateUserStats() {
-    // Get current date and start of week
-    const now = new Date();
-    const currentWeekStart = new Date(now);
-    currentWeekStart.setDate(now.getDate() - now.getDay() + 1); // Monday of current week
-    currentWeekStart.setHours(0, 0, 0, 0);
-    
-    // Format date for comparison
-    const formatDate = (date: Date) => {
-      return date.toISOString().split('T')[0];
-    };
-    
-    // Find current week's timesheet
-    const currentWeekTimesheet = this.myTimesheets.find(t => {
-      const weekEndDate = new Date(t.weekEnding);
-      const weekStartDate = new Date(weekEndDate);
-      weekStartDate.setDate(weekEndDate.getDate() - 6); // Assuming week ending is Sunday
-      
-      return formatDate(currentWeekStart) === formatDate(weekStartDate);
-    });
-    
-    // Calculate current week hours
-    this.currentWeekHours = currentWeekTimesheet ? currentWeekTimesheet.totalHours : 0;
-    
-    // If no current week timesheet found, calculate from all timesheets in current week
-    if (!currentWeekTimesheet && typeof window !== 'undefined' && window.localStorage) {
-      const allTimesheets = JSON.parse(localStorage.getItem('allTimesheets') || '[]');
-      const userEmail = this.currentUser?.email;
-      
-      if (userEmail) {
-        // Find all timesheets for current user in current week
-        const userCurrentWeekTimesheets = allTimesheets.filter((t: any) => {
-          if (t.employeeEmail !== userEmail) return false;
-          
-          const weekEndDate = new Date(t.weekEnding);
-          const weekStartDate = new Date(weekEndDate);
-          weekStartDate.setDate(weekEndDate.getDate() - 6);
-          
-          return formatDate(currentWeekStart) === formatDate(weekStartDate);
-        });
-        
-        // Sum hours for current week
-        if (userCurrentWeekTimesheets.length > 0) {
-          this.currentWeekHours = userCurrentWeekTimesheets.reduce(
-            (total: number, t: any) => total + (t.totalHours || 0), 0
-          );
-        }
-      }
+    if (!this.currentUser) {
+      console.error('No current user found for stats calculation');
+      return;
     }
     
-    // Calculate approved hours (sum of all approved timesheets)
-    this.approvedHours = this.myTimesheets
-      .filter(t => t.status === 'approved')
-      .reduce((total, t) => total + t.totalHours, 0);
-    
-    // Calculate total submitted timesheets
-    this.totalSubmittedTimesheets = this.myTimesheets.length;
-    
-    // Calculate pending timesheets
-    this.pendingTimesheets = this.myTimesheets.filter(t => t.status === 'pending').length;
-    
-    // Calculate unread notifications
-    this.unreadNotifications = this.notifications.filter(n => !n.read).length;
+    // Load real stats from backend API
+    this.http.get<any>(`${environment.apiUrl}/stats/user/${this.currentUser.id}`).subscribe({
+      next: (stats) => {
+        console.log('User stats from backend:', stats);
+        this.totalSubmittedTimesheets = stats.totalSubmittedTimesheets || 0;
+        this.currentWeekHours = stats.currentWeekHours || 0;
+        this.approvedHours = stats.totalApprovedHours || 0;
+        this.pendingTimesheets = stats.pendingTimesheets || 0;
+        
+        // Calculate unread notifications (keep existing logic)
+        this.unreadNotifications = this.notifications.filter(n => !n.read).length;
+      },
+      error: (error) => {
+        console.error('Error loading user stats:', error);
+        // Fallback to zero values
+        this.totalSubmittedTimesheets = 0;
+        this.currentWeekHours = 0;
+        this.approvedHours = 0;
+        this.pendingTimesheets = 0;
+        this.unreadNotifications = this.notifications.filter(n => !n.read).length;
+      }
+    });
   }
   
   getTotalHours(): number {
