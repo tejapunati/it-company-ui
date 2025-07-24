@@ -1,0 +1,117 @@
+<div class="submitted-timesheets-container">
+  <header class="page-header">
+    <h2>My Submitted Timesheets</h2>
+    <p>View all your submitted timesheets and their current status</p>
+  </header>
+
+  <div class="timesheets-table-container">
+    <table class="timesheets-table" *ngIf="timesheets.length > 0">
+      <thead>
+        <tr>
+          <th>Week Ending</th>
+          <th>Total Hours</th>
+          <th>Status</th>
+          <th>Submitted Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timesheet of timesheets">
+          <td>{{ timesheet.weekEnding }}</td>
+          <td>{{ timesheet.totalHours }}</td>
+          <td>
+            <span class="status-badge" [class]="'status-' + timesheet.status.toLowerCase()">
+              {{ timesheet.status }}
+            </span>
+          </td>
+          <td>{{ timesheet.submittedDate | date:'short' }}</td>
+          <td>
+            <button class="view-btn" (click)="viewDetails(timesheet)">
+              View Details
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="empty-state" *ngIf="timesheets.length === 0">
+      <div class="empty-icon">📋</div>
+      <h3>No Timesheets Found</h3>
+      <p>You haven't submitted any timesheets yet.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Timesheet Details Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Timesheet Details</h3>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+    
+    <div class="modal-body" *ngIf="selectedTimesheet">
+      <div class="timesheet-info">
+        <div class="info-row">
+          <label>Week Ending:</label>
+          <span>{{ selectedTimesheet.weekEnding }}</span>
+        </div>
+        <div class="info-row">
+          <label>Status:</label>
+          <span class="status-badge" [class]="'status-' + selectedTimesheet.status.toLowerCase()">
+            {{ selectedTimesheet.status }}
+          </span>
+        </div>
+        <div class="info-row">
+          <label>Total Hours:</label>
+          <span>{{ selectedTimesheet.totalHours }}</span>
+        </div>
+        <div class="info-row">
+          <label>Submitted Date:</label>
+          <span>{{ selectedTimesheet.submittedDate | date:'medium' }}</span>
+        </div>
+        <div class="info-row" *ngIf="selectedTimesheet.reviewedDate">
+          <label>Reviewed Date:</label>
+          <span>{{ selectedTimesheet.reviewedDate | date:'medium' }}</span>
+        </div>
+        <div class="info-row" *ngIf="selectedTimesheet.comments">
+          <label>Comments:</label>
+          <span>{{ selectedTimesheet.comments }}</span>
+        </div>
+      </div>
+
+      <div class="hours-breakdown">
+        <h4>Hours Breakdown</h4>
+        <table class="hours-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let day of getWeekDays()">
+              <td>{{ day }}</td>
+              <td>{{ selectedTimesheet.hours[day] || 0 }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td><strong>Total</strong></td>
+              <td><strong>{{ selectedTimesheet.totalHours }}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="print-btn" (click)="printTimesheet()">
+        🖨️ Print Timesheet
+      </button>
+      <button class="close-btn-secondary" (click)="closeModal()">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import { User } from '../../models/database.models';
 import { EmailService, EmailTemplate } from '../../services/email.service';
 import { TimesheetService } from '../../services/timesheet.service';
 import { EmailWidgetComponent } from '../../components/email-widget/email-widget.component';
+import { TimesheetWidgetComponent } from '../../components/timesheet-widget/timesheet-widget.component';
 
 interface UserTimesheet {
   id?: number;
@@ -38,7 +39,7 @@ interface Activity {
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, EmailWidgetComponent],
+  imports: [CommonModule, FormsModule, RouterModule, EmailWidgetComponent, TimesheetWidgetComponent],
   templateUrl: './user-dashboard.html',
   styleUrls: ['./user-dashboard.css']
 })

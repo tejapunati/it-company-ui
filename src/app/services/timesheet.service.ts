@@ -30,11 +30,11 @@ export class TimesheetService {
     return this.http.get<any[]>(`${this.apiUrl}/timesheets`);
   }
   
-  getTimesheetsByUserId(userId: number): Observable<any[]> {
+  getTimesheetsByUserId(userId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/timesheets/user/${userId}`);
   }
   
-  getTimesheetById(id: number): Observable<any> {
+  getTimesheetById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/timesheets/${id}`);
   }
   
@@ -42,11 +42,11 @@ export class TimesheetService {
     return this.http.post<any>(`${this.apiUrl}/timesheets`, timesheet);
   }
   
-  updateTimesheet(id: number, timesheet: any): Observable<any> {
+  updateTimesheet(id: string, timesheet: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/timesheets/${id}`, timesheet);
   }
   
-  deleteTimesheet(id: number): Observable<any> {
+  deleteTimesheet(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/timesheets/${id}`);
   }
   
@@ -54,11 +54,11 @@ export class TimesheetService {
     return this.http.get<Timesheet[]>(`${this.apiUrl}/timesheets?status=PENDING`);
   }
   
-  approveTimesheet(id: number, comments: string): Observable<any> {
+  approveTimesheet(id: string, comments: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/timesheets/${id}/approve`, { comments });
   }
   
-  rejectTimesheet(id: number, comments: string): Observable<any> {
+  rejectTimesheet(id: string, comments: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/timesheets/${id}/reject`, { comments });
   }
 }
