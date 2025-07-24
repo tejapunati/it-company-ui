@@ -39,36 +39,7 @@ export class TimesheetsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading timesheets:', error);
-        
-        // If API fails, use sample data
-        const sampleTimesheets: Timesheet[] = [
-          { 
-            id: '1', 
-            userId: '1', 
-            weekEnding: '2024-01-07', 
-            totalHours: 40, 
-            status: 'APPROVED',
-            hours: { 'Monday': 8, 'Tuesday': 8, 'Wednesday': 8, 'Thursday': 8, 'Friday': 8 }
-          },
-          { 
-            id: '2', 
-            userId: '2', 
-            weekEnding: '2024-01-07', 
-            totalHours: 35, 
-            status: 'PENDING',
-            hours: { 'Monday': 7, 'Tuesday': 7, 'Wednesday': 7, 'Thursday': 7, 'Friday': 7 }
-          },
-          { 
-            id: '3', 
-            userId: '3', 
-            weekEnding: '2024-01-07', 
-            totalHours: 42, 
-            status: 'APPROVED',
-            hours: { 'Monday': 9, 'Tuesday': 9, 'Wednesday': 8, 'Thursday': 8, 'Friday': 8 }
-          }
-        ];
-        
-        this.timesheets = sampleTimesheets;
+        this.timesheets = [];
         this.updateUniqueUsers();
         this.filterTimesheets();
       }
