@@ -215,28 +215,60 @@
   font-size: 0.8rem;
 }
 
-/* Timesheet Form */
-.timesheet-form {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  margin-bottom: 3rem;
-  overflow: hidden;
-  border: 1px solid #f0f0f0;
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
-.form-header {
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
   background: linear-gradient(135deg, #3a7bd5, #00d2ff);
   color: white;
+  border-radius: 16px 16px 0 0;
 }
 
-.form-header h2 {
+.modal-header h2 {
   margin: 0;
   font-size: 1.5rem;
+}
+
+.modal-body {
+  padding: 2rem;
 }
 
 .close-btn {
@@ -256,10 +288,6 @@
 
 .close-btn:hover {
   background: rgba(255, 255, 255, 0.3);
-}
-
-.timesheet-form form {
-  padding: 2rem;
 }
 
 .form-group {
@@ -320,10 +348,14 @@
   transition: all 0.2s ease;
 }
 
-.form-actions button[type="button"] {
+.cancel-btn {
   background: #f0f0f0;
   border: 1px solid #ddd;
   color: #333;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
 }
 
 .submit-btn {
