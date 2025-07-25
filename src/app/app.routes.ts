@@ -24,6 +24,7 @@ import { BackendStatusComponent } from './components/backend-status/backend-stat
 import { ConnectionTestPageComponent } from './pages/connection-test-page/connection-test-page.component';
 import { EmailDebugComponent } from './components/email-debug/email-debug.component';
 import { SubmittedTimesheetsComponent } from './pages/submitted-timesheets/submitted-timesheets.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard, AdminGuard, ParentAdminGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -36,6 +37,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'admin-register', component: AdminRegisterComponent },
   { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'submitted-timesheets', component: SubmittedTimesheetsComponent, canActivate: [AuthGuard] },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },
   { path: 'admin-approval', component: AdminApprovalComponent, canActivate: [ParentAdminGuard] },

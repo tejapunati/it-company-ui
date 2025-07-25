@@ -21,6 +21,13 @@ export class LoginComponent {
   errorMessage = '';
   isLoading = false;
   
+  // Forgot password properties
+  showForgotPasswordModal = false;
+  forgotPasswordEmail = '';
+  forgotPasswordError = '';
+  forgotPasswordSuccess = '';
+  isResetting = false;
+  
   constructor(
     private authService: AuthService,
     private router: Router
@@ -60,5 +67,47 @@ export class LoginComponent {
     } else {
       this.router.navigate(['/user-dashboard']);
     }
+  }
+  
+  showForgotPassword(event: Event): void {
+    event.preventDefault();
+    this.showForgotPasswordModal = true;
+    this.forgotPasswordEmail = '';
+    this.forgotPasswordError = '';
+    this.forgotPasswordSuccess = '';
+  }
+  
+  closeForgotPassword(): void {
+    this.showForgotPasswordModal = false;
+    this.forgotPasswordEmail = '';
+    this.forgotPasswordError = '';
+    this.forgotPasswordSuccess = '';
+    this.isResetting = false;
+  }
+  
+  resetPassword(): void {
+    if (!this.forgotPasswordEmail) {
+      this.forgotPasswordError = 'Please enter your email address';
+      return;
+    }
+    
+    this.isResetting = true;
+    this.forgotPasswordError = '';
+    this.forgotPasswordSuccess = '';
+    
+    this.authService.forgotPassword(this.forgotPasswordEmail)
+      .subscribe({
+        next: (response) => {
+          this.isResetting = false;
+          this.forgotPasswordSuccess = response.message || 'Temporary password sent to your email';
+          setTimeout(() => {
+            this.closeForgotPassword();
+          }, 3000);
+        },
+        error: (error) => {
+          this.isResetting = false;
+          this.forgotPasswordError = error.error?.error || 'Failed to send reset email';
+        }
+      });
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
@@ -123,7 +123,8 @@ export class UserDashboardComponent implements OnInit {
     private authService: AuthService, 
     private emailService: EmailService,
     private timesheetService: TimesheetService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
   
   ngOnInit() {
@@ -473,5 +474,10 @@ export class UserDashboardComponent implements OnInit {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.removeItem('userNotifications');
     }
+  }
+  
+  // Navigate to profile page
+  goToProfile() {
+    this.router.navigate(['/profile']);
   }
 }

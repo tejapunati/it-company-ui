@@ -1,49 +1,136 @@
 <div class="login-container">
+  <div class="floating-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+  </div>
+  
+  <div class="geometric-pattern">
+    <div class="geo-element square" style="top: 15%; left: 10%; animation-delay: 0s;"></div>
+    <div class="geo-element circle" style="top: 60%; right: 15%; animation-delay: 2s;"></div>
+    <div class="geo-element triangle" style="bottom: 25%; left: 20%; animation-delay: 4s;"></div>
+    <div class="geo-element square" style="top: 30%; right: 30%; animation-delay: 1s;"></div>
+  </div>
+  
+  <div class="light-rays">
+    <div class="light-beam beam-1"></div>
+    <div class="light-beam beam-2"></div>
+    <div class="light-beam beam-3"></div>
+    <div class="light-beam beam-4"></div>
+  </div>
+  
+  <div class="gradient-orbs">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
+  
+  <div class="particle-field">
+    <div class="particle" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+    <div class="particle" style="top: 40%; left: 70%; animation-delay: 1s;"></div>
+    <div class="particle" style="top: 70%; left: 25%; animation-delay: 2s;"></div>
+    <div class="particle" style="top: 80%; left: 80%; animation-delay: 0.5s;"></div>
+    <div class="particle" style="top: 10%; left: 60%; animation-delay: 1.5s;"></div>
+  </div>
+  
   <div class="login-card">
-    <div class="login-header">
-      <h1>Login</h1>
-      <p>Sign in to access your account</p>
-    </div>
-    
-    <div class="login-form">
+    <div class="login-content">
+      <div class="brand-section">
+        <div class="logo-icon">
+          <div class="ssrm-logo">
+            <div class="geometric-container">
+              <div class="diamond-layers">
+                <div class="diamond layer-1"></div>
+                <div class="diamond layer-2"></div>
+                <div class="diamond layer-3"></div>
+              </div>
+              <div class="center-orb">
+                <div class="orb-glow"></div>
+                <span class="logo-text">SSRM</span>
+              </div>
+              <div class="floating-elements">
+                <div class="element el-1"></div>
+                <div class="element el-2"></div>
+                <div class="element el-3"></div>
+                <div class="element el-4"></div>
+              </div>
+            </div>
+            <div class="brand-tag">
+              <div class="tag-container">
+                <span class="tag-text">TECH SOLUTIONS</span>
+                <div class="tag-underline"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="welcome-text">
+          <h1>Welcome Back</h1>
+          <p>Sign in to your account</p>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <div class="login-form">
       <div class="form-group">
-        <label for="email">Email</label>
-        <input 
-          type="email" 
-          id="email" 
-          name="email" 
-          [(ngModel)]="loginData.email" 
-          placeholder="Enter your email"
-          required
-        >
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2"/>
+            <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="loginData.email" 
+            placeholder="Email address"
+            required
+          >
+        </div>
       </div>
       
       <div class="form-group">
-        <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="loginData.password" 
-          placeholder="Enter your password"
-          required
-        >
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="16" r="1" fill="currentColor"/>
+            <path d="M7 11V7A5 5 0 0 1 17 7V11" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            [(ngModel)]="loginData.password" 
+            placeholder="Password"
+            required
+          >
+        </div>
       </div>
       
       <div class="form-group">
-        <label for="role">Role</label>
-        <select 
-          id="role" 
-          name="role" 
-          [(ngModel)]="loginData.role"
-        >
-          <option value="USER">User</option>
-          <option value="ADMIN">Admin</option>
-          <option value="PARENT_ADMIN">Parent Admin</option>
-        </select>
+        <div class="input-wrapper">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M20 21V19A4 4 0 0 0 16 15H8A4 4 0 0 0 4 19V21" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <select 
+            id="role" 
+            name="role" 
+            [(ngModel)]="loginData.role"
+          >
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <option value="PARENT_ADMIN">Parent Admin</option>
+          </select>
+        </div>
       </div>
       
       <div class="error-message" *ngIf="errorMessage">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" stroke-width="2"/>
+          <line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" stroke-width="2"/>
+        </svg>
         {{ errorMessage }}
       </div>
       
@@ -52,18 +139,76 @@
         (click)="login()" 
         [disabled]="isLoading || !loginData.email || !loginData.password"
       >
-        <span *ngIf="!isLoading">Login</span>
-        <span *ngIf="isLoading">Logging in...</span>
+        <span *ngIf="!isLoading" class="button-content">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M15 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H15" stroke="currentColor" stroke-width="2"/>
+            <polyline points="10,17 15,12 10,7" stroke="currentColor" stroke-width="2"/>
+            <line x1="15" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Sign In
+        </span>
+        <span *ngIf="isLoading" class="button-content loading">
+          <div class="spinner"></div>
+          Signing in...
+        </span>
       </button>
       
-      <div class="register-link">
-        <p>Don't have an account? <a routerLink="/register">Register</a></p>
+      <div class="forgot-password-link">
+        <a href="#" (click)="showForgotPassword($event)">Forgot Password?</a>
       </div>
       
-      <div class="test-credentials">
-        <p><strong>Test Credentials:</strong></p>
-        <p>Admin: admin&#64;example.com / admin123</p>
-        <p>User: user&#64;example.com / user123</p>
+      <div class="divider">
+        <span>or</span>
+      </div>
+      
+          <div class="register-link">
+            <p>Don't have an account? <a routerLink="/register">Create one</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Forgot Password Modal -->
+  <div class="modal-overlay" *ngIf="showForgotPasswordModal" (click)="closeForgotPassword()">
+    <div class="modal-content forgot-password-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Reset Password</h2>
+        <button class="close-btn" (click)="closeForgotPassword()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Enter your email address and we'll send you a temporary password.</p>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2"/>
+              <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <input 
+              type="email" 
+              [(ngModel)]="forgotPasswordEmail" 
+              placeholder="Enter your email address"
+              required
+            >
+          </div>
+        </div>
+        <div class="error-message" *ngIf="forgotPasswordError">
+          {{ forgotPasswordError }}
+        </div>
+        <div class="success-message" *ngIf="forgotPasswordSuccess">
+          {{ forgotPasswordSuccess }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closeForgotPassword()">Cancel</button>
+        <button 
+          class="reset-btn" 
+          (click)="resetPassword()" 
+          [disabled]="!forgotPasswordEmail || isResetting"
+        >
+          <span *ngIf="!isResetting">Send Reset Email</span>
+          <span *ngIf="isResetting">Sending...</span>
+        </button>
       </div>
     </div>
   </div>

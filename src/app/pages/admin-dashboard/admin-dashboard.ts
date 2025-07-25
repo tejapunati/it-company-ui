@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { ActivityService, Activity } from '../../services/activity.service';
@@ -19,7 +19,8 @@ export class AdminDashboardComponent implements OnInit {
   constructor(
     private authService: AuthService, 
     private activityService: ActivityService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
   
   ngOnInit() {
@@ -64,5 +65,9 @@ export class AdminDashboardComponent implements OnInit {
   getCurrentUserName(): string {
     const currentUser = this.authService.getCurrentUser();
     return currentUser?.name || 'Admin';
+  }
+  
+  goToProfile() {
+    this.router.navigate(['/profile']);
   }
 }
