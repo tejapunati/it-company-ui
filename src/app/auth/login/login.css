@@ -7,10 +7,57 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
+/* Logo Section */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.logo-icon {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #16537E 0%, #1a5f8a 100%);
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(22, 83, 126, 0.3);
+}
+
+.logo-icon svg {
+  display: block;
+}
+
+.logo-icon path {
+  stroke: #fff2cc;
+}
+
+.logo-text {
+  text-align: center;
+}
+
+.logo-text h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #16537E;
+  letter-spacing: -0.5px;
+}
+
+.logo-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
 .login-container h2 {
   text-align: center;
-  color: var(--primary-color);
+  color: #16537E;
   margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .form-group {
