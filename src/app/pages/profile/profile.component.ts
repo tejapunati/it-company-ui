@@ -43,9 +43,28 @@ export class ProfileComponent implements OnInit {
       return;
     }
     
-    this.loadProfileData();
+    this.loadUserFromBackend();
   }
 
+  loadUserFromBackend() {
+    // Fetch fresh user data from backend
+    const endpoint = `${environment.apiUrl}/users/profile-data`;
+    const requestData = { email: this.currentUser.email };
+    
+    this.http.post(endpoint, requestData).subscribe({
+      next: (response: any) => {
+        // Update currentUser with fresh data from backend
+        this.currentUser = { ...this.currentUser, ...response };
+        this.loadProfileData();
+      },
+      error: (error) => {
+        console.error('Error loading user data:', error);
+        // Fallback to localStorage data
+        this.loadProfileData();
+      }
+    });
+  }
+  
   loadProfileData() {
     this.profileData.name = this.currentUser.name || '';
     this.profileData.email = this.currentUser.email || '';

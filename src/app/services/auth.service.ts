@@ -33,21 +33,6 @@ export class AuthService {
         }),
         catchError(error => {
           console.error('Login error:', error);
-          
-          // If backend is not available, use mock login service
-          if (error.status === 0 || error.status === 404 || error.status === 401) {
-            console.log('Using mock login service');
-            return this.mockAuthService.login(email, password, role)
-              .pipe(
-                tap(response => {
-                  // Store user details and token in local storage
-                  localStorage.setItem('currentUser', JSON.stringify(response));
-                  this.currentUserSubject.next(response);
-                })
-              );
-          }
-          
-          // Re-throw the error if not handled
           throw error;
         })
       );
